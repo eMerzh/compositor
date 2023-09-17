@@ -1,6 +1,7 @@
 import { Checkbox, Select } from "@mantine/core";
 import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete";
 import type { School } from "./compute";
+import { IconSchool } from "@tabler/icons-react";
 
 export function InputConfig({
   primarySchools,
@@ -32,6 +33,7 @@ export function InputConfig({
           value: school.ndeg_fase_de_l_implantation,
           label: school.nom_de_l_etablissement,
         }))}
+        icon={<IconSchool size="1rem" />}
       />
       <GeoAutoComplete value={locHome} onSelect={setLocHome} />
 

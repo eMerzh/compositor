@@ -35,7 +35,7 @@ function GeoAutoComplete({ value, onSelect }: Props) {
       >
         <TextInput
           label="Adresse du domicile"
-          icon={<IconHomeSearch />}
+          icon={<IconHomeSearch size="1rem" />}
           placeholder="Domicile"
           autoComplete="street-address"
           value={address}
