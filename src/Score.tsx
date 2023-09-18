@@ -23,10 +23,7 @@ const Score = ({ score, children }: { score: number; children: ReactNode }) => {
       styles={(theme) => ({
         root: {
           backgroundColor: color,
-          color:
-            theme.colorScheme === "dark"
-              ? theme.colors.blue[1]
-              : theme.colors.dark[4],
+          color: theme.colorScheme === "dark" ? theme.colors.blue[1] : theme.colors.dark[4],
         },
       })}
     >

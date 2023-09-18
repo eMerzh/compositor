@@ -6,12 +6,7 @@ import { useMemo, useState } from "react";
 import { BooleanParam, JsonParam, QueryParamProvider } from "use-query-params";
 import { WindowHistoryAdapter } from "use-query-params/adapters/window";
 import { useQueryParam, StringParam } from "use-query-params";
-import {
-  ComputeResult,
-  computeAll,
-  primarySchools,
-  secondarySchools,
-} from "./compute";
+import { ComputeResult, computeAll, primarySchools, secondarySchools } from "./compute";
 
 import { NamedLoc } from "./GeoAutoComplete";
 import { InputConfig } from "./InputConfig";
@@ -33,20 +28,11 @@ function useConfiguration() {
   const [_, setRefresher] = useState(0);
   const refresh = () => setRefresher(Math.random());
 
-  const [fasePrimaire, setFasePrimaire] = useQueryParam(
-    "fasePrim",
-    StringParam,
-  );
+  const [fasePrimaire, setFasePrimaire] = useQueryParam("fasePrim", StringParam);
 
-  const [faseSecondaire, setFaseSecondaire] = useQueryParam(
-    "faseSec",
-    StringParam,
-  );
+  const [faseSecondaire, setFaseSecondaire] = useQueryParam("faseSec", StringParam);
 
-  const [locHome, setLocHome] = useQueryParam<NamedLoc | null>(
-    "homeloc",
-    JsonParam,
-  );
+  const [locHome, setLocHome] = useQueryParam<NamedLoc | null>("homeloc", JsonParam);
 
   const [immersion, setImmersion] = useQueryParam("immersion", BooleanParam);
 
@@ -84,30 +70,18 @@ function Compute() {
     immersion,
     setImmersion,
   } = useConfiguration();
-  const school_prim = primarySchools.find(
-    (school) => school.ndeg_fase_de_l_implantation === fasePrimaire,
-  );
-  const detailsSecondaire = secondarySchools.find(
-    (school) => school.ndeg_fase_de_l_implantation === faseSecondaire,
-  );
+  const school_prim = primarySchools.find((school) => school.ndeg_fase_de_l_implantation === fasePrimaire);
+  const detailsSecondaire = secondarySchools.find((school) => school.ndeg_fase_de_l_implantation === faseSecondaire);
 
   const scores = useMemo<ComputeResult[] | null>(() => {
     if (!school_prim || !locHome) return null;
 
-    const results = computeAll(
-      secondarySchools,
-      school_prim,
-      locHome,
-      immersion,
-    );
+    const results = computeAll(secondarySchools, school_prim, locHome, immersion);
     return results;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [school_prim?.ndeg_fase_de_l_implantation, locHome, immersion]);
 
-  const networks = useMemo(
-    () => [...new Set(secondarySchools.map((s) => s.reseau))],
-    [],
-  );
+  const networks = useMemo(() => [...new Set(secondarySchools.map((s) => s.reseau))], []);
 
   if (!school_prim || !locHome) {
     return (
@@ -127,11 +101,7 @@ function Compute() {
 
   let result;
   if (scores && detailsSecondaire) {
-    result = scores.find(
-      (s) =>
-        s.school.ndeg_fase_de_l_implantation ==
-        detailsSecondaire.ndeg_fase_de_l_implantation,
-    );
+    result = scores.find((s) => s.school.ndeg_fase_de_l_implantation == detailsSecondaire.ndeg_fase_de_l_implantation);
   }
 
   return (

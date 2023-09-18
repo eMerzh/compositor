@@ -1,17 +1,7 @@
 import { ActionIcon, Select, Table } from "@mantine/core";
-import {
-  IconInfoHexagonFilled,
-  IconSortAscending,
-  IconSortDescending,
-} from "@tabler/icons-react";
+import { IconInfoHexagonFilled, IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
-import {
-  ComputeResult,
-  distanceSortAsc,
-  distanceSortDesc,
-  scoreSortAsc,
-  scoreSortDesc,
-} from "./compute";
+import { ComputeResult, distanceSortAsc, distanceSortDesc, scoreSortAsc, scoreSortDesc } from "./compute";
 import { round } from "./utils";
 import Score from "./Score";
 
@@ -32,12 +22,7 @@ interface Props {
   selectedFase: string;
   onSelectDetail: (schoolFase: string) => void;
 }
-export default function ResultTable({
-  networks,
-  scores,
-  onSelectDetail,
-  selectedFase,
-}: Props) {
+export default function ResultTable({ networks, scores, onSelectDetail, selectedFase }: Props) {
   const [filterNetwork, setFilterNetwork] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [sortColumn, setSortColumn] = useState<SortColumn>("score");
@@ -69,12 +54,7 @@ export default function ResultTable({
             >
               <span style={{ display: "flex" }}>
                 Distance{" "}
-                {sortColumn === "distance" &&
-                  (sortOrder == "asc" ? (
-                    <IconSortAscending />
-                  ) : (
-                    <IconSortDescending />
-                  ))}
+                {sortColumn === "distance" && (sortOrder == "asc" ? <IconSortAscending /> : <IconSortDescending />)}
               </span>
             </th>
             <th
@@ -84,13 +64,7 @@ export default function ResultTable({
               }}
             >
               <span style={{ display: "flex" }}>
-                Score{" "}
-                {sortColumn === "score" &&
-                  (sortOrder == "asc" ? (
-                    <IconSortAscending />
-                  ) : (
-                    <IconSortDescending />
-                  ))}
+                Score {sortColumn === "score" && (sortOrder == "asc" ? <IconSortAscending /> : <IconSortDescending />)}
               </span>
             </th>
           </tr>
@@ -101,10 +75,7 @@ export default function ResultTable({
               <tr
                 key={`${school.ndeg_fase_de_l_implantation} ${school.adresse_de_l_implantation}`}
                 style={{
-                  backgroundColor:
-                    school.ndeg_fase_de_l_implantation == selectedFase
-                      ? "#7AD1DD"
-                      : undefined,
+                  backgroundColor: school.ndeg_fase_de_l_implantation == selectedFase ? "#7AD1DD" : undefined,
                 }}
               >
                 <th style={{ textTransform: "capitalize" }}>

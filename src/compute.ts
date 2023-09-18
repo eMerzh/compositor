@@ -43,15 +43,9 @@ export interface School {
   geolocalisation: GeoLoc;
   to_exclude: boolean | undefined; // FIXME: boop
 }
-export const schools = (schoolsJSON as School[]).filter(
-  (school) => !!school.geolocalisation,
-);
-export const primarySchools = schools.filter(
-  (school) => school.type_d_enseignement === "Primaire ordinaire",
-);
-export const secondarySchools = schools.filter(
-  (school) => school.type_d_enseignement === "Secondaire ordinaire",
-);
+export const schools = (schoolsJSON as School[]).filter((school) => !!school.geolocalisation);
+export const primarySchools = schools.filter((school) => school.type_d_enseignement === "Primaire ordinaire");
+export const secondarySchools = schools.filter((school) => school.type_d_enseignement === "Secondaire ordinaire");
 
 const coef_4Table: Record<number, Record<number, number>> = {
   1.3: {
@@ -132,27 +126,18 @@ const rankCoef3 = [
 
 const schoolSorter = (origin: GeoLoc) => (a: School, b: School) => {
   if (!a.geolocalisation || !b.geolocalisation) {
-    throw new Error(
-      `Missing geolocalisation ${a.nom_de_l_etablissement} ${b.nom_de_l_etablissement}`,
-    );
+    throw new Error(`Missing geolocalisation ${a.nom_de_l_etablissement} ${b.nom_de_l_etablissement}`);
   }
   const distA = getDistanceBetweenTwoPoints(origin, a.geolocalisation);
   const distB = getDistanceBetweenTwoPoints(origin, b.geolocalisation);
   return distA - distB;
 };
 
-export function findNearestRank(
-  array: School[],
-  school: School,
-  origin: GeoLoc,
-) {
+export function findNearestRank(array: School[], school: School, origin: GeoLoc) {
   const sortedSchools = Array.from(array).sort(schoolSorter(origin));
   return (
     Math.min(
-      sortedSchools.findIndex(
-        (s: School) =>
-          s.ndeg_fase_de_l_implantation === school.ndeg_fase_de_l_implantation,
-      ),
+      sortedSchools.findIndex((s: School) => s.ndeg_fase_de_l_implantation === school.ndeg_fase_de_l_implantation),
       5,
     ) + 1
   );
@@ -165,32 +150,21 @@ export function getNearestSchools(array: School[], home: GeoLoc): School[] {
 
 export function hasBothSchoolsNetworkInCity(schools: School[], city: string) {
   const confessional = schools.find(
-    (school) =>
-      school.reseau === "Libre confessionnel" &&
-      school.commune_de_l_implantation === city,
+    (school) => school.reseau === "Libre confessionnel" && school.commune_de_l_implantation === city,
   );
   const other = schools.find(
-    (school) =>
-      school.reseau !== "Libre confessionnel" &&
-      school.commune_de_l_implantation === city,
+    (school) => school.reseau !== "Libre confessionnel" && school.commune_de_l_implantation === city,
   );
   return !!confessional && !!other;
 }
 
-export function compute(
-  school_prim: School,
-  school_sec: School,
-  locHome: GeoLoc,
-  immersion: boolean,
-) {
+export function compute(school_prim: School, school_sec: School, locHome: GeoLoc, immersion: boolean) {
   const coef_1 = rankCoef1[0]; // LA PRÉFÉRENCE 1.5 pour 1°
   const rank_2 = findNearestRank(
     primarySchools.filter(
       (s) =>
         s.reseau === school_prim?.reseau &&
-        (!s.to_exclude ||
-          s.ndeg_fase_de_l_implantation ==
-            school_prim.ndeg_fase_de_l_implantation),
+        (!s.to_exclude || s.ndeg_fase_de_l_implantation == school_prim.ndeg_fase_de_l_implantation),
     ),
     school_prim,
     locHome,
@@ -205,22 +179,13 @@ export function compute(
     locHome,
   );
   const coef_3 = rankCoef3[rank_3 - 1];
-  const isBetween4KM =
-    getDistanceBetweenTwoPoints(
-      school_prim.geolocalisation,
-      school_sec.geolocalisation,
-    ) < 4;
+  const isBetween4KM = getDistanceBetweenTwoPoints(school_prim.geolocalisation, school_sec.geolocalisation) < 4;
 
   const coef_4 = isBetween4KM ? coef_4Table[coef_2][coef_3] : 1; // LA PROXIMITÉ ENTRE L’ÉCOLE PRIMAIRE ET L’ÉCOLE SECONDAIRE
   const coef_5 = immersion ? 1.18 : 1; // IMMERSION soit 1 (si non) soit 1.18
 
   // L'OFFRE SCOLAIRE DANS LA COMMUNE DE L'ÉCOLE PRIMAIRE
-  const coef_6 = hasBothSchoolsNetworkInCity(
-    secondarySchools,
-    school_prim?.commune_de_l_implantation,
-  )
-    ? 1
-    : 1.51;
+  const coef_6 = hasBothSchoolsNetworkInCity(secondarySchools, school_prim?.commune_de_l_implantation) ? 1 : 1.51;
 
   const coef_7 = 1; // partenaria peda soit 1 soit 1.51
   const coef_8 = 1; // LA CLASSE D'ENCADREMENT DE L'ÉCOLE PRIMAIRE (socio-économique)
@@ -236,8 +201,7 @@ export function compute(
     coef_8,
     rank_2,
     rank_3,
-    total:
-      coef_1 * coef_2 * coef_3 * coef_4 * coef_5 * coef_6 * coef_7 * coef_8,
+    total: coef_1 * coef_2 * coef_3 * coef_4 * coef_5 * coef_6 * coef_7 * coef_8,
   };
 }
 
@@ -260,11 +224,7 @@ export function computeAll(
   }));
 }
 
-export const distanceSortAsc = (a: ComputeResult, b: ComputeResult) =>
-  a.distance - b.distance;
-export const distanceSortDesc = (a: ComputeResult, b: ComputeResult) =>
-  b.distance - a.distance;
-export const scoreSortAsc = (a: ComputeResult, b: ComputeResult) =>
-  a.score.total - b.score.total;
-export const scoreSortDesc = (a: ComputeResult, b: ComputeResult) =>
-  b.score.total - a.score.total;
+export const distanceSortAsc = (a: ComputeResult, b: ComputeResult) => a.distance - b.distance;
+export const distanceSortDesc = (a: ComputeResult, b: ComputeResult) => b.distance - a.distance;
+export const scoreSortAsc = (a: ComputeResult, b: ComputeResult) => a.score.total - b.score.total;
+export const scoreSortDesc = (a: ComputeResult, b: ComputeResult) => b.score.total - a.score.total;

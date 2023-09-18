@@ -15,9 +15,7 @@ const SchoolDetail = ({
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Group>
-        <Text weight={500}>
-          {result.school.nom_de_l_etablissement.toLowerCase()}
-        </Text>
+        <Text weight={500}>{result.school.nom_de_l_etablissement.toLowerCase()}</Text>
         <a
           href={`https://www.google.com/maps/dir/${result.school.geolocalisation?.lat},${result.school.geolocalisation?.lon}/${locHome.lat},${locHome.lon}/@${locHome.lat},${locHome.lon},13z/data=!3m1!4b1!4m2!4m1!3e3?entry=ttu`}
         >
@@ -91,9 +89,7 @@ const SchoolDetail = ({
                   transitionProps={{ duration: 200 }}
                   label="Ce coefficient est déterminé par la proximité entre l’école primaire de votre enfant et l’école secondaire visée."
                 >
-                  <span>
-                    Proximité Primaire-Secondaire: {result.score.coef_4}
-                  </span>
+                  <span>Proximité Primaire-Secondaire: {result.score.coef_4}</span>
                 </Tooltip>
               </li>
               <li>
@@ -153,8 +149,7 @@ const SchoolDetail = ({
                 </Tooltip>
               </li>
             </ul>
-            <em>TOTAL:</em>{" "}
-            <Score score={result.score.total}>{result.score.total}</Score>
+            <em>TOTAL:</em> <Score score={result.score.total}>{result.score.total}</Score>
           </div>
         </Card.Section>
       )}
