@@ -225,11 +225,15 @@ export function computeAll(
   date: string,
   immersion: boolean,
 ): ComputeResult[] {
-  return schools.map((school: School) => ({
+  console.time("computeAll");
+  const result = schools.map((school: School) => ({
     school: school,
     score: compute(primarySchool, school, locHome, date, immersion),
     distance: getDistanceBetweenTwoPoints(school.geo, locHome),
   }));
+
+  console.timeEnd("computeAll");
+  return result;
 }
 
 export const distanceSortAsc = (a: ComputeResult, b: ComputeResult) => a.distance - b.distance;

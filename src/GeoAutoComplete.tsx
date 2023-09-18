@@ -1,4 +1,4 @@
-import { TextInput } from "@mantine/core";
+import { CloseButton, TextInput } from "@mantine/core";
 import { AddressAutofill } from "@mapbox/search-js-react";
 import { IconHomeSearch } from "@tabler/icons-react";
 import { useState } from "react";
@@ -9,11 +9,12 @@ const accessToken = "pk.eyJ1IjoiZW1lcnpoIiwiYSI6ImNsbW5zbjV3NzA4MWoycm85d3A1OWFm
 export type NamedLoc = GeoLoc & { name: string };
 
 interface Props {
-  onSelect?: (loca: NamedLoc) => void;
+  onSelect?: (loca: NamedLoc | null) => void;
   value?: NamedLoc;
 }
 function GeoAutoComplete({ value, onSelect }: Props) {
   const [address, setAddress] = useState<string>(value?.name || "");
+
   return (
     <form>
       <AddressAutofill
@@ -24,6 +25,7 @@ function GeoAutoComplete({ value, onSelect }: Props) {
         }}
         onRetrieve={(e) => {
           const feature = e.features[0];
+          console.log("oooo set ", feature.properties.feature_name);
           setAddress(feature.properties.feature_name);
           onSelect?.({
             lon: feature.geometry.coordinates[0],
@@ -34,11 +36,21 @@ function GeoAutoComplete({ value, onSelect }: Props) {
       >
         <TextInput
           label="Adresse du domicile"
-          icon={<IconHomeSearch size="1rem" />}
+          icon={<IconHomeSearch size="1rem" color={value?.lat ? "green" : "#adb5bd"} />}
           placeholder="Domicile"
           autoComplete="street-address"
           value={address}
           onChange={(e) => setAddress(e.currentTarget.value)}
+          rightSection={
+            <CloseButton
+              aria-label="Clear input"
+              onClick={() => {
+                setAddress("");
+                onSelect?.(null);
+              }}
+              style={{ display: value ? undefined : "none" }}
+            />
+          }
         />
       </AddressAutofill>
     </form>

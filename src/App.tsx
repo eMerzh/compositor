@@ -12,12 +12,15 @@ import { NamedLoc } from "./GeoAutoComplete";
 import { InputConfig } from "./InputConfig";
 import ResultTable from "./ResultTable";
 import SchoolDetail from "./SchoolDetail";
+import Footer from "./Footer";
 
 export default function Home() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <QueryParamProvider adapter={WindowHistoryAdapter}>
+        <div></div>
         <Compute />
+        <Footer />
       </QueryParamProvider>
     </MantineProvider>
   );
