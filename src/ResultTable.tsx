@@ -1,7 +1,7 @@
 import { ActionIcon, Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core";
 import { IconInfoHexagonFilled, IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
-import { ComputeResult, distanceSortAsc, distanceSortDesc, scoreSortAsc, scoreSortDesc } from "./compute";
+import { ComputeResult, School, distanceSortAsc, distanceSortDesc, scoreSortAsc, scoreSortDesc } from "./compute";
 import { round } from "./utils";
 import Score from "./Score";
 
@@ -17,13 +17,14 @@ const getSortFn = (sortColumn: SortColumn, sortOrder: SortOrder) => {
 };
 
 interface Props {
-  networks: string[];
+  secondarySchools: School[];
   scores: ComputeResult[];
   selectedFase: string;
   onSelectDetail: (schoolFase: string) => void;
 }
-export default function ResultTable({ networks, scores, onSelectDetail, selectedFase }: Props) {
+export default function ResultTable({ secondarySchools, scores, onSelectDetail, selectedFase }: Props) {
   const [filterNetwork, setFilterNetwork] = useState<string[]>([]);
+  const networks = useMemo(() => [...new Set(secondarySchools.map((s) => s.network))], []);
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [sortColumn, setSortColumn] = useState<SortColumn>("score");
   const schoolsScores = useMemo(() => {

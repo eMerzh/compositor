@@ -82,14 +82,12 @@ function Compute() {
   const detailsSecondaire = secondarySchools.find((school) => school.id === idSecondaire);
 
   const scores = useMemo<ComputeResult[] | null>(() => {
-    if (!school_prim || !locHome) return null;
+    if (!school_prim || !locHome || !date) return null;
 
     const results = computeAll(secondarySchools, school_prim, locHome, date, immersion);
     return results;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [school_prim?.id, locHome, immersion, date]);
-
-  const networks = useMemo(() => [...new Set(secondarySchools.map((s) => s.network))], []);
 
   if (!school_prim || !locHome || !date) {
     return (
@@ -138,7 +136,12 @@ function Compute() {
         />
       )}
       {scores && (
-        <ResultTable scores={scores} networks={networks} selectedFase={idSecondaire} onSelectDetail={setIdSecondaire} />
+        <ResultTable
+          scores={scores}
+          secondarySchools={secondarySchools}
+          selectedFase={idSecondaire}
+          onSelectDetail={setIdSecondaire}
+        />
       )}
     </Container>
   );
