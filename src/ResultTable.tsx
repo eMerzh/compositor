@@ -1,4 +1,4 @@
-import { ActionIcon, Select, Table } from "@mantine/core";
+import { ActionIcon, Center, Group, Select, Table, Text, rem } from "@mantine/core";
 import { IconInfoHexagonFilled, IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 import { ComputeResult, distanceSortAsc, distanceSortDesc, scoreSortAsc, scoreSortDesc } from "./compute";
@@ -27,11 +27,13 @@ export default function ResultTable({ networks, scores, onSelectDetail, selected
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [sortColumn, setSortColumn] = useState<SortColumn>("score");
   const schoolsScores = useMemo(() => {
-    return Array.from(scores || []).sort(getSortFn(sortColumn, sortOrder));
-  }, [scores, sortColumn, sortOrder]);
+    return Array.from(scores || [])
+      .filter((s) => !filterNetwork || s.school.reseau === filterNetwork)
+      .sort(getSortFn(sortColumn, sortOrder));
+  }, [scores, sortColumn, sortOrder, filterNetwork]);
 
   return (
-    <>
+    <Group>
       <Select
         label="Réseau"
         searchable
@@ -45,17 +47,17 @@ export default function ResultTable({ networks, scores, onSelectDetail, selected
         <thead>
           <tr>
             <th>Name</th>
-            <th>Commune</th>
             <th
               onClick={() => {
                 setSortColumn("distance");
                 setSortOrder(sortOrder == "asc" ? "desc" : "asc");
               }}
             >
-              <span style={{ display: "flex" }}>
+              <Center>
                 Distance{" "}
-                {sortColumn === "distance" && (sortOrder == "asc" ? <IconSortAscending /> : <IconSortDescending />)}
-              </span>
+                {sortColumn === "distance" &&
+                  (sortOrder == "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
+              </Center>
             </th>
             <th
               onClick={() => {
@@ -63,9 +65,11 @@ export default function ResultTable({ networks, scores, onSelectDetail, selected
                 setSortOrder(sortOrder == "asc" ? "desc" : "asc");
               }}
             >
-              <span style={{ display: "flex" }}>
-                Score {sortColumn === "score" && (sortOrder == "asc" ? <IconSortAscending /> : <IconSortDescending />)}
-              </span>
+              <Center>
+                Score{" "}
+                {sortColumn === "score" &&
+                  (sortOrder == "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
+              </Center>
             </th>
           </tr>
         </thead>
@@ -83,13 +87,15 @@ export default function ResultTable({ networks, scores, onSelectDetail, selected
                     onClick={() => {
                       onSelectDetail(school.ndeg_fase_de_l_implantation);
                     }}
-                    style={{ display: "inline" }}
+                    display="inline"
                   >
-                    <IconInfoHexagonFilled />
+                    <IconInfoHexagonFilled size={rem(14)} />
                   </ActionIcon>
                   {school.nom_de_l_etablissement.toLowerCase()}
+                  <Text fz="xs" fw={300} c="dimmed">
+                    {school.adresse_de_l_implantation}, {school.commune_de_l_implantation}
+                  </Text>
                 </th>
-                <td>{school.commune_de_l_implantation}</td>
                 <td>{round(distance, 2)} km</td>
                 <td>
                   <Score score={score.total}>{round(score.total, 3)}</Score>
@@ -99,6 +105,6 @@ export default function ResultTable({ networks, scores, onSelectDetail, selected
           })}
         </tbody>
       </Table>
-    </>
+    </Group>
   );
 }

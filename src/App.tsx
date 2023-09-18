@@ -115,7 +115,7 @@ function Compute() {
         immersion={immersion}
         setImmersion={setImmersion}
       />
-
+      <hr />
       {detailsSecondaire && result && (
         <SchoolDetail
           result={result}
