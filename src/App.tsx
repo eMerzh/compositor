@@ -144,6 +144,7 @@ function Compute() {
           secondarySchools={secondarySchools}
           selectedFase={idSecondaire}
           onSelectDetail={setIdSecondaire}
+          withImmersion={immersion}
         />
       )}
     </Container>

@@ -20,9 +20,10 @@ interface Props {
   secondarySchools: School[];
   scores: ComputeResult[];
   selectedFase: string;
+  withImmersion: boolean;
   onSelectDetail: (schoolFase: string) => void;
 }
-export default function ResultTable({ secondarySchools, scores, onSelectDetail, selectedFase }: Props) {
+export default function ResultTable({ secondarySchools, scores, onSelectDetail, selectedFase, withImmersion }: Props) {
   const [filterNetwork, setFilterNetwork] = useState<string[]>([]);
   const networks = useMemo(() => [...new Set(secondarySchools.map((s) => s.network))], [secondarySchools]);
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
@@ -30,8 +31,9 @@ export default function ResultTable({ secondarySchools, scores, onSelectDetail, 
   const schoolsScores = useMemo(() => {
     return Array.from(scores || [])
       .filter((s) => !filterNetwork.length || filterNetwork.includes(s.school.network))
+      .filter((s) => !withImmersion || s.school.immersion)
       .sort(getSortFn(sortColumn, sortOrder));
-  }, [scores, sortColumn, sortOrder, filterNetwork]);
+  }, [scores, sortColumn, sortOrder, filterNetwork, withImmersion]);
 
   return (
     <Group>

@@ -27,6 +27,7 @@ export interface School {
   date: string;
   partenaria: null | { id: string; date: string };
   ise: null | number;
+  immersion: null | string[];
 }
 
 export const primarySchools = (primary as School[]).filter((school: School) => !!school.geo);
@@ -188,7 +189,7 @@ export function compute(school_prim: School, school_sec: School, locHome: GeoLoc
   const isBetween4KM = getDistanceBetweenTwoPoints(school_prim.geo, school_sec.geo) < 4;
 
   const coef_4 = isBetween4KM ? coef_4Table[coef_2][coef_3] : 1; // LA PROXIMITÉ ENTRE L’ÉCOLE PRIMAIRE ET L’ÉCOLE SECONDAIRE
-  const coef_5 = immersion ? 1.18 : 1; // IMMERSION soit 1 (si non) soit 1.18
+  const coef_5 = immersion && school_sec.immersion ? 1.18 : 1; // IMMERSION soit 1 (si non) soit 1.18
 
   // L'OFFRE SCOLAIRE DANS LA COMMUNE DE L'ÉCOLE PRIMAIRE
   const coef_6 = hasBothSchoolsNetworkInCity(secondarySchools, school_prim?.city) ? 1 : 1.51;

@@ -8,6 +8,7 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 
 - https://inscription.cfwb.be/lindice-composite/
 - https://www.odwb.be/explore/dataset/signaletique-fase/table/
+- https://inscription.cfwb.be/les-outils/les-documents/
 - https://www.gallilex.cfwb.be/document/pdf/48085_000.pdf
 - https://inscription.cfwb.be/fileadmin/sites/insc/uploads/Documents_2023-2024/Liste_ecoles_secondaires.xlsx
 - https://inscription.cfwb.be/fileadmin/sites/insc/uploads/Documents_2023-2024/Partenariats_pedagogiques__site.pdf
@@ -16,8 +17,7 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 
 # TODO:
 
-- [ ] Style
-- [ ] small footer
+- [x] small footer
 - [x] Corriger coefficient 8 (niveau socio) with old data from 2020
 - [x] Corriger coefficient 7 (partenariat)
 - [x] fix multiple élection
@@ -27,14 +27,13 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 
 # Nice to have:
 
-https://inscription.cfwb.be/les-outils/les-documents/
-
+- [ ] Style
 - [ ] ajouter une indication de remplissage
-- [ ] improve immersion (filter school, doc, )
-  - [ ] https://inscription.cfwb.be/fileadmin/sites/insc/uploads/Documents_2023-2024/Liste_des_ecoles_immersion.xlsx
+- [x] improve immersion (filter school, doc, )
+  - [x] https://inscription.cfwb.be/fileadmin/sites/insc/uploads/Documents_2023-2024/Liste_des_ecoles_immersion.xlsx
 - [ ] carte ?
 - [ ] exclude techniques?
 - [ ] perf
-  - [ ] taille du json
+  - [x] taille du json
   - [ ] efficience du code
 - [ ] code cleanup 😱

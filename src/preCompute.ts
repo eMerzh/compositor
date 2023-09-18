@@ -33,8 +33,10 @@ const inlist = await processFile("./data/ecole_secondaires.csv");
 
 const InListSchools = new Set(inlist.map((school) => school[0]));
 const compositeList = await processFile("./data/ise.csv");
+const immersionList = await processFile("./data/immersion.csv");
 
 const compositeIndex = new Map(compositeList.map((r) => [`${r[0]}/${r[1]}`, parseInt(r[2], 10)]));
+const immersionIndex = new Map(immersionList.map((r) => [r[0], r[1].split("/")]));
 const newSchools = schools.map((school) => {
   return { ...school, creationDate: BCEDates.get(school.numero_bce_de_l_etablissement) };
 });
@@ -61,6 +63,7 @@ function schoolExtract(school) {
       : "",
     partenaria: partenaria ? { id: partenaria.sec, date: partenaria.date } : null,
     ise: compositeIndex.get(id) ? compositeIndex.get(id) : null,
+    immersion: immersionIndex.get(id) ? immersionIndex.get(id) : null,
   };
 }
 
