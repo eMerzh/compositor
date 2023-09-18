@@ -47,6 +47,7 @@ export default function ResultTable({ networks, scores, onSelectDetail, selected
         <thead>
           <tr>
             <th>Name</th>
+            <th>Réseau</th>
             <th
               onClick={() => {
                 setSortColumn("distance");
@@ -96,6 +97,7 @@ export default function ResultTable({ networks, scores, onSelectDetail, selected
                     {school.adresse_de_l_implantation}, {school.commune_de_l_implantation}
                   </Text>
                 </th>
+                <td>{school.reseau}</td>
                 <td>{round(distance, 2)} km</td>
                 <td>
                   <Score score={score.total}>{round(score.total, 3)}</Score>
