@@ -28,7 +28,7 @@ export default function ResultTable({ networks, scores, onSelectDetail, selected
   const [sortColumn, setSortColumn] = useState<SortColumn>("score");
   const schoolsScores = useMemo(() => {
     return Array.from(scores || [])
-      .filter((s) => !filterNetwork.length || filterNetwork.includes(s.school.reseau))
+      .filter((s) => !filterNetwork.length || filterNetwork.includes(s.school.network))
       .sort(getSortFn(sortColumn, sortOrder));
   }, [scores, sortColumn, sortOrder, filterNetwork]);
 
@@ -78,26 +78,26 @@ export default function ResultTable({ networks, scores, onSelectDetail, selected
           {schoolsScores.map(({ school, score, distance }) => {
             return (
               <tr
-                key={`${school.ndeg_fase_de_l_implantation} ${school.adresse_de_l_implantation}`}
+                key={school.id}
                 style={{
-                  backgroundColor: school.ndeg_fase_de_l_implantation == selectedFase ? "#7AD1DD" : undefined,
+                  backgroundColor: school.id == selectedFase ? "#7AD1DD" : undefined,
                 }}
               >
                 <th style={{ textTransform: "capitalize" }}>
                   <ActionIcon
                     onClick={() => {
-                      onSelectDetail(school.ndeg_fase_de_l_implantation);
+                      onSelectDetail(school.id);
                     }}
                     display="inline"
                   >
                     <IconInfoHexagonFilled size={rem(14)} />
                   </ActionIcon>
-                  {school.nom_de_l_etablissement.toLowerCase()}
+                  {school.name}
                   <Text fz="xs" fw={300} c="dimmed">
-                    {school.adresse_de_l_implantation}, {school.commune_de_l_implantation}
+                    {school.address}, {school.city}
                   </Text>
                 </th>
-                <td>{school.reseau}</td>
+                <td>{school.network}</td>
                 <td>{round(distance, 2)} km</td>
                 <td>
                   <Score score={score.total}>{round(score.total, 3)}</Score>

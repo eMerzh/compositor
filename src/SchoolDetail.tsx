@@ -15,12 +15,24 @@ const Explanation = [
     description:
       "Ce coefficient est déterminé par la proximité entre l’école primaire actuellement fréquentée par votre enfant et votre domicile. Plus précisément, ce coefficient est calculé sur base de l’ implantation fondamentale ou primaire dans laquelle il se rend. Plus l’école primaire est proche du domicile par rapport à d’autres écoles primaires du même réseau , plus le coefficient attribué est élevé.",
     scoreProperty: "coef_2",
+    more: (result: ComputeResult) => (
+      <Text fz="xs" fw={300} c="dimmed" style={{ display: "inline" }}>
+        {" "}
+        (n°{result.score.rank_2})
+      </Text>
+    ),
   },
   {
     name: "Proximité école secondaire",
     description:
       "Ce coefficient est déterminé par la proximité entre l’école secondaire visée et votre domicile. Plus précisément, ce coefficient est calculé sur base de l’implantation  secondaire. Plus l’école secondaire est proche du domicile par rapport à d’autres écoles secondaires du même réseau , plus le coefficient attribué est élevé.",
     scoreProperty: "coef_3",
+    more: (result: ComputeResult) => (
+      <Text fz="xs" fw={300} c="dimmed" style={{ display: "inline" }}>
+        {" "}
+        (n°{result.score.rank_3})
+      </Text>
+    ),
   },
   {
     name: "Proximité Primaire-Secondaire",
@@ -68,11 +80,9 @@ const SchoolDetail = ({
       <Group mt="md" mb="xs">
         <Card shadow="sm" radius="md" padding="md" withBorder>
           <Card.Section inheritPadding>
-            <Text weight={500} style={{ textTransform: "capitalize" }}>
-              {result.school.nom_de_l_etablissement.toLowerCase()}
-            </Text>
+            <Text weight={500}>{result.school.name}</Text>
             <a
-              href={`https://www.google.com/maps/dir/${result.school.geolocalisation?.lat},${result.school.geolocalisation?.lon}/${locHome.lat},${locHome.lon}/@${locHome.lat},${locHome.lon},13z/data=!3m1!4b1!4m2!4m1!3e3?entry=ttu`}
+              href={`https://www.google.com/maps/dir/${result.school.geo?.lat},${result.school.geo?.lon}/${locHome.lat},${locHome.lon}/@${locHome.lat},${locHome.lon},13z/data=!3m1!4b1!4m2!4m1!3e3?entry=ttu`}
               target="_blank"
               rel="noreferrer"
             >
@@ -102,6 +112,7 @@ const SchoolDetail = ({
                         >
                           <span>
                             {d.name}: {result?.score[d.scoreProperty]}
+                            {d.more?.(result)}
                           </span>
                         </Tooltip>
                       </li>

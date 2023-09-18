@@ -6,15 +6,18 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 
 # TODO:
 
-- [ ] Corriger coefficient 8 (niveau socio)
 - [ ] Corriger coefficient 7 (partenariat)
-- [ ] fix multiple élection
-- [ ] école nouvelles (=> experluette)
+- [ ] Corriger coefficient 8 (niveau socio)
 - [ ] Style
+- [ ] small footer
+- [x] fix multiple élection
+- [x] école nouvelles (=> experluette) maybe??
 - [x] Geolocation
 - [x] Corriger coefficient 5 (immersion)
 
 # Nice to have:
+
+https://inscription.cfwb.be/les-outils/les-documents/
 
 - [ ] ajouter une indication de remplissage
 - [ ] improve immersion (filter school, doc, )

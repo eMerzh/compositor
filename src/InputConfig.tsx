@@ -1,24 +1,28 @@
 import { Checkbox, Select } from "@mantine/core";
 import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete";
 import type { School } from "./compute";
-import { IconSchool } from "@tabler/icons-react";
+import { IconCalendar, IconSchool } from "@tabler/icons-react";
 
 export function InputConfig({
   primarySchools,
-  fasePrimaire,
-  setFasePrimaire,
+  idPrimaire,
+  setIdPrimaire,
   locHome,
   setLocHome,
   immersion,
   setImmersion,
+  date,
+  setDate,
 }: {
   primarySchools: School[];
-  fasePrimaire: string;
-  setFasePrimaire: (v: string) => void;
+  idPrimaire: string;
+  setIdPrimaire: (v: string) => void;
   locHome: NamedLoc;
   setLocHome: (v: NamedLoc) => void;
   immersion: boolean;
   setImmersion: (v: boolean) => void;
+  date: string;
+  setDate: (v: string) => void;
 }) {
   return (
     <>
@@ -27,16 +31,23 @@ export function InputConfig({
         searchable
         clearable
         placeholder="Choisir une école primaire"
-        value={fasePrimaire}
-        onChange={setFasePrimaire}
+        value={idPrimaire}
+        onChange={setIdPrimaire}
         data={primarySchools.map((school) => ({
-          value: school.ndeg_fase_de_l_implantation,
-          label: school.nom_de_l_etablissement,
+          value: school.id,
+          label: school.name,
         }))}
         icon={<IconSchool size="1rem" />}
       />
       <GeoAutoComplete value={locHome} onSelect={setLocHome} />
 
+      <Select
+        label="Année inscription"
+        data={["2018", "2019", "2020", "2021", "2022"]}
+        icon={<IconCalendar size="1rem" />}
+        value={date}
+        onChange={setDate}
+      />
       <Checkbox
         label="Immersion"
         checked={immersion}
