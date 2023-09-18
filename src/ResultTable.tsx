@@ -24,7 +24,7 @@ interface Props {
 }
 export default function ResultTable({ secondarySchools, scores, onSelectDetail, selectedFase }: Props) {
   const [filterNetwork, setFilterNetwork] = useState<string[]>([]);
-  const networks = useMemo(() => [...new Set(secondarySchools.map((s) => s.network))], []);
+  const networks = useMemo(() => [...new Set(secondarySchools.map((s) => s.network))], [secondarySchools]);
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [sortColumn, setSortColumn] = useState<SortColumn>("score");
   const schoolsScores = useMemo(() => {

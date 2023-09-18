@@ -80,7 +80,14 @@ const SchoolDetail = ({
       <Group mt="md" mb="xs">
         <Card shadow="sm" radius="md" padding="md" withBorder>
           <Card.Section inheritPadding>
-            <Text weight={500}>{result.school.name}</Text>
+            <Text weight={500}>
+              <a
+                target="blank"
+                href={`http://www.enseignement.be/index.php?page=24797&etab_id=${result.school.id.split("/")[0]}`}
+              >
+                {result.school.name}
+              </a>
+            </Text>
             <a
               href={`https://www.google.com/maps/dir/${result.school.geo?.lat},${result.school.geo?.lon}/${locHome.lat},${locHome.lon}/@${locHome.lat},${locHome.lon},13z/data=!3m1!4b1!4m2!4m1!3e3?entry=ttu`}
               target="_blank"

@@ -8,6 +8,7 @@ function getFile(path: string) {
 }
 
 const schools = getFile("./data/signaletique-fase.json");
+const partenariaList = getFile("./data/partenaria.json");
 
 const processFile = async (path) => {
   const csvParser = csv.parse(fs.readFileSync(path), {
@@ -40,8 +41,10 @@ const capitalize = (str, lower = false) =>
   (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, (match) => match.toUpperCase());
 
 function schoolExtract(school) {
+  const id = `${school.ndeg_fase_de_l_etablissement}/${school.ndeg_fase_de_l_implantation}`;
+  const partenaria = partenariaList.find((p) => p.prim === id);
   return {
-    id: `${school.ndeg_fase_de_l_etablissement}/${school.ndeg_fase_de_l_implantation}`,
+    id,
     name: capitalize(school.nom_de_l_etablissement, true),
     address: school.adresse_de_l_implantation,
     city: school.commune_de_l_implantation,
@@ -54,6 +57,7 @@ function schoolExtract(school) {
     date: school.creationDate
       ? `${school.creationDate.split("-")[2]}-${school.creationDate.split("-")[1]}-${school.creationDate.split("-")[0]}`
       : "",
+    partenaria: partenaria ? { id: partenaria.sec, date: partenaria.date } : null,
   };
 }
 

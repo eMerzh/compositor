@@ -6,11 +6,8 @@ export type GeoLoc = {
   lat: number;
 };
 
-// https://inscription.cfwb.be/lindice-composite/
-// https://www.odwb.be/explore/dataset/signaletique-fase/table/
-// https://www.gallilex.cfwb.be/document/pdf/48085_000.pdf
-
 export interface School {
+  // fase etablissement / fase implantation
   id: string;
   name: string;
   address: string;
@@ -28,6 +25,7 @@ export interface School {
     lon: number;
   };
   date: string;
+  partenaria: null | { id: string; date: string };
 }
 
 export const primarySchools = (primary as School[]).filter((school: School) => !!school.geo);
@@ -171,7 +169,7 @@ export function compute(school_prim: School, school_sec: School, locHome: GeoLoc
   // L'OFFRE SCOLAIRE DANS LA COMMUNE DE L'ÉCOLE PRIMAIRE
   const coef_6 = hasBothSchoolsNetworkInCity(secondarySchools, school_prim?.city) ? 1 : 1.51;
 
-  const coef_7 = 1; // partenaria peda soit 1 soit 1.51
+  const coef_7 = coef_6 == 1.51 || (school_prim.partenaria && school_prim.partenaria.id === school_sec.id) ? 1 : 1.51; // partenaria peda soit 1 soit 1.51
   const coef_8 = 1; // LA CLASSE D'ENCADREMENT DE L'ÉCOLE PRIMAIRE (socio-économique)
 
   return {
