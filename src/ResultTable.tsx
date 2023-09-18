@@ -1,4 +1,4 @@
-import { ActionIcon, Center, Group, Select, Table, Text, rem } from "@mantine/core";
+import { ActionIcon, Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core";
 import { IconInfoHexagonFilled, IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 import { ComputeResult, distanceSortAsc, distanceSortDesc, scoreSortAsc, scoreSortDesc } from "./compute";
@@ -23,18 +23,18 @@ interface Props {
   onSelectDetail: (schoolFase: string) => void;
 }
 export default function ResultTable({ networks, scores, onSelectDetail, selectedFase }: Props) {
-  const [filterNetwork, setFilterNetwork] = useState<string | null>(null);
+  const [filterNetwork, setFilterNetwork] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [sortColumn, setSortColumn] = useState<SortColumn>("score");
   const schoolsScores = useMemo(() => {
     return Array.from(scores || [])
-      .filter((s) => !filterNetwork || s.school.reseau === filterNetwork)
+      .filter((s) => !filterNetwork.length || filterNetwork.includes(s.school.reseau))
       .sort(getSortFn(sortColumn, sortOrder));
   }, [scores, sortColumn, sortOrder, filterNetwork]);
 
   return (
     <Group>
-      <Select
+      <MultiSelect
         label="Réseau"
         searchable
         clearable
