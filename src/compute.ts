@@ -26,6 +26,7 @@ export interface School {
   };
   date: string;
   partenaria: null | { id: string; date: string };
+  ise: null | number;
 }
 
 export const primarySchools = (primary as School[]).filter((school: School) => !!school.geo);
@@ -80,6 +81,29 @@ const coef_4Table: Record<number, Record<number, number>> = {
     1.19: 1.486,
     1: 1.54,
   },
+};
+
+const coef_8Table = {
+  1: 1.1,
+  2: 1.095,
+  3: 1.089,
+  4: 1.084,
+  5: 1.079,
+  6: 1.074,
+  7: 1.068,
+  8: 1.063,
+  9: 1.058,
+  10: 1.053,
+  11: 1.048,
+  12: 1.042,
+  13: 1.037,
+  14: 1.032,
+  15: 1.027,
+  16: 1.022,
+  17: 1.016,
+  18: 1.011,
+  19: 1.006,
+  20: 1,
 };
 
 const rankCoef1 = [
@@ -170,7 +194,8 @@ export function compute(school_prim: School, school_sec: School, locHome: GeoLoc
   const coef_6 = hasBothSchoolsNetworkInCity(secondarySchools, school_prim?.city) ? 1 : 1.51;
 
   const coef_7 = coef_6 == 1.51 || (school_prim.partenaria && school_prim.partenaria.id === school_sec.id) ? 1 : 1.51; // partenaria peda soit 1 soit 1.51
-  const coef_8 = 1; // LA CLASSE D'ENCADREMENT DE L'ÉCOLE PRIMAIRE (socio-économique)
+  // LA CLASSE D'ENCADREMENT DE L'ÉCOLE PRIMAIRE (socio-économique)
+  const coef_8 = coef_8Table[school_prim.ise || 10]; // if not found, it's an average of students /o\
 
   return {
     coef_1,

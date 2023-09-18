@@ -16,9 +16,9 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 
 # TODO:
 
-- [ ] Corriger coefficient 8 (niveau socio)
 - [ ] Style
 - [ ] small footer
+- [x] Corriger coefficient 8 (niveau socio) with old data from 2020
 - [x] Corriger coefficient 7 (partenariat)
 - [x] fix multiple élection
 - [x] école nouvelles (=> experluette) maybe??
