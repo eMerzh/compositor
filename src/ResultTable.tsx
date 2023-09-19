@@ -1,5 +1,5 @@
-import { ActionIcon, Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core";
-import { IconInfoHexagonFilled, IconSortAscending, IconSortDescending } from "@tabler/icons-react";
+import { Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core";
+import { IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 import {
   ComputeResult,
@@ -81,7 +81,7 @@ export default function ResultTable({ secondarySchools, scores, onSelectDetail, 
                 setSortOrder(sortOrder == "asc" ? "desc" : "asc");
               }}
             >
-              Remplissage 2022
+              Rempl. 2022
               {sortColumn === "fill" &&
                 (sortOrder == "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
             </th>

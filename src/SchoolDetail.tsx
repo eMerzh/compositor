@@ -1,4 +1,4 @@
-import { Affix, Badge, Card, CloseButton, Group, List, Text, ThemeIcon, Tooltip } from "@mantine/core";
+import { Affix, Badge, Card, CloseButton, Group, List, Text, Tooltip } from "@mantine/core";
 import { ComputeResult, GeoLoc } from "./compute";
 import Score from "./Score";
 import { round } from "./utils";
