@@ -25,7 +25,6 @@ function GeoAutoComplete({ value, onSelect }: Props) {
         }}
         onRetrieve={(e) => {
           const feature = e.features[0];
-          console.log("oooo set ", feature.properties.feature_name);
           setAddress(feature.properties.feature_name);
           onSelect?.({
             lon: feature.geometry.coordinates[0],
