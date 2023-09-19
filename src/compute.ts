@@ -145,8 +145,7 @@ const schoolSorter = (origin: GeoLoc) => (a: School, b: School) => {
   return distA - distB;
 };
 
-export function findNearestRank(array: School[], school: School, origin: GeoLoc) {
-  const sortedSchools = Array.from(array).sort(schoolSorter(origin));
+export function findNearestRank(sortedSchools: School[], school: School, origin: GeoLoc) {
   const foundIndex = sortedSchools.findIndex((s: School) => s.id === school.id);
   // if previous school is the same, we take the same rank
   const prevSchool = sortedSchools[foundIndex - 1];
@@ -171,12 +170,20 @@ export function hasBothSchoolsNetworkInCity(schools: School[], city: string) {
   return !!confessional && !!other;
 }
 
-export function compute(school_prim: School, school_sec: School, locHome: GeoLoc, date: string, immersion: boolean) {
+export function compute(
+  primary: School[],
+  secondary: School[],
+  school_prim: School,
+  school_sec: School,
+  locHome: GeoLoc,
+  date: string,
+  immersion: boolean,
+) {
   const coef_1 = rankCoef1[0]; // LA PRÉFÉRENCE 1.5 pour 1°
   const inscriptionDate = new Date(date + "-09-01");
 
   const rank_2 = findNearestRank(
-    primarySchools.filter((s) => {
+    primary.filter((s) => {
       const schoolCreation = s.date ? new Date(Date.parse(s.date)) : null;
 
       return s.network === school_prim?.network && (!schoolCreation || schoolCreation < inscriptionDate);
@@ -190,7 +197,7 @@ export function compute(school_prim: School, school_sec: School, locHome: GeoLoc
 
   // const coef_3 = 1.79 // LA PROXIMITÉ ENTRE LE DOMICILE ET L’ÉCOLE SECONDAIRE (meme réseau)
   const rank_3 = findNearestRank(
-    secondarySchools.filter((s) => s.network === school_sec?.network),
+    secondary.filter((s) => s.network === school_sec?.network),
     school_sec,
     locHome,
   );
@@ -236,11 +243,17 @@ export function computeAll(
   immersion: boolean,
 ): ComputeResult[] {
   console.time("computeAll");
-  const result = schools.map((school: School) => ({
-    school: school,
-    score: compute(primarySchool, school, locHome, date, immersion),
-    distance: getDistanceBetweenTwoPoints(school.geo, locHome),
-  }));
+  const prim = Array.from(primarySchools).sort(schoolSorter(locHome));
+  const sec = Array.from(secondarySchools).sort(schoolSorter(locHome));
+
+  console.timeLog("computeAll");
+  const result = schools.map((school: School) => {
+    return {
+      school: school,
+      score: compute(prim, sec, primarySchool, school, locHome, date, immersion),
+      distance: getDistanceBetweenTwoPoints(school.geo, locHome),
+    };
+  });
 
   console.timeEnd("computeAll");
   return result;
