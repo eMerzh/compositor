@@ -37,21 +37,24 @@ export function InputConfig({
           value: school.id,
           label: school.name,
         }))}
+        mt={"md"}
         icon={<IconSchool size="1rem" color={idPrimaire ? "green" : "#adb5bd"} />}
       />
       <GeoAutoComplete value={locHome} onSelect={setLocHome} />
 
       <Select
-        label="Année inscription"
+        label="Inscription en 1ere primaire"
         data={["2018", "2019", "2020", "2021", "2022"]}
         icon={<IconCalendar size="1rem" color={date ? "green" : "#adb5bd"} />}
         value={date}
         onChange={setDate}
+        mt={"md"}
       />
       <Checkbox
         label="Immersion"
         checked={immersion}
-        mt="sm"
+        mt="md"
+        mb="lg"
         onChange={(event) => setImmersion(event.currentTarget.checked)}
       />
     </>

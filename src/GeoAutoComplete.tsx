@@ -40,6 +40,7 @@ function GeoAutoComplete({ value, onSelect }: Props) {
           placeholder="Domicile"
           autoComplete="street-address"
           value={address}
+          mt={"md"}
           onChange={(e) => setAddress(e.currentTarget.value)}
           rightSection={
             <CloseButton
