@@ -194,7 +194,7 @@ export function compute(school_prim: School, school_sec: School, locHome: GeoLoc
   // L'OFFRE SCOLAIRE DANS LA COMMUNE DE L'ÉCOLE PRIMAIRE
   const coef_6 = hasBothSchoolsNetworkInCity(secondarySchools, school_prim?.city) ? 1 : 1.51;
 
-  const coef_7 = coef_6 == 1.51 || (school_prim.partenaria && school_prim.partenaria.id === school_sec.id) ? 1 : 1.51; // partenaria peda soit 1 soit 1.51
+  const coef_7 = coef_6 == 1.51 || !school_prim.partenaria || school_prim.partenaria.id !== school_sec.id ? 1 : 1.51; // partenaria peda soit 1 soit 1.51
   // LA CLASSE D'ENCADREMENT DE L'ÉCOLE PRIMAIRE (socio-économique)
   const coef_8 = coef_8Table[school_prim.ise || 10]; // if not found, it's an average of students /o\
 
