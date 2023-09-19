@@ -147,12 +147,17 @@ const schoolSorter = (origin: GeoLoc) => (a: School, b: School) => {
 
 export function findNearestRank(array: School[], school: School, origin: GeoLoc) {
   const sortedSchools = Array.from(array).sort(schoolSorter(origin));
-  return (
-    Math.min(
-      sortedSchools.findIndex((s: School) => s.id === school.id),
-      5,
-    ) + 1
-  );
+  const foundIndex = sortedSchools.findIndex((s: School) => s.id === school.id);
+  // if previous school is the same, we take the same rank
+  const prevSchool = sortedSchools[foundIndex - 1];
+  if (prevSchool) {
+    const currentDistance = getDistanceBetweenTwoPoints(origin, school.geo);
+    const previousDistance = getDistanceBetweenTwoPoints(origin, prevSchool.geo);
+    if (currentDistance === previousDistance) {
+      return Math.min(foundIndex - 1, 5) + 1;
+    }
+  }
+  return Math.min(foundIndex, 5) + 1;
 }
 
 export function getNearestSchools(array: School[], home: GeoLoc): School[] {
@@ -179,6 +184,7 @@ export function compute(school_prim: School, school_sec: School, locHome: GeoLoc
     school_prim,
     locHome,
   );
+
   // const coef_2 = 1.3 // LA PROXIMITÉ ENTRE LE DOMICILE ET L’ÉCOLE PRIMAIRE (meme réseau)
   const coef_2 = rankCoef2[rank_2 - 1];
 
