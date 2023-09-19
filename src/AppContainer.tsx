@@ -74,7 +74,7 @@ function AppContainer() {
     const results = computeAll(secondarySchools, school_prim, locHome, date, immersion);
     return results;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [school_prim?.id, locHome, immersion, date]);
+  }, [school_prim?.id, locHome.lat, locHome.lon, immersion, date]);
 
   if (!school_prim || !locHome || !date) {
     return (
