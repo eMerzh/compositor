@@ -38,14 +38,17 @@ interface Props {
 export default function ResultTable({ secondarySchools, scores, onSelectDetail, selectedFase, withImmersion }: Props) {
   const [filterNetwork, setFilterNetwork] = useState<string[]>([]);
   const networks = useMemo(() => [...new Set(secondarySchools.map((s) => s.network))], [secondarySchools]);
+  const [filterCity, setFilterCity] = useState<string[]>([]);
+  const cities = useMemo(() => [...new Set(secondarySchools.map((s) => s.city))], [secondarySchools]);
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [sortColumn, setSortColumn] = useState<SortColumn>("score");
   const schoolsScores = useMemo(() => {
     return Array.from(scores || [])
       .filter((s) => !filterNetwork.length || filterNetwork.includes(s.school.network))
       .filter((s) => !withImmersion || s.school.immersion)
+      .filter((s) => !filterCity.length || filterCity.includes(s.school.city))
       .sort(getSortFn(sortColumn, sortOrder));
-  }, [scores, sortColumn, sortOrder, filterNetwork, withImmersion]);
+  }, [scores, sortColumn, sortOrder, filterNetwork, withImmersion, filterCity]);
 
   return (
     <Group>
@@ -57,6 +60,15 @@ export default function ResultTable({ secondarySchools, scores, onSelectDetail, 
         value={filterNetwork}
         onChange={(v) => setFilterNetwork(v)}
         data={networks}
+      />
+      <MultiSelect
+        label="Ville"
+        searchable
+        clearable
+        placeholder="Choisir une ville"
+        value={filterCity}
+        onChange={(v) => setFilterCity(v)}
+        data={cities}
       />
       <Table striped>
         <thead>
@@ -106,17 +118,13 @@ export default function ResultTable({ secondarySchools, scores, onSelectDetail, 
                 key={school.id}
                 style={{
                   backgroundColor: school.id == selectedFase ? "#7AD1DD" : undefined,
+                  cursor: "pointer",
+                }}
+                onClick={() => {
+                  onSelectDetail(school.id);
                 }}
               >
                 <th style={{ textTransform: "capitalize" }}>
-                  <ActionIcon
-                    onClick={() => {
-                      onSelectDetail(school.id);
-                    }}
-                    display="inline"
-                  >
-                    <IconInfoHexagonFilled size={rem(14)} />
-                  </ActionIcon>
                   {school.name}
                   <Text fz="xs" fw={300} c="dimmed">
                     {school.address}, {school.city}
