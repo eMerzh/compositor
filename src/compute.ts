@@ -244,3 +244,5 @@ export const distanceSortAsc = (a: ComputeResult, b: ComputeResult) => a.distanc
 export const distanceSortDesc = (a: ComputeResult, b: ComputeResult) => b.distance - a.distance;
 export const scoreSortAsc = (a: ComputeResult, b: ComputeResult) => a.score.total - b.score.total;
 export const scoreSortDesc = (a: ComputeResult, b: ComputeResult) => b.score.total - a.score.total;
+export const fillSortAsc = (a: ComputeResult, b: ComputeResult) => a.school.fill?.[2022] - b.school.fill?.[2022];
+export const fillSortDesc = (a: ComputeResult, b: ComputeResult) => b.school.fill?.[2022] - a.school.fill?.[2022];

@@ -1,19 +1,30 @@
 import { ActionIcon, Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core";
 import { IconInfoHexagonFilled, IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
-import { ComputeResult, School, distanceSortAsc, distanceSortDesc, scoreSortAsc, scoreSortDesc } from "./compute";
+import {
+  ComputeResult,
+  School,
+  distanceSortAsc,
+  distanceSortDesc,
+  scoreSortAsc,
+  scoreSortDesc,
+  fillSortAsc,
+  fillSortDesc,
+} from "./compute";
 import { round } from "./utils";
 import Score from "./Score";
 import FillIcon from "./FillIcon";
 
-type SortColumn = "distance" | "score";
+type SortColumn = "distance" | "score" | "fill";
 type SortOrder = "asc" | "desc";
 
 const getSortFn = (sortColumn: SortColumn, sortOrder: SortOrder) => {
   if (sortColumn == "distance") {
     return sortOrder == "asc" ? distanceSortAsc : distanceSortDesc;
-  } else {
+  } else if (sortColumn == "score") {
     return sortOrder == "asc" ? scoreSortAsc : scoreSortDesc;
+  } else if (sortColumn == "fill") {
+    return sortOrder == "asc" ? fillSortAsc : fillSortDesc;
   }
 };
 
@@ -52,7 +63,16 @@ export default function ResultTable({ secondarySchools, scores, onSelectDetail, 
           <tr>
             <th>Name</th>
             <th>Réseau</th>
-            <th>Remplissage 2022</th>
+            <th
+              onClick={() => {
+                setSortColumn("fill");
+                setSortOrder(sortOrder == "asc" ? "desc" : "asc");
+              }}
+            >
+              Remplissage 2022
+              {sortColumn === "fill" &&
+                (sortOrder == "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
+            </th>
             <th
               onClick={() => {
                 setSortColumn("distance");
@@ -102,8 +122,8 @@ export default function ResultTable({ secondarySchools, scores, onSelectDetail, 
                     {school.address}, {school.city}
                   </Text>
                 </th>
-                <td>{school.fill && <FillIcon level={school.fill["2022"]} />}</td>
                 <td>{school.network}</td>
+                <td>{school.fill && <FillIcon level={school.fill["2022"]} />}</td>
                 <td>{round(distance, 2)} km</td>
                 <td>
                   <Score score={score.total}>{round(score.total, 3)}</Score>
