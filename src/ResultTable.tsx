@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ComputeResult, School, distanceSortAsc, distanceSortDesc, scoreSortAsc, scoreSortDesc } from "./compute";
 import { round } from "./utils";
 import Score from "./Score";
+import FillIcon from "./FillIcon";
 
 type SortColumn = "distance" | "score";
 type SortOrder = "asc" | "desc";
@@ -51,6 +52,7 @@ export default function ResultTable({ secondarySchools, scores, onSelectDetail, 
           <tr>
             <th>Name</th>
             <th>Réseau</th>
+            <th>Remplissage 2022</th>
             <th
               onClick={() => {
                 setSortColumn("distance");
@@ -100,6 +102,7 @@ export default function ResultTable({ secondarySchools, scores, onSelectDetail, 
                     {school.address}, {school.city}
                   </Text>
                 </th>
+                <td>{school.fill && <FillIcon level={school.fill["2022"]} />}</td>
                 <td>{school.network}</td>
                 <td>{round(distance, 2)} km</td>
                 <td>

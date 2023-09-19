@@ -18,7 +18,7 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 # TODO:
 
 - [x] small footer
-- [x] Corriger coefficient 8 (niveau socio) with old data from 2020
+- [x] Corriger coefficient 8 (niveau socio) with old data from ~2020~ now 2022
 - [x] Corriger coefficient 7 (partenariat)
 - [x] fix multiple élection
 - [x] école nouvelles (=> experluette) maybe??
@@ -28,7 +28,7 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 # Nice to have:
 
 - [ ] Style
-- [ ] ajouter une indication de remplissage
+- [x] ajouter une indication de remplissage
 - [x] improve immersion (filter school, doc, )
   - [x] https://inscription.cfwb.be/fileadmin/sites/insc/uploads/Documents_2023-2024/Liste_des_ecoles_immersion.xlsx
 - [ ] carte ?

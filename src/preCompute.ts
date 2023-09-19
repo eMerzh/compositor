@@ -9,6 +9,7 @@ function getFile(path: string) {
 
 const schools = getFile("./data/signaletique-fase.json");
 const partenariaList = getFile("./data/partenaria.json");
+const fillMap = getFile("./data/fill.json");
 
 const processFile = async (path) => {
   const csvParser = csv.parse(fs.readFileSync(path), {
@@ -44,6 +45,22 @@ const newSchools = schools.map((school) => {
 const capitalize = (str, lower = false) =>
   (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, (match) => match.toUpperCase());
 
+function parseFillStr(path) {
+  const regex = /statutInscr(\d)\.png/;
+  const extract = regex.exec(path);
+  if (extract) {
+    return parseInt(extract[1], 10);
+  }
+}
+function getFilledIndex(imagePaths) {
+  return {
+    2018: parseFillStr(imagePaths[0]),
+    2019: parseFillStr(imagePaths[1]),
+    2020: parseFillStr(imagePaths[2]),
+    2021: parseFillStr(imagePaths[3]),
+    2022: parseFillStr(imagePaths[4]),
+  };
+}
 function schoolExtract(school) {
   const id = `${school.ndeg_fase_de_l_etablissement}/${school.ndeg_fase_de_l_implantation}`;
   const partenaria = partenariaList.find((p) => p.prim === id);
@@ -64,6 +81,7 @@ function schoolExtract(school) {
     partenaria: partenaria ? { id: partenaria.sec, date: partenaria.date } : null,
     ise: compositeIndex.get(id) ? compositeIndex.get(id) : null,
     immersion: immersionIndex.get(id) ? immersionIndex.get(id) : null,
+    fill: fillMap[id] ? getFilledIndex(fillMap[id]) : null,
   };
 }
 

@@ -6,6 +6,8 @@ export type GeoLoc = {
   lat: number;
 };
 
+export type FillLevel = 1 | 2 | 3 | 4;
+
 export interface School {
   // fase etablissement / fase implantation
   id: string;
@@ -28,6 +30,7 @@ export interface School {
   partenaria: null | { id: string; date: string };
   ise: null | number;
   immersion: null | string[];
+  fill: null | { 2018: FillLevel; 2019: FillLevel; 2020: FillLevel; 2021: FillLevel; 2022: FillLevel };
 }
 
 export const primarySchools = (primary as School[]).filter((school: School) => !!school.geo);
