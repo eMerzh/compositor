@@ -33,8 +33,8 @@ export interface School {
   fill: null | { 2018: FillLevel; 2019: FillLevel; 2020: FillLevel; 2021: FillLevel; 2022: FillLevel };
 }
 
-export const primarySchools = (primary as School[]).filter((school: School) => !!school.geo);
-export const secondarySchools = (secondary as School[]).filter((school: School) => !!school.geo);
+export const primarySchools = primary as School[];
+export const secondarySchools = secondary as School[];
 
 const coef_4Table: Record<number, Record<number, number>> = {
   1.3: {
@@ -246,9 +246,6 @@ export function computeAll(
   return result;
 }
 
-export const distanceSortAsc = (a: ComputeResult, b: ComputeResult) => a.distance - b.distance;
-export const distanceSortDesc = (a: ComputeResult, b: ComputeResult) => b.distance - a.distance;
-export const scoreSortAsc = (a: ComputeResult, b: ComputeResult) => a.score.total - b.score.total;
-export const scoreSortDesc = (a: ComputeResult, b: ComputeResult) => b.score.total - a.score.total;
-export const fillSortAsc = (a: ComputeResult, b: ComputeResult) => a.school.fill?.[2022] - b.school.fill?.[2022];
-export const fillSortDesc = (a: ComputeResult, b: ComputeResult) => b.school.fill?.[2022] - a.school.fill?.[2022];
+export const distanceSort = (a: ComputeResult, b: ComputeResult) => a.distance - b.distance;
+export const scoreSort = (a: ComputeResult, b: ComputeResult) => a.score.total - b.score.total;
+export const fillSort = (a: ComputeResult, b: ComputeResult) => a.school.fill?.[2022] - b.school.fill?.[2022];

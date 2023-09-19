@@ -23,7 +23,7 @@ const imageSrc = {
 };
 const FillIcon = ({ level }: { level: FillLevel }) => {
   return (
-    <Tooltip label={labels[level]} multiline width={300}>
+    <Tooltip label={labels[level]} multiline w={300} withArrow>
       <img width="25px" src={imageSrc[level]} />
     </Tooltip>
   );

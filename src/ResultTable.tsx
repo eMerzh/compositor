@@ -1,16 +1,7 @@
 import { Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core";
 import { IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
-import {
-  ComputeResult,
-  School,
-  distanceSortAsc,
-  distanceSortDesc,
-  scoreSortAsc,
-  scoreSortDesc,
-  fillSortAsc,
-  fillSortDesc,
-} from "./compute";
+import { ComputeResult, School, distanceSort, scoreSort, fillSort } from "./compute";
 import { round } from "./utils";
 import Score from "./Score";
 import FillIcon from "./FillIcon";
@@ -18,13 +9,13 @@ import FillIcon from "./FillIcon";
 type SortColumn = "distance" | "score" | "fill";
 type SortOrder = "asc" | "desc";
 
-const getSortFn = (sortColumn: SortColumn, sortOrder: SortOrder) => {
+const getSortFn = (sortColumn: SortColumn) => {
   if (sortColumn == "distance") {
-    return sortOrder == "asc" ? distanceSortAsc : distanceSortDesc;
+    return distanceSort;
   } else if (sortColumn == "score") {
-    return sortOrder == "asc" ? scoreSortAsc : scoreSortDesc;
+    return scoreSort;
   } else if (sortColumn == "fill") {
-    return sortOrder == "asc" ? fillSortAsc : fillSortDesc;
+    return fillSort;
   }
 };
 
@@ -47,7 +38,8 @@ export default function ResultTable({ secondarySchools, scores, onSelectDetail, 
       .filter((s) => !filterNetwork.length || filterNetwork.includes(s.school.network))
       .filter((s) => !withImmersion || s.school.immersion)
       .filter((s) => !filterCity.length || filterCity.includes(s.school.city))
-      .sort(getSortFn(sortColumn, sortOrder));
+      .sort(getSortFn(sortColumn))
+      [sortOrder == "asc" ? "reverse" : "slice"](); // eslint-disable-line no-unexpected-multiline
   }, [scores, sortColumn, sortOrder, filterNetwork, withImmersion, filterCity]);
 
   return (

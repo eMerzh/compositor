@@ -1,7 +1,8 @@
-import { Affix, Badge, Card, CloseButton, Group, List, Text, Tooltip } from "@mantine/core";
-import { ComputeResult, GeoLoc } from "./compute";
+import { Anchor, Badge, Card, Group, List, Table, Text, Tooltip } from "@mantine/core";
+import { ComputeResult, GeoLoc, School } from "./compute";
 import Score from "./Score";
 import { round } from "./utils";
+import FillIcon from "./FillIcon";
 
 const Explanation = [
   {
@@ -66,99 +67,115 @@ const Explanation = [
   },
 ];
 
-const SchoolDetail = ({
-  result,
-  locHome,
-  onClose,
-}: {
-  result: ComputeResult;
-  locHome: GeoLoc;
-  onClose: () => void;
-}) => {
+const SchoolDetail = ({ school, scores, locHome }: { school: School; scores: ComputeResult[]; locHome: GeoLoc }) => {
+  let result: ComputeResult | undefined;
+  if (scores && school) {
+    result = scores.find((s) => s.school.id == school.id);
+  }
   return (
-    <Affix>
-      <Group>
-        <Card
-          shadow="sm"
-          padding="md"
-          withBorder
-          style={{
-            height: "100vh",
-          }}
-        >
-          <Card.Section
-            inheritPadding
-            py="xs"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <Text weight={500}>{result.school.name}</Text>
-            <a
-              href={`https://www.google.com/maps/dir/${result.school.geo?.lat},${result.school.geo?.lon}/${locHome.lat},${locHome.lon}/@${locHome.lat},${locHome.lon},13z/data=!3m1!4b1!4m2!4m1!3e3?entry=ttu`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <Badge variant="outline" display="inline-block">
-                {round(result.distance, 2)} km
-              </Badge>
-            </a>
-            <CloseButton title="Cacher" size="xl" iconSize={20} onClick={onClose} />
-          </Card.Section>
+    <Group>
+      <Card
+        padding="md"
+        style={{
+          height: "100vh",
+        }}
+      >
+        {result && (
+          <Card.Section withBorder inheritPadding py="xs">
+            <div>
+              <Text fw={700}>Resultat</Text>
+              <ol>
+                {Explanation.map((d) => {
+                  return (
+                    <li key={d.name}>
+                      <Tooltip
+                        width={300}
+                        multiline
+                        withArrow
+                        offset={30}
+                        color="cyan"
+                        transitionProps={{ duration: 200 }}
+                        label={d.description}
+                        withinPortal
+                      >
+                        <span>
+                          {d.name}: {result?.score[d.scoreProperty]}
+                          {d.more?.(result)}
+                        </span>
+                      </Tooltip>
+                    </li>
+                  );
+                })}
+              </ol>
+              <em>TOTAL:</em> <Score score={result.score.total}>{result.score.total}</Score>
+            </div>
+            <div>
+              <Text fw={700} mt="md">
+                Informations
+              </Text>
 
-          {result && (
-            <Card.Section withBorder inheritPadding py="xs">
-              <div>
-                <Text fw={700}>Resultat</Text>
-                <ol>
-                  {Explanation.map((d) => {
-                    return (
-                      <li key={d.name}>
-                        <Tooltip
-                          width={300}
-                          multiline
-                          withArrow
-                          position="right"
-                          offset={30}
-                          color="cyan"
-                          transitionProps={{ duration: 200 }}
-                          label={d.description}
-                          withinPortal
-                        >
-                          <span>
-                            {d.name}: {result?.score[d.scoreProperty]}
-                            {d.more?.(result)}
-                          </span>
-                        </Tooltip>
-                      </li>
-                    );
-                  })}
-                </ol>
-                <em>TOTAL:</em> <Score score={result.score.total}>{result.score.total}</Score>
-              </div>
-              <div>
-                <Text fw={700} mt="md">
-                  Informations
-                </Text>
-                <List>
-                  <List.Item>
-                    <a
-                      target="blank"
-                      href={`http://www.enseignement.be/index.php?page=24797&etab_id=${result.school.id.split("/")[0]}`}
-                      style={{ lineHeight: "1" }}
-                    >
-                      Site web de l'école
-                    </a>
-                  </List.Item>
-                </List>
-              </div>
-            </Card.Section>
-          )}
-        </Card>
-      </Group>
-    </Affix>
+              <List>
+                <List.Item>
+                  Distance:{" "}
+                  <a
+                    href={`https://www.google.com/maps/dir/${result.school.geo?.lat},${result.school.geo?.lon}/${locHome.lat},${locHome.lon}/@${locHome.lat},${locHome.lon},13z/data=!3m1!4b1!4m2!4m1!3e3?entry=ttu`}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <Badge variant="outline" display="inline-block">
+                      {round(result.distance, 2)} km
+                    </Badge>
+                  </a>
+                </List.Item>
+                <List.Item>
+                  <Anchor
+                    target="blank"
+                    href={`http://www.enseignement.be/index.php?page=24797&etab_id=${result.school.id.split("/")[0]}`}
+                    style={{ lineHeight: "1" }}
+                  >
+                    Information sur l'école
+                  </Anchor>
+                </List.Item>
+              </List>
+
+              {school.fill && (
+                <Table mt="lg">
+                  <caption>Historique de remplissage de l'école</caption>
+                  <thead>
+                    <tr>
+                      <th>2018</th>
+                      <th>2019</th>
+                      <th>2020</th>
+                      <th>2021</th>
+                      <th>2022</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <FillIcon level={school.fill[2018]} />
+                      </td>
+                      <td>
+                        <FillIcon level={school.fill[2019]} />
+                      </td>
+                      <td>
+                        <FillIcon level={school.fill[2020]} />
+                      </td>
+                      <td>
+                        <FillIcon level={school.fill[2021]} />
+                      </td>
+                      <td>
+                        <FillIcon level={school.fill[2022]} />
+                      </td>
+                    </tr>
+                  </tbody>
+                </Table>
+              )}
+            </div>
+          </Card.Section>
+        )}
+      </Card>
+    </Group>
   );
 };
 

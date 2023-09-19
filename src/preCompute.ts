@@ -86,14 +86,19 @@ function schoolExtract(school) {
 }
 
 const file = {
-  primary: newSchools.filter((school) => school.type_d_enseignement === "Primaire ordinaire").map(schoolExtract),
+  primary: newSchools
+    .filter((school) => school.type_d_enseignement === "Primaire ordinaire")
+    .map(schoolExtract)
+    .filter((school) => !!school.geo),
+
   secondary: newSchools
     .filter((school) => school.type_d_enseignement === "Secondaire ordinaire")
     // is in the official List
     .filter((school) =>
       InListSchools.has(`${school.ndeg_fase_de_l_etablissement}/${school.ndeg_fase_de_l_implantation}`),
     )
-    .map(schoolExtract),
+    .map(schoolExtract)
+    .filter((school) => !!school.geo),
 };
 
 fs.writeFileSync("src/schools.json", JSON.stringify(file, null, 0), "utf8");
