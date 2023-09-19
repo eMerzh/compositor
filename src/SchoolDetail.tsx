@@ -1,4 +1,4 @@
-import { Affix, Badge, Card, CloseButton, Group, Text, Tooltip } from "@mantine/core";
+import { Affix, Badge, Card, CloseButton, Group, List, Text, ThemeIcon, Tooltip } from "@mantine/core";
 import { ComputeResult, GeoLoc } from "./compute";
 import Score from "./Score";
 import { round } from "./utils";
@@ -77,23 +77,33 @@ const SchoolDetail = ({
 }) => {
   return (
     <Affix>
-      <Group mt="md" mb="xs">
-        <Card shadow="sm" radius="md" padding="md" withBorder>
-          <Card.Section inheritPadding>
-            <Text weight={500}>
-              <a
-                target="blank"
-                href={`http://www.enseignement.be/index.php?page=24797&etab_id=${result.school.id.split("/")[0]}`}
-              >
-                {result.school.name}
-              </a>
-            </Text>
+      <Group>
+        <Card
+          shadow="sm"
+          padding="md"
+          withBorder
+          style={{
+            height: "100vh",
+          }}
+        >
+          <Card.Section
+            inheritPadding
+            py="xs"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text weight={500}>{result.school.name}</Text>
             <a
               href={`https://www.google.com/maps/dir/${result.school.geo?.lat},${result.school.geo?.lon}/${locHome.lat},${locHome.lon}/@${locHome.lat},${locHome.lon},13z/data=!3m1!4b1!4m2!4m1!3e3?entry=ttu`}
               target="_blank"
               rel="noreferrer"
             >
-              <Badge variant="outline">{round(result.distance, 2)} km</Badge>{" "}
+              <Badge variant="outline" display="inline-block">
+                {round(result.distance, 2)} km
+              </Badge>
             </a>
             <CloseButton title="Cacher" size="xl" iconSize={20} onClick={onClose} />
           </Card.Section>
@@ -101,7 +111,7 @@ const SchoolDetail = ({
           {result && (
             <Card.Section withBorder inheritPadding py="xs">
               <div>
-                Resultat:
+                <Text fw={700}>Resultat</Text>
                 <ol>
                   {Explanation.map((d) => {
                     return (
@@ -127,6 +137,22 @@ const SchoolDetail = ({
                   })}
                 </ol>
                 <em>TOTAL:</em> <Score score={result.score.total}>{result.score.total}</Score>
+              </div>
+              <div>
+                <Text fw={700} mt="md">
+                  Informations
+                </Text>
+                <List>
+                  <List.Item>
+                    <a
+                      target="blank"
+                      href={`http://www.enseignement.be/index.php?page=24797&etab_id=${result.school.id.split("/")[0]}`}
+                      style={{ lineHeight: "1" }}
+                    >
+                      Site web de l'école
+                    </a>
+                  </List.Item>
+                </List>
               </div>
             </Card.Section>
           )}
