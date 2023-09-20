@@ -1,4 +1,4 @@
-import { Container, Drawer } from "@mantine/core";
+import { Container, Drawer, Text } from "@mantine/core";
 import { useMemo, useState } from "react";
 import { BooleanParam, JsonParam } from "use-query-params";
 import { useQueryParam, StringParam } from "use-query-params";
