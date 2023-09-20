@@ -159,11 +159,6 @@ export function findNearestRank(sortedSchools: School[], school: School, origin:
   return Math.min(foundIndex, 5) + 1;
 }
 
-export function getNearestSchools(array: School[], home: GeoLoc): School[] {
-  const sortedSchools = Array.from(array).sort(schoolSorter(home));
-  return sortedSchools;
-}
-
 export function hasBothSchoolsNetworkInCity(schools: School[], city: string) {
   const confessional = schools.find((school) => school.network === "Libre confessionnel" && school.city === city);
   const other = schools.find((school) => school.network !== "Libre confessionnel" && school.city === city);
@@ -171,26 +166,17 @@ export function hasBothSchoolsNetworkInCity(schools: School[], city: string) {
 }
 
 export function compute(
+  // note: for perf reasons, primary schools should already by filtered by network, newest removed, and ordered by distance
   primary: School[],
   secondary: School[],
   school_prim: School,
   school_sec: School,
   locHome: GeoLoc,
-  date: string,
   immersion: boolean,
 ) {
   const coef_1 = rankCoef1[0]; // LA PRÉFÉRENCE 1.5 pour 1°
-  const inscriptionDate = new Date(date + "-09-01");
 
-  const rank_2 = findNearestRank(
-    primary.filter((s) => {
-      const schoolCreation = s.date ? new Date(Date.parse(s.date)) : null;
-
-      return s.network === school_prim?.network && (!schoolCreation || schoolCreation < inscriptionDate);
-    }),
-    school_prim,
-    locHome,
-  );
+  const rank_2 = findNearestRank(primary, school_prim, locHome);
 
   // const coef_2 = 1.3 // LA PROXIMITÉ ENTRE LE DOMICILE ET L’ÉCOLE PRIMAIRE (meme réseau)
   const coef_2 = rankCoef2[rank_2 - 1];
@@ -235,6 +221,20 @@ export type ComputeResult = {
   distance: number;
 };
 
+function filterNewestAndOrderSchool(
+  primarySchools: School[],
+  network: School["network"],
+  inscriptionDate: Date,
+  locHome: GeoLoc,
+) {
+  return Array.from(primarySchools)
+    .filter((s) => {
+      const schoolCreation = s.date ? new Date(Date.parse(s.date)) : null;
+      return s.network === network && (!schoolCreation || schoolCreation < inscriptionDate);
+    })
+    .sort(schoolSorter(locHome));
+}
+
 export function computeAll(
   schools: School[],
   primarySchool: School,
@@ -243,14 +243,16 @@ export function computeAll(
   immersion: boolean,
 ): ComputeResult[] {
   console.time("computeAll");
-  const prim = Array.from(primarySchools).sort(schoolSorter(locHome));
+
+  const inscriptionDate = new Date(date + "-09-01");
+  const prim = filterNewestAndOrderSchool(primarySchools, primarySchool.network, inscriptionDate, locHome);
+
   const sec = Array.from(secondarySchools).sort(schoolSorter(locHome));
 
-  console.timeLog("computeAll");
   const result = schools.map((school: School) => {
     return {
       school: school,
-      score: compute(prim, sec, primarySchool, school, locHome, date, immersion),
+      score: compute(prim, sec, primarySchool, school, locHome, immersion),
       distance: getDistanceBetweenTwoPoints(school.geo, locHome),
     };
   });
