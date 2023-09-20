@@ -183,7 +183,7 @@ export function compute(
 
   // const coef_3 = 1.79 // LA PROXIMITÉ ENTRE LE DOMICILE ET L’ÉCOLE SECONDAIRE (meme réseau)
   const rank_3 = findNearestRank(
-    secondary.filter((s) => s.network === school_sec?.network),
+    secondary.filter((s) => s.network === school_sec.network),
     school_sec,
     locHome,
   );
@@ -219,6 +219,8 @@ export type ComputeResult = {
   school: School;
   score: ReturnType<typeof compute>;
   distance: number;
+  primarySchools: School[];
+  secondarySchools: School[];
 };
 
 function filterNewestAndOrderSchool(
@@ -252,6 +254,8 @@ export function computeAll(
   const result = schools.map((school: School) => {
     return {
       school: school,
+      primarySchools: prim,
+      secondarySchools: sec,
       score: compute(prim, sec, primarySchool, school, locHome, immersion),
       distance: getDistanceBetweenTwoPoints(school.geo, locHome),
     };

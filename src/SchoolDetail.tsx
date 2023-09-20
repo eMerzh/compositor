@@ -1,8 +1,9 @@
-import { Anchor, Badge, Card, Group, List, Table, Text, Tooltip } from "@mantine/core";
+import { Anchor, Badge, Button, Card, Group, List, Popover, Table, Text, ThemeIcon, Tooltip } from "@mantine/core";
 import { ComputeResult, GeoLoc, School } from "./compute";
 import Score from "./Score";
 import { round } from "./utils";
 import FillIcon from "./FillIcon";
+import { IconInfoCircle } from "@tabler/icons-react";
 
 const Explanation = [
   {
@@ -16,24 +17,58 @@ const Explanation = [
     description:
       "Ce coefficient est déterminé par la proximité entre l’école primaire actuellement fréquentée par votre enfant et votre domicile. Plus précisément, ce coefficient est calculé sur base de l’ implantation fondamentale ou primaire dans laquelle il se rend. Plus l’école primaire est proche du domicile par rapport à d’autres écoles primaires du même réseau , plus le coefficient attribué est élevé.",
     scoreProperty: "coef_2",
-    more: (result: ComputeResult) => (
-      <Text fz="xs" fw={300} c="dimmed" style={{ display: "inline" }}>
-        {" "}
-        (n°{result.score.rank_2})
-      </Text>
-    ),
+    more: (result: ComputeResult) => {
+      const schools = result.primarySchools.slice(0, result.score.rank_2);
+      return (
+        <Popover width={200} position="bottom" withArrow shadow="md">
+          <Popover.Target>
+            <Text fz="xs" fw={300} c="dimmed" style={{ display: "inline" }}>
+              {" "}
+              <Button variant="light" compact>
+                (n°{result.score.rank_2})
+              </Button>
+            </Text>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <List type="ordered">
+              {schools.map((s) => (
+                <List.Item>{s.name}</List.Item>
+              ))}
+            </List>
+          </Popover.Dropdown>
+        </Popover>
+      );
+    },
   },
   {
     name: "Proximité école secondaire",
     description:
       "Ce coefficient est déterminé par la proximité entre l’école secondaire visée et votre domicile. Plus précisément, ce coefficient est calculé sur base de l’implantation  secondaire. Plus l’école secondaire est proche du domicile par rapport à d’autres écoles secondaires du même réseau , plus le coefficient attribué est élevé.",
     scoreProperty: "coef_3",
-    more: (result: ComputeResult) => (
-      <Text fz="xs" fw={300} c="dimmed" style={{ display: "inline" }}>
-        {" "}
-        (n°{result.score.rank_3})
-      </Text>
-    ),
+    more: (result: ComputeResult) => {
+      const schools = result.secondarySchools
+        .filter((s) => s.network === result.school.network)
+        .slice(0, result.score.rank_3);
+      return (
+        <Popover width={200} position="bottom" withArrow shadow="md">
+          <Popover.Target>
+            <Text fz="xs" fw={300} c="dimmed" style={{ display: "inline" }}>
+              {" "}
+              <Button variant="light" compact>
+                (n°{result.score.rank_3})
+              </Button>
+            </Text>
+          </Popover.Target>
+          <Popover.Dropdown>
+            <List type="ordered">
+              {schools.map((s) => (
+                <List.Item>{s.name}</List.Item>
+              ))}
+            </List>
+          </Popover.Dropdown>
+        </Popover>
+      );
+    },
   },
   {
     name: "Proximité Primaire-Secondaire",
@@ -84,29 +119,34 @@ const SchoolDetail = ({ school, scores, locHome }: { school: School; scores: Com
           <Card.Section withBorder inheritPadding py="xs">
             <div>
               <Text fw={700}>Resultat</Text>
-              <ol>
-                {Explanation.map((d) => {
+              <List type="ordered">
+                {Explanation.map((d, idx) => {
                   return (
-                    <li key={d.name}>
-                      <Tooltip
-                        width={300}
-                        multiline
-                        withArrow
-                        offset={30}
-                        color="cyan"
-                        transitionProps={{ duration: 200 }}
-                        label={d.description}
-                        withinPortal
-                      >
-                        <span>
-                          {d.name}: {result?.score[d.scoreProperty]}
-                          {d.more?.(result)}
-                        </span>
-                      </Tooltip>
-                    </li>
+                    <List.Item
+                      key={d.name}
+                      icon={
+                        <Tooltip
+                          width={300}
+                          multiline
+                          withArrow
+                          offset={30}
+                          color="cyan"
+                          transitionProps={{ duration: 200 }}
+                          label={d.description}
+                          withinPortal
+                        >
+                          <IconInfoCircle size="1rem" />
+                        </Tooltip>
+                      }
+                    >
+                      <span>
+                        {idx + 1}. {d.name}: {result?.score[d.scoreProperty]}
+                        {d.more?.(result)}
+                      </span>
+                    </List.Item>
                   );
                 })}
-              </ol>
+              </List>
               <em>TOTAL:</em> <Score score={result.score.total}>{result.score.total}</Score>
             </div>
             <div>
