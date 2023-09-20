@@ -1,4 +1,4 @@
-import { Anchor, Badge, Button, Card, Group, List, Popover, Table, Text, ThemeIcon, Tooltip } from "@mantine/core";
+import { Anchor, Badge, Button, Card, Group, List, Popover, Table, Text, Tooltip } from "@mantine/core";
 import { ComputeResult, GeoLoc, School } from "./compute";
 import Score from "./Score";
 import { round } from "./utils";
