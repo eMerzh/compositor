@@ -221,6 +221,7 @@ export type ComputeResult = {
   distance: number;
   primarySchools: School[];
   secondarySchools: School[];
+  home: GeoLoc;
 };
 
 function filterNewestAndOrderSchool(
@@ -257,6 +258,7 @@ export function computeAll(
       primarySchools: prim,
       secondarySchools: sec,
       score: compute(prim, sec, primarySchool, school, locHome, immersion),
+      home: locHome,
       distance: getDistanceBetweenTwoPoints(school.geo, locHome),
     };
   });

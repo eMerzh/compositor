@@ -32,7 +32,7 @@ const Explanation = [
           <Popover.Dropdown>
             <List type="ordered">
               {schools.map((s) => (
-                <List.Item>{s.name}</List.Item>
+                <List.Item key={s.id}>{s.name}</List.Item>
               ))}
             </List>
           </Popover.Dropdown>
@@ -62,7 +62,7 @@ const Explanation = [
           <Popover.Dropdown>
             <List type="ordered">
               {schools.map((s) => (
-                <List.Item>{s.name}</List.Item>
+                <List.Item key={s.id}>{s.name}</List.Item>
               ))}
             </List>
           </Popover.Dropdown>
@@ -109,12 +109,7 @@ const SchoolDetail = ({ school, scores, locHome }: { school: School; scores: Com
   }
   return (
     <Group>
-      <Card
-        padding="md"
-        style={{
-          height: "100vh",
-        }}
-      >
+      <Card padding="md">
         {result && (
           <Card.Section withBorder inheritPadding py="xs">
             <div>

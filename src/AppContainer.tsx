@@ -114,7 +114,7 @@ function AppContainer() {
           close();
           setIdSecondaire(null);
         }}
-        title={detailsSecondaire?.name}
+        title={<Text fw="bolder">{detailsSecondaire?.name}</Text>}
         position="right"
       >
         {detailsSecondaire && <SchoolDetail school={detailsSecondaire} scores={scores} locHome={locHome} />}
