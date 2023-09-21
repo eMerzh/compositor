@@ -1,6 +1,5 @@
-import { getDistanceBetweenTwoPoints } from "calculate-distance-between-coordinates";
 import { primary, secondary } from "./schools.json";
-
+import { distance as turfDistance } from "@turf/turf";
 export type GeoLoc = {
   lon: number;
   lat: number;
@@ -140,8 +139,8 @@ const schoolSorter = (origin: GeoLoc) => (a: School, b: School) => {
   if (!a.geo || !b.geo) {
     throw new Error(`Missing geo ${a.name} ${b.name}`);
   }
-  const distA = getDistanceBetweenTwoPoints(origin, a.geo);
-  const distB = getDistanceBetweenTwoPoints(origin, b.geo);
+  const distA = distance(origin, a.geo);
+  const distB = distance(origin, b.geo);
   return distA - distB;
 };
 
@@ -150,8 +149,8 @@ export function findNearestRank(sortedSchools: School[], school: School, origin:
   // if previous school is the same, we take the same rank
   const prevSchool = sortedSchools[foundIndex - 1];
   if (prevSchool) {
-    const currentDistance = getDistanceBetweenTwoPoints(origin, school.geo);
-    const previousDistance = getDistanceBetweenTwoPoints(origin, prevSchool.geo);
+    const currentDistance = distance(origin, school.geo);
+    const previousDistance = distance(origin, prevSchool.geo);
     if (currentDistance === previousDistance) {
       return Math.min(foundIndex - 1, 5) + 1;
     }
@@ -188,7 +187,7 @@ export function compute(
     locHome,
   );
   const coef_3 = rankCoef3[rank_3 - 1];
-  const isBetween4KM = getDistanceBetweenTwoPoints(school_prim.geo, school_sec.geo) < 4;
+  const isBetween4KM = distance(school_prim.geo, school_sec.geo) < 4;
 
   const coef_4 = isBetween4KM ? coef_4Table[coef_2][coef_3] : 1; // LA PROXIMITÉ ENTRE L’ÉCOLE PRIMAIRE ET L’ÉCOLE SECONDAIRE
   const coef_5 = immersion && school_sec.immersion ? 1.18 : 1; // IMMERSION soit 1 (si non) soit 1.18
@@ -259,7 +258,7 @@ export function computeAll(
       secondarySchools: sec,
       score: compute(prim, sec, primarySchool, school, locHome, immersion),
       home: locHome,
-      distance: getDistanceBetweenTwoPoints(school.geo, locHome),
+      distance: distance(school.geo, locHome),
     };
   });
 
@@ -270,3 +269,7 @@ export function computeAll(
 export const distanceSort = (a: ComputeResult, b: ComputeResult) => a.distance - b.distance;
 export const scoreSort = (a: ComputeResult, b: ComputeResult) => a.score.total - b.score.total;
 export const fillSort = (a: ComputeResult, b: ComputeResult) => a.school.fill?.[2022] - b.school.fill?.[2022];
+
+function distance(from: GeoLoc, to: GeoLoc) {
+  return turfDistance([from.lon, from.lat], [to.lon, to.lat]);
+}

@@ -17,7 +17,7 @@
     "@mantine/hooks": "^6.0.20",
     "@mapbox/search-js-react": "1.0.0-beta.17",
     "@tabler/icons-react": "^2.34.0",
-    "calculate-distance-between-coordinates": "^1.0.5",
+    "@turf/turf": "^6.5.0",
     "maplibre-gl": "^3.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
