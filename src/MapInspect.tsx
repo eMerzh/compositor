@@ -80,7 +80,7 @@ const MapInspect = ({ result, home, secondary }: MapProps) => {
         type: "circle",
         source: "secondaries",
         paint: {
-          "circle-radius": ["interpolate", ["linear"], ["zoom"], 8, 5, 23, 30],
+          "circle-radius": 6,
           "circle-color": ["interpolate", ["linear"], ["get", "score"], min, "#b1092d", max, "#09b163"],
         },
         filter: ["==", "$type", "Point"],
