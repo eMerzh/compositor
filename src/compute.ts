@@ -1,5 +1,5 @@
 import { primary, secondary } from "./schools.json";
-import { distance as turfDistance } from "@turf/turf";
+import * as turf from "@turf/turf";
 export type GeoLoc = {
   lon: number;
   lat: number;
@@ -220,6 +220,7 @@ export type ComputeResult = {
   distance: number;
   primarySchools: School[];
   secondarySchools: School[];
+  primarySchool: School;
   home: GeoLoc;
 };
 
@@ -238,7 +239,7 @@ function filterNewestAndOrderSchool(
 }
 
 export function computeAll(
-  schools: School[],
+  secondarySchools: School[],
   primarySchool: School,
   locHome: GeoLoc,
   date: string,
@@ -251,7 +252,7 @@ export function computeAll(
 
   const sec = Array.from(secondarySchools).sort(schoolSorter(locHome));
 
-  const result = schools.map((school: School) => {
+  const result = secondarySchools.map((school: School) => {
     return {
       school: school,
       primarySchools: prim,
@@ -259,6 +260,7 @@ export function computeAll(
       score: compute(prim, sec, primarySchool, school, locHome, immersion),
       home: locHome,
       distance: distance(school.geo, locHome),
+      primarySchool: primarySchool,
     };
   });
 
@@ -270,6 +272,62 @@ export const distanceSort = (a: ComputeResult, b: ComputeResult) => a.distance -
 export const scoreSort = (a: ComputeResult, b: ComputeResult) => a.score.total - b.score.total;
 export const fillSort = (a: ComputeResult, b: ComputeResult) => a.school.fill?.[2022] - b.school.fill?.[2022];
 
+function getDistanceFromBBoxAndPoint(bbox, numberPoint: number) {
+  const distA = turf.distance([bbox[0], bbox[1]], [bbox[0], bbox[3]]);
+  const distB = turf.distance([bbox[2], bbox[3]], [bbox[0], bbox[3]]);
+  const area = distA * distB;
+  const distance = Math.sqrt(area / numberPoint);
+
+  return distance;
+}
+
+export function getScoreGrid(
+  secondarySchool: School,
+  primarySchool: School,
+  locHome: GeoLoc,
+  date: string,
+  immersion: boolean,
+): { grid: object; min: number; max: number } {
+  console.time("getScoreGrid");
+
+  const box = turf.bbox(
+    turf.featureCollection([
+      turf.point([locHome.lon, locHome.lat]),
+      turf.point([secondarySchool.geo.lon, secondarySchool.geo.lat]),
+      turf.point([primarySchool.geo.lon, primarySchool.geo.lat]),
+    ]),
+  );
+  const newbox = [...box];
+  newbox[0] = box[0] - (box[2] - box[0]) / 2;
+  newbox[1] = box[1] - (box[3] - box[1]) / 2;
+  newbox[2] = box[2] + (box[2] - box[0]) / 2;
+  newbox[3] = box[3] + (box[3] - box[1]) / 2;
+
+  const distanceBetween = getDistanceFromBBoxAndPoint(newbox, 200);
+  const grid = turf.pointGrid(newbox, distanceBetween /*km*/);
+
+  const inscriptionDate = new Date(date + "-09-01");
+
+  let min = 10;
+  let max = 1;
+  turf.featureEach(grid, function (currentFeature) {
+    const nLoc = { lon: currentFeature.geometry.coordinates[0], lat: currentFeature.geometry.coordinates[1] };
+    const prim = filterNewestAndOrderSchool(primarySchools, primarySchool.network, inscriptionDate, nLoc);
+    const sec = Array.from(secondarySchools).sort(schoolSorter(nLoc));
+    const score = compute(prim, sec, primarySchool, secondarySchool, nLoc, immersion);
+    currentFeature.properties = {
+      score: score.total,
+    };
+
+    if (score.total > max) max = score.total;
+    if (score.total < min) min = score.total;
+  });
+
+  console.timeEnd("getScoreGrid");
+
+  return { grid, min, max };
+}
+
 function distance(from: GeoLoc, to: GeoLoc) {
-  return turfDistance([from.lon, from.lat], [to.lon, to.lat]);
+  return turf.distance([from.lon, from.lat], [to.lon, to.lat]);
 }

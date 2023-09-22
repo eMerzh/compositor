@@ -17,7 +17,7 @@ function GeoAutoComplete({ value, onSelect }: Props) {
   const [address, setAddress] = useState<string>(value?.name || "");
   const [showDetails, setShowDetails] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
-  console.log("value", value);
+
   useEffect(() => {
     if (ref.current) {
       ref.current.value = value?.name || "";

@@ -1,14 +1,15 @@
-import { Container, Drawer, Text } from "@mantine/core";
+import { Container, Modal, Text } from "@mantine/core";
 import { useMemo, useState } from "react";
 import { BooleanParam, JsonParam } from "use-query-params";
 import { useQueryParam, StringParam } from "use-query-params";
 import { useDisclosure } from "@mantine/hooks";
 
-import { ComputeResult, computeAll, primarySchools, secondarySchools } from "./compute";
+import { ComputeResult, computeAll, getScoreGrid, primarySchools, secondarySchools } from "./compute";
 import { NamedLoc } from "./GeoAutoComplete";
 import { InputConfig } from "./InputConfig";
 import ResultTable from "./ResultTable";
 import SchoolDetail from "./SchoolDetail";
+import MapInspect from "./MapInspect";
 function useConfiguration() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setRefresher] = useState(0);
@@ -108,17 +109,25 @@ function AppContainer() {
         setDate={setDate}
       />
       <hr />
-      <Drawer
+      <Modal
+        size="xl"
         opened={opened}
         onClose={() => {
           close();
           setIdSecondaire(null);
         }}
         title={<Text fw="bolder">{detailsSecondaire?.name}</Text>}
-        position="right"
       >
-        {detailsSecondaire && <SchoolDetail school={detailsSecondaire} scores={scores} locHome={locHome} />}
-      </Drawer>
+        {detailsSecondaire && (
+          <SchoolDetail
+            school={detailsSecondaire}
+            scores={scores}
+            locHome={locHome}
+            date={date}
+            immersion={immersion}
+          />
+        )}
+      </Modal>
       {scores && (
         <ResultTable
           scores={scores}

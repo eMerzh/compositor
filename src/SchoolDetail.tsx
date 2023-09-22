@@ -1,9 +1,12 @@
-import { Anchor, Badge, Button, Card, Group, List, Popover, Table, Text, Tooltip } from "@mantine/core";
-import { ComputeResult, GeoLoc, School } from "./compute";
+import { Anchor, Badge, Button, Card, Container, Group, List, Popover, Table, Text, Tooltip } from "@mantine/core";
+import { ComputeResult, GeoLoc, School, getScoreGrid } from "./compute";
 import Score from "./Score";
 import { round } from "./utils";
 import FillIcon from "./FillIcon";
-import { IconInfoCircle } from "@tabler/icons-react";
+import { IconGridDots, IconInfoCircle } from "@tabler/icons-react";
+import MapInspect from "./MapInspect";
+import { useDisclosure } from "@mantine/hooks";
+import { useMemo } from "react";
 
 const Explanation = [
   {
@@ -102,114 +105,142 @@ const Explanation = [
   },
 ];
 
-const SchoolDetail = ({ school, scores, locHome }: { school: School; scores: ComputeResult[]; locHome: GeoLoc }) => {
+const SchoolDetail = ({
+  school,
+  scores,
+  locHome,
+  date,
+  immersion,
+}: {
+  school: School;
+  scores: ComputeResult[];
+  locHome: GeoLoc;
+  date: string;
+  immersion: boolean;
+}) => {
   let result: ComputeResult | undefined;
-  if (scores && school) {
+  const [gridOpened, handlers] = useDisclosure(false);
+  if (scores) {
     result = scores.find((s) => s.school.id == school.id);
   }
+
+  const gridResult = useMemo(() => {
+    if (!gridOpened) return null;
+    console.log("compute");
+    return getScoreGrid(school, result.primarySchool, locHome, date, immersion);
+  }, [school, result?.primarySchool, locHome, date, immersion, gridOpened]);
+
   return (
     <Group>
       <Card padding="md">
         {result && (
-          <Card.Section withBorder inheritPadding py="xs">
-            <div>
-              <Text fw={700}>Resultat</Text>
-              <List type="ordered">
-                {Explanation.map((d, idx) => {
-                  return (
-                    <List.Item
-                      key={d.name}
-                      icon={
-                        <Tooltip
-                          width={300}
-                          multiline
-                          withArrow
-                          offset={30}
-                          color="cyan"
-                          transitionProps={{ duration: 200 }}
-                          label={d.description}
-                          withinPortal
-                        >
-                          <IconInfoCircle size="1rem" />
-                        </Tooltip>
-                      }
+          <>
+            <Card.Section withBorder inheritPadding py="xs">
+              <div>
+                <Text fw={700}>Resultat</Text>
+                <List type="ordered">
+                  {Explanation.map((d, idx) => {
+                    return (
+                      <List.Item
+                        key={d.name}
+                        icon={
+                          <Tooltip
+                            width={300}
+                            multiline
+                            withArrow
+                            offset={30}
+                            color="cyan"
+                            transitionProps={{ duration: 200 }}
+                            label={d.description}
+                            withinPortal
+                          >
+                            <IconInfoCircle size="1rem" />
+                          </Tooltip>
+                        }
+                      >
+                        <span>
+                          {idx + 1}. {d.name}: {result?.score[d.scoreProperty]}
+                          {d.more?.(result)}
+                        </span>
+                      </List.Item>
+                    );
+                  })}
+                </List>
+                <em>TOTAL:</em> <Score score={result.score.total}>{result.score.total}</Score>
+              </div>
+              <div>
+                <Text fw={700} mt="md">
+                  Informations
+                </Text>
+
+                <List>
+                  <List.Item>
+                    Distance:{" "}
+                    <a
+                      href={`https://www.google.com/maps/dir/${result.school.geo?.lat},${result.school.geo?.lon}/${locHome.lat},${locHome.lon}/@${locHome.lat},${locHome.lon},13z/data=!3m1!4b1!4m2!4m1!3e3?entry=ttu`}
+                      target="_blank"
+                      rel="noreferrer"
                     >
-                      <span>
-                        {idx + 1}. {d.name}: {result?.score[d.scoreProperty]}
-                        {d.more?.(result)}
-                      </span>
-                    </List.Item>
-                  );
-                })}
-              </List>
-              <em>TOTAL:</em> <Score score={result.score.total}>{result.score.total}</Score>
-            </div>
-            <div>
-              <Text fw={700} mt="md">
-                Informations
-              </Text>
+                      <Badge variant="outline" display="inline-block">
+                        {round(result.distance, 2)} km
+                      </Badge>
+                    </a>
+                  </List.Item>
+                  <List.Item>
+                    <Anchor
+                      target="blank"
+                      href={`http://www.enseignement.be/index.php?page=24797&etab_id=${result.school.id.split("/")[0]}`}
+                      style={{ lineHeight: "1" }}
+                    >
+                      Information sur l'école
+                    </Anchor>
+                  </List.Item>
+                </List>
 
-              <List>
-                <List.Item>
-                  Distance:{" "}
-                  <a
-                    href={`https://www.google.com/maps/dir/${result.school.geo?.lat},${result.school.geo?.lon}/${locHome.lat},${locHome.lon}/@${locHome.lat},${locHome.lon},13z/data=!3m1!4b1!4m2!4m1!3e3?entry=ttu`}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    <Badge variant="outline" display="inline-block">
-                      {round(result.distance, 2)} km
-                    </Badge>
-                  </a>
-                </List.Item>
-                <List.Item>
-                  <Anchor
-                    target="blank"
-                    href={`http://www.enseignement.be/index.php?page=24797&etab_id=${result.school.id.split("/")[0]}`}
-                    style={{ lineHeight: "1" }}
-                  >
-                    Information sur l'école
-                  </Anchor>
-                </List.Item>
-              </List>
-
-              {school.fill && (
-                <Table mt="lg">
-                  <caption>Historique de remplissage de l'école</caption>
-                  <thead>
-                    <tr>
-                      <th>2018</th>
-                      <th>2019</th>
-                      <th>2020</th>
-                      <th>2021</th>
-                      <th>2022</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                        <FillIcon level={school.fill[2018]} />
-                      </td>
-                      <td>
-                        <FillIcon level={school.fill[2019]} />
-                      </td>
-                      <td>
-                        <FillIcon level={school.fill[2020]} />
-                      </td>
-                      <td>
-                        <FillIcon level={school.fill[2021]} />
-                      </td>
-                      <td>
-                        <FillIcon level={school.fill[2022]} />
-                      </td>
-                    </tr>
-                  </tbody>
-                </Table>
-              )}
-            </div>
-          </Card.Section>
+                {school.fill && (
+                  <Table mt="lg">
+                    <caption>Historique de remplissage de l'école</caption>
+                    <thead>
+                      <tr>
+                        <th>2018</th>
+                        <th>2019</th>
+                        <th>2020</th>
+                        <th>2021</th>
+                        <th>2022</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>
+                          <FillIcon level={school.fill[2018]} />
+                        </td>
+                        <td>
+                          <FillIcon level={school.fill[2019]} />
+                        </td>
+                        <td>
+                          <FillIcon level={school.fill[2020]} />
+                        </td>
+                        <td>
+                          <FillIcon level={school.fill[2021]} />
+                        </td>
+                        <td>
+                          <FillIcon level={school.fill[2022]} />
+                        </td>
+                      </tr>
+                    </tbody>
+                  </Table>
+                )}
+              </div>
+            </Card.Section>
+          </>
         )}
       </Card>
+      <Container w="100%">
+        <Button compact variant="white" leftIcon={<IconGridDots size="1rem" />} onClick={handlers.toggle}>
+          Grid
+        </Button>
+        {gridOpened && <MapInspect result={gridResult} home={locHome} secondary={school} />}
+      </Container>
     </Group>
   );
 };
