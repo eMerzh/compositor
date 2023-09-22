@@ -4,12 +4,12 @@ import { BooleanParam, JsonParam } from "use-query-params";
 import { useQueryParam, StringParam } from "use-query-params";
 import { useDisclosure } from "@mantine/hooks";
 
-import { ComputeResult, computeAll, getScoreGrid, primarySchools, secondarySchools } from "./compute";
+import { ComputeResult, computeAll, primarySchools, secondarySchools } from "./compute";
 import { NamedLoc } from "./GeoAutoComplete";
 import { InputConfig } from "./InputConfig";
 import ResultTable from "./ResultTable";
 import SchoolDetail from "./SchoolDetail";
-import MapInspect from "./MapInspect";
+
 function useConfiguration() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setRefresher] = useState(0);
