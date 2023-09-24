@@ -88,6 +88,7 @@ function schoolExtract(school) {
 const file = {
   primary: newSchools
     .filter((school) => school.type_d_enseignement === "Primaire ordinaire")
+    .filter((school) => school.nom_de_l_etablissement.indexOf("Cycle 2,5-8") === -1)
     .map(schoolExtract)
     .filter((school) => !!school.geo),
 
