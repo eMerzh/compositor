@@ -1,8 +1,27 @@
-import { Checkbox, Select } from "@mantine/core";
+import { Checkbox, Group, Select, Text } from "@mantine/core";
 import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete";
 import type { School } from "./compute";
 import { IconCalendar, IconSchool } from "@tabler/icons-react";
+import { forwardRef } from "react";
 
+interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
+  city: string;
+  label: string;
+  address: string;
+}
+
+const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ label, address, city, ...others }: ItemProps, ref) => (
+  <div ref={ref} {...others}>
+    <Group noWrap>
+      <div>
+        <Text size="sm">{label}</Text>
+        <Text size="xs" opacity={0.65}>
+          {address}, {city}
+        </Text>
+      </div>
+    </Group>
+  </div>
+));
 export function InputConfig({
   primarySchools,
   idPrimaire,
@@ -24,6 +43,13 @@ export function InputConfig({
   date: string;
   setDate: (v: string) => void;
 }) {
+  const prim = primarySchools.map((school) => ({
+    value: school.id,
+    label: school.name,
+    address: school.address,
+    city: school.city,
+  }));
+
   return (
     <>
       <Select
@@ -33,10 +59,9 @@ export function InputConfig({
         placeholder="Choisir une école primaire"
         value={idPrimaire}
         onChange={setIdPrimaire}
-        data={primarySchools.map((school) => ({
-          value: school.id,
-          label: school.name,
-        }))}
+        itemComponent={SelectItem}
+        limit={20}
+        data={prim}
         mt={"md"}
         icon={<IconSchool size="1rem" color={idPrimaire ? "green" : "#adb5bd"} />}
       />
