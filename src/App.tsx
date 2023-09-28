@@ -1,4 +1,4 @@
-import { MantineProvider } from "@mantine/core";
+import { AppShell, MantineProvider } from "@mantine/core";
 import { QueryParamProvider } from "use-query-params";
 import { WindowHistoryAdapter } from "use-query-params/adapters/window";
 
@@ -9,9 +9,9 @@ export default function Home() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
       <QueryParamProvider adapter={WindowHistoryAdapter}>
-        <div></div>
-        <AppContainer />
-        <Footer />
+        <AppShell footer={<Footer />}>
+          <AppContainer />
+        </AppShell>
       </QueryParamProvider>
     </MantineProvider>
   );

@@ -1,3 +1,4 @@
+import { AspectRatio } from "@mantine/core";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useRef, useState } from "react";
@@ -47,15 +48,7 @@ const Map = ({ initialLat, initialLon, setHomeLoc }: MapProps) => {
   }, [initialLat, initialLon]);
 
   return (
-    <div
-      className="map-wrap"
-      style={{
-        height: "calc(50vh - 77px)",
-        width: "100%",
-        marginBottom: "30px",
-        marginTop: "30px",
-      }}
-    >
+    <AspectRatio ratio={16 / 9}>
       <div
         ref={mapContainer}
         className="map"
@@ -65,7 +58,7 @@ const Map = ({ initialLat, initialLon, setHomeLoc }: MapProps) => {
           borderRadius: "3px",
         }}
       />
-    </div>
+    </AspectRatio>
   );
 };
 

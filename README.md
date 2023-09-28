@@ -31,8 +31,7 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 - [x] ajouter une indication de remplissage
 - [x] improve immersion (filter school, doc, )
   - [x] https://inscription.cfwb.be/fileadmin/sites/insc/uploads/Documents_2023-2024/Liste_des_ecoles_immersion.xlsx
-- [ ] carte ?
-- [ ] exclude techniques?
+- [x] carte ?
 - [ ] perf
   - [x] taille du json
   - [ ] efficience du code

@@ -22,7 +22,7 @@ function GeoAutoComplete({ value, onSelect }: Props) {
     if (ref.current) {
       ref.current.value = value?.name || "";
     }
-  }, [value]);
+  }, [value, showDetails]);
   return (
     <form>
       <AddressAutofill
@@ -65,11 +65,12 @@ function GeoAutoComplete({ value, onSelect }: Props) {
       <Button variant="white" compact onClick={() => setShowDetails(!showDetails)} leftIcon={<IconMap size="1rem" />}>
         {showDetails ? "Cacher" : "Afficher"} la carte
       </Button>
-      {showDetails && value && (
+      {showDetails && (
         <Map
-          initialLat={value.lat}
-          initialLon={value.lon}
+          initialLat={value?.lat || 50.527942}
+          initialLon={value?.lon || 5.529293}
           setHomeLoc={(lat, lon) => {
+            console.log("setHomeLoc", lat, lon);
             onSelect({ lat, lon, name: "Personnalisé" });
           }}
         />

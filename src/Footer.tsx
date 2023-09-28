@@ -1,10 +1,10 @@
 import { IconBrandGithub } from "@tabler/icons-react";
 
-import { Container, Text } from "@mantine/core";
+import { Footer, Text } from "@mantine/core";
 
-const Footer = () => {
+const AppFooter = () => {
   return (
-    <Container className="footer">
+    <Footer height={60} p="md">
       <Text c="dimmed" size="sm" align="center">
         Made by{" "}
         <a href="https://github.com/eMerzh/compositor">
@@ -13,10 +13,10 @@ const Footer = () => {
         Brice
       </Text>
       <Text c="dimmed" size="sm" align="center">
-        Question - Suggestions - Soutiens → compositor__at__bmaron.net
+        Question, Suggestions, Soutiens ➤ compositor__at__bmaron.net
       </Text>
-    </Container>
+    </Footer>
   );
 };
 
-export default Footer;
+export default AppFooter;

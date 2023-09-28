@@ -1,15 +1,34 @@
-import { Container, Modal, Text } from "@mantine/core";
+import { Alert, Container, Modal, Text } from "@mantine/core";
 import { useMemo, useState } from "react";
 import { BooleanParam, JsonParam } from "use-query-params";
 import { useQueryParam, StringParam } from "use-query-params";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useLocalStorage } from "@mantine/hooks";
 
 import { ComputeResult, computeAll, primarySchools, secondarySchools } from "./compute";
 import { NamedLoc } from "./GeoAutoComplete";
 import { InputConfig } from "./InputConfig";
 import ResultTable from "./ResultTable";
 import SchoolDetail from "./SchoolDetail";
+import { IconAlertCircle } from "@tabler/icons-react";
 
+const Warning = () => {
+  const [hide, setHide] = useLocalStorage({ key: "hide-warning", defaultValue: false });
+  if (hide) return <IconAlertCircle size="1rem" onClick={() => setHide(false)} />;
+  return (
+    <Alert icon={<IconAlertCircle size="1rem" />} title="Compositor2000" withCloseButton onClose={() => setHide(true)}>
+      Cet outil est un outil alternatif de calcul de l'indice composite. Les données n'étant pas complètement ouvertes,
+      il pourrait contenir des erreurs. N'oubliez par de vérifier le score obtenu sur le{" "}
+      <a href="https://inscription.cfwb.be/nc/simulation-de-lindice-composite/" target="_blank" rel="noopener">
+        calculateur officiel
+      </a>
+      , et de voir les disponibilités dans l'école de votre choix sur le{" "}
+      <a href="https://monespace.fw-b.be/demarrer-demarche/?codeDemarche=ciriparent" target="_blank" rel="noopener">
+        site adéquat
+      </a>
+      .
+    </Alert>
+  );
+};
 function useConfiguration() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setRefresher] = useState(0);
@@ -80,6 +99,7 @@ function AppContainer() {
   if (!school_prim || !locHome || !date) {
     return (
       <Container>
+        <Warning />
         <InputConfig
           primarySchools={primarySchools}
           idPrimaire={idPrimaire}
@@ -97,6 +117,7 @@ function AppContainer() {
 
   return (
     <Container>
+      <Warning />
       <InputConfig
         primarySchools={primarySchools}
         idPrimaire={idPrimaire}
