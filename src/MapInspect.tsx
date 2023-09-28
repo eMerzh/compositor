@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { GeoLoc, School } from "./compute";
 
 interface MapProps {
-  result: { grid: unknown; min: number; max: number };
+  result: { grid: unknown; min: number; max: number; lines: unknown };
   secondary: School;
   home: GeoLoc;
 }
 const MapInspect = ({ result, home, secondary }: MapProps) => {
-  const { grid, min, max } = result;
+  const { grid, min, max, lines } = result;
   const mapContainer = useRef(null);
   const [loaded, setLoaded] = useState(false);
   const secondaireRef = useRef<maplibregl.Marker>();
@@ -72,18 +72,18 @@ const MapInspect = ({ result, home, secondary }: MapProps) => {
     if (mapRef.current && loaded) {
       mapRef.current.addSource("secondaries", {
         type: "geojson",
-        data: grid,
+        data: lines,
       });
 
       mapRef.current.addLayer({
         id: "secondaries-circle",
-        type: "circle",
         source: "secondaries",
+        type: "fill",
         paint: {
-          "circle-radius": 6,
-          "circle-color": ["interpolate", ["linear"], ["get", "score"], min, "#b1092d", max, "#09b163"],
+          "fill-color": ["get", "fill"],
+          "fill-opacity": ["get", "fill-opacity"],
+          //   "fill-color": ["interpolate", ["linear"], ["get", "score"], min, "#b1092d", max, "#09b163"],
         },
-        filter: ["==", "$type", "Point"],
       });
     }
 

@@ -287,7 +287,7 @@ export function getScoreGrid(
   locHome: GeoLoc,
   date: string,
   immersion: boolean,
-): { grid: object; min: number; max: number } {
+): { grid: object; min: number; max: number; lines: object } {
   console.time("getScoreGrid");
 
   const box = turf.bbox(
@@ -298,10 +298,10 @@ export function getScoreGrid(
     ]),
   );
   const newbox = [...box];
-  newbox[0] = box[0] - (box[2] - box[0]) / 2;
-  newbox[1] = box[1] - (box[3] - box[1]) / 2;
-  newbox[2] = box[2] + (box[2] - box[0]) / 2;
-  newbox[3] = box[3] + (box[3] - box[1]) / 2;
+  newbox[0] = box[0] - (box[2] - box[0]); // / 2;
+  newbox[1] = box[1] - (box[3] - box[1]); // / 2;
+  newbox[2] = box[2] + (box[2] - box[0]); // / 2;
+  newbox[3] = box[3] + (box[3] - box[1]); // / 2;
 
   const distanceBetween = getDistanceFromBBoxAndPoint(newbox, 200);
   const grid = turf.pointGrid(newbox, distanceBetween /*km*/);
@@ -325,7 +325,31 @@ export function getScoreGrid(
 
   console.timeEnd("getScoreGrid");
 
-  return { grid, min, max };
+  const steps = (max - min) / 10;
+  const breaks = Array.from({ length: 11 }, (_, i) => min + i * steps);
+
+  const lines = turf.isobands(grid, breaks, {
+    zProperty: "score",
+    commonProperties: {
+      "fill-opacity": 0.6,
+    },
+    breaksProperties: [
+      { fill: "#d73027" },
+      { fill: "#f46d43" },
+      { fill: "#fdae61" },
+      { fill: "#fee090" },
+      { fill: "#ffffbf" },
+      { fill: "#e0f3f8" },
+      { fill: "#abd9e9" },
+      { fill: "#74add1" },
+      { fill: "#4575b4" },
+      { fill: "#1e58a4" },
+      { fill: "#0a3266" },
+      { fill: "#0a3266" },
+      { fill: "#0a3266" },
+    ],
+  });
+  return { grid, min, max, lines };
 }
 
 function distance(from: GeoLoc, to: GeoLoc) {
