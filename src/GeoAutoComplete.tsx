@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { GeoLoc } from "./compute";
 import Map from "./Map";
 
-const accessToken = "pk.eyJ1IjoiZW1lcnpoIiwiYSI6ImNsbW5zbjV3NzA4MWoycm85d3A1OWFmZG8ifQ.vHHA1EhrIbEaeKHwa9KvmQ";
+export const accessToken = "pk.eyJ1IjoiZW1lcnpoIiwiYSI6ImNsbW5zbjV3NzA4MWoycm85d3A1OWFmZG8ifQ.vHHA1EhrIbEaeKHwa9KvmQ";
 
 export type NamedLoc = GeoLoc & { name: string };
 

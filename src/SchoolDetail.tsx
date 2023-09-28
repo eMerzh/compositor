@@ -3,10 +3,11 @@ import { ComputeResult, GeoLoc, School, getScoreGrid } from "./compute";
 import Score from "./Score";
 import { round } from "./utils";
 import FillIcon from "./FillIcon";
-import { IconGridDots, IconInfoCircle } from "@tabler/icons-react";
+import { IconBike, IconCar, IconGridDots, IconInfoCircle, IconRoute, IconWalk } from "@tabler/icons-react";
 import MapInspect from "./MapInspect";
 import { useDisclosure } from "@mantine/hooks";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { accessToken } from "./GeoAutoComplete";
 
 const Explanation = [
   {
@@ -105,6 +106,46 @@ const Explanation = [
   },
 ];
 
+function fetchRoute(profile: "driving" | "walking" | "cycling", from: GeoLoc, to: GeoLoc) {
+  return fetch(
+    `https://api.mapbox.com/directions/v5/mapbox/${profile}/${from.lon},${from.lat};${to.lon},${to.lat}?access_token=${accessToken}`,
+  );
+}
+
+const RouterDisplay = ({ from, to }: { from: GeoLoc; to: GeoLoc }) => {
+  const [driveRoute, setDriveRoute] = useState(null);
+  const [walkRoute, setWalkRoute] = useState(null);
+  const [bikeRoute, setBikeRoute] = useState(null);
+  useEffect(() => {
+    const fetchDrive = async (profile: "driving" | "walking" | "cycling", setter) => {
+      const rest = await fetchRoute(profile, from, to);
+      const json = await rest.json();
+      setter(json.routes[0]);
+    };
+    fetchDrive("driving", setDriveRoute);
+    fetchDrive("walking", setWalkRoute);
+    fetchDrive("cycling", setBikeRoute);
+  }, [from, to]);
+  return (
+    <List>
+      {bikeRoute && (
+        <List.Item icon={<IconBike size="1rem" />}>
+          durée: {round(bikeRoute.duration / 60)} min. distance: {round(bikeRoute.distance / 1000, 2)} km
+        </List.Item>
+      )}
+      {walkRoute && (
+        <List.Item icon={<IconWalk size="1rem" />}>
+          durée: {round(walkRoute.duration / 60)} min. distance: {round(walkRoute.distance / 1000, 2)} km
+        </List.Item>
+      )}
+      {driveRoute && (
+        <List.Item icon={<IconCar size="1rem" />}>
+          durée: {round(driveRoute.duration / 60)} min. distance: {round(driveRoute.distance / 1000, 2)} km
+        </List.Item>
+      )}
+    </List>
+  );
+};
 const SchoolDetail = ({
   school,
   scores,
@@ -120,6 +161,8 @@ const SchoolDetail = ({
 }) => {
   let result: ComputeResult | undefined;
   const [gridOpened, handlers] = useDisclosure(false);
+  const [routeDisplay, routeHandlers] = useDisclosure(false);
+
   if (scores) {
     result = scores.find((s) => s.school.id == school.id);
   }
@@ -131,10 +174,28 @@ const SchoolDetail = ({
   }, [school, result?.primarySchool, locHome, date, immersion, gridOpened]);
 
   return (
-    <Group>
+    <Container>
       <Card padding="md">
         {result && (
           <>
+            <Card.Section withBorder inheritPadding py="xs">
+              <Group>
+                <Button variant="white" onClick={routeHandlers.toggle}>
+                  <IconRoute />
+                  Voir la Route
+                </Button>
+                <Anchor
+                  href={`https://www.google.com/maps/dir/${result.school.geo?.lat},${result.school.geo?.lon}/${locHome.lat},${locHome.lon}/@${locHome.lat},${locHome.lon},13z/data=!3m1!4b1!4m2!4m1!3e3?entry=ttu`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <Badge variant="outline" display="inline-block">
+                    {round(result.distance, 2)} km
+                  </Badge>
+                </Anchor>
+              </Group>
+              {routeDisplay && <RouterDisplay from={locHome} to={school.geo} />}
+            </Card.Section>
             <Card.Section withBorder inheritPadding py="xs">
               <div>
                 <Text fw={700}>Resultat</Text>
@@ -169,33 +230,13 @@ const SchoolDetail = ({
                 <em>TOTAL:</em> <Score score={result.score.total}>{result.score.total}</Score>
               </div>
               <div>
-                <Text fw={700} mt="md">
-                  Informations
-                </Text>
-
-                <List>
-                  <List.Item>
-                    Distance:{" "}
-                    <a
-                      href={`https://www.google.com/maps/dir/${result.school.geo?.lat},${result.school.geo?.lon}/${locHome.lat},${locHome.lon}/@${locHome.lat},${locHome.lon},13z/data=!3m1!4b1!4m2!4m1!3e3?entry=ttu`}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <Badge variant="outline" display="inline-block">
-                        {round(result.distance, 2)} km
-                      </Badge>
-                    </a>
-                  </List.Item>
-                  <List.Item>
-                    <Anchor
-                      target="blank"
-                      href={`http://www.enseignement.be/index.php?page=24797&etab_id=${result.school.id.split("/")[0]}`}
-                      style={{ lineHeight: "1" }}
-                    >
-                      Information sur l'école
-                    </Anchor>
-                  </List.Item>
-                </List>
+                <Anchor
+                  target="blank"
+                  href={`http://www.enseignement.be/index.php?page=24797&etab_id=${result.school.id.split("/")[0]}`}
+                  style={{ lineHeight: "1" }}
+                >
+                  Information sur l'école
+                </Anchor>
 
                 {school.fill && (
                   <Table mt="lg">
@@ -241,7 +282,7 @@ const SchoolDetail = ({
         </Button>
         {gridOpened && <MapInspect result={gridResult} home={locHome} secondary={school} />}
       </Container>
-    </Group>
+    </Container>
   );
 };
 
