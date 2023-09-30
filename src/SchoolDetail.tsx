@@ -3,7 +3,15 @@ import { ComputeResult, GeoLoc, School, getScoreGrid } from "./compute";
 import Score from "./Score";
 import { round } from "./utils";
 import FillIcon from "./FillIcon";
-import { IconBike, IconCar, IconGridDots, IconInfoCircle, IconRoute, IconWalk } from "@tabler/icons-react";
+import {
+  IconAlertCircle,
+  IconBike,
+  IconCar,
+  IconGridDots,
+  IconInfoCircle,
+  IconRoute,
+  IconWalk,
+} from "@tabler/icons-react";
 import MapInspect from "./MapInspect";
 import { useDisclosure } from "@mantine/hooks";
 import { useEffect, useMemo, useState } from "react";
@@ -103,6 +111,18 @@ const Explanation = [
     description:
       "Ce coefficient est déterminé sur base de la classe d’appartenance dans le cadre de l’enseignement différencié. Afin d'assurer à chaque élÉve des chances égales d'émancipation sociale dans un environnement pédagogique de qualité, la législation prévoit l’octroi de moyens humains et financiers complémentaires (encadrement différencié) en fonction de la classe d’appartenance des implantations maternelles, fondamentales, primaires ou secondaires.",
     scoreProperty: "coef_8",
+    more: (result: ComputeResult) => {
+      if (!result.primarySchool.ise) {
+        return (
+          <>
+            {" "}
+            <Button compact color="yellow" leftIcon={<IconAlertCircle size="1rem" />}>
+              Approximatif
+            </Button>
+          </>
+        );
+      }
+    },
   },
 ];
 

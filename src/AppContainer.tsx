@@ -154,6 +154,7 @@ function AppContainer() {
           scores={scores}
           secondarySchools={secondarySchools}
           selectedFase={idSecondaire}
+          primarySchool={primarySchools.find((school) => school.id === idPrimaire)}
           onSelectDetail={(v) => {
             setIdSecondaire(v);
             open();

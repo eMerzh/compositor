@@ -1,5 +1,5 @@
-import { Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core";
-import { IconSortAscending, IconSortDescending } from "@tabler/icons-react";
+import { Alert, Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core";
+import { IconAlertCircle, IconSortAscending, IconSortDescending } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 import { ComputeResult, School, distanceSort, scoreSort, fillSort } from "./compute";
 import { round } from "./utils";
@@ -21,12 +21,20 @@ const getSortFn = (sortColumn: SortColumn) => {
 
 interface Props {
   secondarySchools: School[];
+  primarySchool: School;
   scores: ComputeResult[];
   selectedFase: string;
   withImmersion: boolean;
   onSelectDetail: (schoolFase: string) => void;
 }
-export default function ResultTable({ secondarySchools, scores, onSelectDetail, selectedFase, withImmersion }: Props) {
+export default function ResultTable({
+  secondarySchools,
+  primarySchool,
+  scores,
+  onSelectDetail,
+  selectedFase,
+  withImmersion,
+}: Props) {
   const [filterNetwork, setFilterNetwork] = useState<string[]>([]);
   const networks = useMemo(() => [...new Set(secondarySchools.map((s) => s.network))], [secondarySchools]);
   const [filterCity, setFilterCity] = useState<string[]>([]);
@@ -42,6 +50,16 @@ export default function ResultTable({ secondarySchools, scores, onSelectDetail, 
       [sortOrder == "desc" ? "reverse" : "slice"](); // eslint-disable-line no-unexpected-multiline
   }, [scores, sortColumn, sortOrder, filterNetwork, withImmersion, filterCity]);
 
+  let warnMsg;
+  if (primarySchool.ise === null) {
+    warnMsg = (
+      <Alert icon={<IconAlertCircle size="1rem" />} title="Attention" color="yellow">
+        L'école primaire que vous avez séléctionné n'a pas d'indice socio-économique. Le score (n°8) est donc calculé
+        avec un indice moyen de 10/20 qui représente une hypothétique moyenne des élèves de l'école secondaire. Prenez
+        donc les scores avec des pincettes.
+      </Alert>
+    );
+  }
   return (
     <Group>
       <MultiSelect
@@ -62,6 +80,7 @@ export default function ResultTable({ secondarySchools, scores, onSelectDetail, 
         onChange={(v) => setFilterCity(v)}
         data={cities}
       />
+      {warnMsg}
       <Table striped>
         <thead>
           <tr>
