@@ -152,6 +152,7 @@ function AppContainer() {
         setDate={setDate}
         ise={ise}
         setIse={setIse}
+        isFaultyDate={false}
       />
       <hr />
       <Modal
