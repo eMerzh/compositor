@@ -1,10 +1,10 @@
 import { Alert, Container, Modal, Text } from "@mantine/core";
 import { useMemo, useState } from "react";
-import { BooleanParam, JsonParam } from "use-query-params";
+import { BooleanParam, JsonParam, NumberParam, withDefault } from "use-query-params";
 import { useQueryParam, StringParam } from "use-query-params";
 import { useDisclosure, useLocalStorage } from "@mantine/hooks";
 
-import { ComputeResult, computeAll, primarySchools, secondarySchools } from "./compute";
+import { ComputeResult, UnexistingSchool, computeAll, primarySchools, secondarySchools } from "./compute";
 import { NamedLoc } from "./GeoAutoComplete";
 import { InputConfig } from "./InputConfig";
 import ResultTable from "./ResultTable";
@@ -42,6 +42,7 @@ function useConfiguration() {
 
   const [immersion, setImmersion] = useQueryParam("immersion", BooleanParam);
   const [date, setDate] = useQueryParam("date", StringParam);
+  const [ise, setIse] = useQueryParam("ise", withDefault(NumberParam, 10));
 
   return {
     idPrimaire,
@@ -69,6 +70,11 @@ function useConfiguration() {
       setDate(v);
       refresh();
     },
+    ise,
+    setIse: (v: number) => {
+      setIse(v);
+      refresh();
+    },
   };
 }
 function AppContainer() {
@@ -83,20 +89,28 @@ function AppContainer() {
     setImmersion,
     date,
     setDate,
+    ise,
+    setIse,
   } = useConfiguration();
   const [opened, { open, close }] = useDisclosure(false);
   const school_prim = primarySchools.find((school) => school.id === idPrimaire);
   const detailsSecondaire = secondarySchools.find((school) => school.id === idSecondaire);
 
-  const scores = useMemo<ComputeResult[] | null>(() => {
+  const scores = useMemo<ComputeResult[] | UnexistingSchool | null>(() => {
     if (!school_prim || !locHome || !date) return null;
-
-    const results = computeAll(secondarySchools, school_prim, locHome, date, immersion);
-    return results;
+    try {
+      const results = computeAll(secondarySchools, school_prim, locHome, date, immersion, ise);
+      return results;
+    } catch (e) {
+      console.error(e);
+      if (e instanceof UnexistingSchool) {
+        return e;
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [school_prim?.id, locHome?.lat, locHome?.lon, immersion, date]);
+  }, [school_prim?.id, locHome?.lat, locHome?.lon, immersion, date, ise]);
 
-  if (!school_prim || !locHome || !date) {
+  if (!scores || scores instanceof UnexistingSchool) {
     return (
       <Container>
         <Warning />
@@ -110,7 +124,15 @@ function AppContainer() {
           setImmersion={setImmersion}
           date={date}
           setDate={setDate}
+          ise={ise}
+          setIse={setIse}
+          isFaultyDate={scores instanceof UnexistingSchool}
         />
+        {scores instanceof UnexistingSchool && (
+          <Alert title="Erreur" color="red" mt={10} mb={10}>
+            Selon les informations que vous avez entrées, l'école primaire n'existait pas au moment de l'inscription.
+          </Alert>
+        )}
       </Container>
     );
   }
@@ -128,6 +150,8 @@ function AppContainer() {
         setImmersion={setImmersion}
         date={date}
         setDate={setDate}
+        ise={ise}
+        setIse={setIse}
       />
       <hr />
       <Modal
@@ -146,6 +170,7 @@ function AppContainer() {
             locHome={locHome}
             date={date}
             immersion={immersion}
+            ise={ise}
           />
         )}
       </Modal>

@@ -1,8 +1,8 @@
 import { Checkbox, Group, Select, Text } from "@mantine/core";
 import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete";
 import type { School } from "./compute";
-import { IconCalendar, IconSchool } from "@tabler/icons-react";
-import { forwardRef } from "react";
+import { IconCalendar, IconMoneybag, IconSchool } from "@tabler/icons-react";
+import { forwardRef, useMemo } from "react";
 
 interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
   city: string;
@@ -32,6 +32,9 @@ export function InputConfig({
   setImmersion,
   date,
   setDate,
+  ise,
+  setIse,
+  isFaultyDate,
 }: {
   primarySchools: School[];
   idPrimaire: string;
@@ -42,6 +45,9 @@ export function InputConfig({
   setImmersion: (v: boolean) => void;
   date: string;
   setDate: (v: string) => void;
+  ise: number;
+  setIse: (v: number) => void;
+  isFaultyDate: boolean;
 }) {
   const prim = primarySchools.map((school) => ({
     value: school.id,
@@ -49,6 +55,9 @@ export function InputConfig({
     address: school.address,
     city: school.city,
   }));
+  const primSchool = useMemo(() => {
+    return idPrimaire ? primarySchools.find((p) => p.id === idPrimaire) : null;
+  }, [idPrimaire, primarySchools]);
 
   return (
     <>
@@ -70,11 +79,21 @@ export function InputConfig({
       <Select
         label="Inscription en 1ere primaire"
         data={["2018", "2019", "2020", "2021", "2022"]}
-        icon={<IconCalendar size="1rem" color={date ? "green" : "#adb5bd"} />}
+        icon={<IconCalendar size="1rem" color={isFaultyDate ? "red" : date ? "green" : "#adb5bd"} />}
         value={date}
         onChange={setDate}
         mt={"md"}
       />
+      {idPrimaire && !primSchool.ise && (
+        <Select
+          label="Indice Socio-Économique (1= moins favorisé)"
+          data={Array.from({ length: 20 }, (_, i) => i + 1).map((i) => ({ label: `${i}`, value: `${i}` }))}
+          icon={<IconMoneybag size="1rem" color={date ? "green" : "#adb5bd"} />}
+          value={`${ise}`}
+          onChange={(v) => setIse(parseInt(v, 10))}
+          mt={"md"}
+        />
+      )}
       <Checkbox
         label="Immersion"
         checked={immersion}

@@ -172,12 +172,14 @@ const SchoolDetail = ({
   locHome,
   date,
   immersion,
+  ise,
 }: {
   school: School;
   scores: ComputeResult[];
   locHome: GeoLoc;
   date: string;
   immersion: boolean;
+  ise?: number;
 }) => {
   let result: ComputeResult | undefined;
   const [gridOpened, handlers] = useDisclosure(false);
@@ -190,8 +192,8 @@ const SchoolDetail = ({
   const gridResult = useMemo(() => {
     if (!gridOpened) return null;
     console.log("compute");
-    return getScoreGrid(school, result.primarySchool, locHome, date, immersion);
-  }, [school, result?.primarySchool, locHome, date, immersion, gridOpened]);
+    return getScoreGrid(school, result.primarySchool, locHome, date, immersion, ise);
+  }, [school, result?.primarySchool, locHome, date, immersion, gridOpened, ise]);
 
   return (
     <Container>

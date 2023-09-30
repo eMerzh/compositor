@@ -164,6 +164,13 @@ export function hasBothSchoolsNetworkInCity(schools: School[], city: string) {
   return !!confessional && !!other;
 }
 
+export class UnexistingSchool extends Error {
+  constructor(message) {
+    super(message);
+    this.name = "UnexistingSchool";
+  }
+}
+
 export function compute(
   // note: for perf reasons, primary schools should already by filtered by network, newest removed, and ordered by distance
   primary: School[],
@@ -172,11 +179,14 @@ export function compute(
   school_sec: School,
   locHome: GeoLoc,
   immersion: boolean,
+  ise?: number,
 ) {
   const coef_1 = rankCoef1[0]; // LA PRÉFÉRENCE 1.5 pour 1°
 
   const rank_2 = findNearestRank(primary, school_prim, locHome);
-
+  if (rank_2 === 0) {
+    throw new UnexistingSchool(`Missing primary school ${school_prim.name}`);
+  }
   // const coef_2 = 1.3 // LA PROXIMITÉ ENTRE LE DOMICILE ET L’ÉCOLE PRIMAIRE (meme réseau)
   const coef_2 = rankCoef2[rank_2 - 1];
 
@@ -197,7 +207,7 @@ export function compute(
 
   const coef_7 = coef_6 == 1.51 || !school_prim.partenaria || school_prim.partenaria.id !== school_sec.id ? 1 : 1.51; // partenaria peda soit 1 soit 1.51
   // LA CLASSE D'ENCADREMENT DE L'ÉCOLE PRIMAIRE (socio-économique)
-  const coef_8 = coef_8Table[school_prim.ise || 10]; // if not found, it's an average of students /o\
+  const coef_8 = coef_8Table[school_prim.ise || ise || 10]; // if not found, it's an average of students /o\
 
   return {
     coef_1,
@@ -244,6 +254,7 @@ export function computeAll(
   locHome: GeoLoc,
   date: string,
   immersion: boolean,
+  ise?: number,
 ): ComputeResult[] {
   console.time("computeAll");
 
@@ -257,7 +268,7 @@ export function computeAll(
       school: school,
       primarySchools: prim,
       secondarySchools: sec,
-      score: compute(prim, sec, primarySchool, school, locHome, immersion),
+      score: compute(prim, sec, primarySchool, school, locHome, immersion, ise),
       home: locHome,
       distance: distance(school.geo, locHome),
       primarySchool: primarySchool,
@@ -287,6 +298,7 @@ export function getScoreGrid(
   locHome: GeoLoc,
   date: string,
   immersion: boolean,
+  ise?: number,
 ): { grid: object; min: number; max: number; lines: object } {
   console.time("getScoreGrid");
 
@@ -314,7 +326,7 @@ export function getScoreGrid(
     const nLoc = { lon: currentFeature.geometry.coordinates[0], lat: currentFeature.geometry.coordinates[1] };
     const prim = filterNewestAndOrderSchool(primarySchools, primarySchool.network, inscriptionDate, nLoc);
     const sec = Array.from(secondarySchools).sort(schoolSorter(nLoc));
-    const score = compute(prim, sec, primarySchool, secondarySchool, nLoc, immersion);
+    const score = compute(prim, sec, primarySchool, secondarySchool, nLoc, immersion, ise);
     currentFeature.properties = {
       score: score.total,
     };
