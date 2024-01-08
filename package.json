@@ -26,7 +26,7 @@
   },
   "resolutions": {
     "@types/react": "18.0.8",
-    "@types/react-dom": "18.0.3"
+    "@types/react-dom": "18.2.18"
   },
   "devDependencies": {
     "@types/node": "20.10.7",
