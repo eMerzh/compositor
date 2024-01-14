@@ -7,7 +7,7 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 ## DATA sources
 
 - https://inscription.cfwb.be/lindice-composite/
-- https://www.odwb.be/explore/dataset/signaletique-fase/table/
+- https://www.odwb.be/explore/dataset/signaletique-fase/table/ (signaletique-fase.json)
 - https://inscription.cfwb.be/les-outils/les-documents/
 - https://www.gallilex.cfwb.be/document/pdf/50299_000.pdf
 - https://inscription.cfwb.be/fileadmin/sites/insc/uploads/Documents_2023-2024/Liste_ecoles_secondaires.xlsx
