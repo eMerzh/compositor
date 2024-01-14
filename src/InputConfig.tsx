@@ -22,6 +22,7 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ label, address, city
     </Group>
   </div>
 ));
+
 export function InputConfig({
   primarySchools,
   idPrimaire,
@@ -78,7 +79,7 @@ export function InputConfig({
 
       <Select
         label="Inscription en 1ere primaire"
-        data={["2018", "2019", "2020", "2021", "2022"]}
+        data={["2018", "2019", "2020", "2021", "2022", "2023"]}
         icon={<IconCalendar size="1rem" color={isFaultyDate ? "red" : date ? "green" : "#adb5bd"} />}
         value={date}
         onChange={setDate}

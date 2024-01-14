@@ -2,6 +2,7 @@ import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import { useEffect, useRef, useState } from "react";
 import { GeoLoc, School } from "./compute";
+import homeIcon from "./assets/home.svg";
 
 interface MapProps {
   result: { grid: unknown; min: number; max: number; lines: unknown };
@@ -29,7 +30,16 @@ const MapInspect = ({ result, home, secondary }: MapProps) => {
     });
     mapRef.current = map;
     map.addControl(new maplibregl.NavigationControl({}), "top-right");
-    homeRef.current = new maplibregl.Marker({ color: "#FF0000" }).setLngLat([home.lon, home.lat]);
+    const el = document.createElement('div');
+    el.className = 'marker';
+    el.style.backgroundImage = `url(${homeIcon})`;
+    el.style.width = '30px';
+    el.style.height = '30px';
+    el.style.backgroundSize = 'cover';
+
+    homeRef.current = new maplibregl.Marker({ element: el }).setLngLat([home.lon, home.lat]);
+
+
     secondaireRef.current = new maplibregl.Marker({ color: "#382ef1" }).setLngLat([
       secondary.geo.lon,
       secondary.geo.lat,
