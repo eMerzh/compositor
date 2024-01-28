@@ -33,6 +33,9 @@ dependencies:
   maplibre-gl:
     specifier: ^3.6.2
     version: 3.6.2
+  posthog-js:
+    specifier: ^1.103.0
+    version: 1.103.0
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -3297,6 +3300,10 @@ packages:
       pend: 1.2.0
     dev: true
 
+  /fflate@0.4.8:
+    resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==}
+    dev: false
+
   /figures@3.2.0:
     resolution: {integrity: sha512-yaduQFRKLXYOGgEn6AZau90j3ggSOyiqXU0F9JZfeXYhNa+Jk4X+s45A2zg5jns87GAFa34BBm2kXw4XpNcbdg==}
     engines: {node: '>=8'}
@@ -4237,8 +4244,19 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
+  /posthog-js@1.103.0:
+    resolution: {integrity: sha512-NldabkbCB9a/2JLszoB7vk5XZr93iBoGEgEEKn201oDD3QkRn1nC+c+e1HQ3S9oMs5oZIhKmPNBCje1J9prYRg==}
+    dependencies:
+      fflate: 0.4.8
+      preact: 10.19.3
+    dev: false
+
   /potpack@2.0.0:
     resolution: {integrity: sha512-Q+/tYsFU9r7xoOJ+y/ZTtdVQwTWfzjbiXBDMM/JKUux3+QPP02iUuIoeBQ+Ot6oEDlC+/PGjB/5A3K7KKb7hcw==}
+    dev: false
+
+  /preact@10.19.3:
+    resolution: {integrity: sha512-nHHTeFVBTHRGxJXKkKu5hT8C/YWBkPso4/Gad6xuj5dbptt9iF9NZr9pHbPhBrnT2klheu7mHTxTZ/LjwJiEiQ==}
     dev: false
 
   /prelude-ls@1.2.1:
