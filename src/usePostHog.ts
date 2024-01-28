@@ -11,6 +11,8 @@ export const usePostHog = (
         // Init PostHog
         posthog.init(apiKey, config);
 
-        // Track page views
+        return () => {
+            posthog.capture('$pageleave')
+        }
     }, [apiKey, config]);
 };
