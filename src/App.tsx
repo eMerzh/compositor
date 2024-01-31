@@ -1,13 +1,15 @@
-import { AppShell, MantineProvider } from "@mantine/core";
-import { QueryParamProvider } from "use-query-params";
-import { WindowHistoryAdapter } from "use-query-params/adapters/window";
+import { AppShell, MantineProvider } from "@mantine/core"
+import { QueryParamProvider } from "use-query-params"
+import { WindowHistoryAdapter } from "use-query-params/adapters/window"
 
-import Footer from "./Footer";
-import AppContainer from "./AppContainer";
-import { usePostHog } from "./usePostHog";
+import AppContainer from "./AppContainer"
+import Footer from "./Footer"
+import { usePostHog } from "./usePostHog"
 
 export default function Home() {
-  usePostHog('phc_2lIfwJfGNtF7JQFwruM1lRlFGXCwvIpgGLgaTTs28Lh', { api_host: 'https://eu.posthog.com' })
+  usePostHog("phc_2lIfwJfGNtF7JQFwruM1lRlFGXCwvIpgGLgaTTs28Lh", {
+    api_host: "https://eu.posthog.com",
+  })
 
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
@@ -17,5 +19,5 @@ export default function Home() {
         </AppShell>
       </QueryParamProvider>
     </MantineProvider>
-  );
+  )
 }

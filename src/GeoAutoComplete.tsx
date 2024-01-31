@@ -1,75 +1,73 @@
-import { Autocomplete, AutocompleteItem, Button, CloseButton, Group, Text } from "@mantine/core";
-import { IconHomeSearch, IconMap } from "@tabler/icons-react";
-import { forwardRef, useEffect, useRef, useState } from "react";
-import { GeoLoc } from "./compute";
-import Map from "./Map";
-import { useDebouncedValue } from '@mantine/hooks';
+import { Autocomplete, AutocompleteItem, Button, CloseButton, Group, Text } from "@mantine/core"
+import { useDebouncedValue } from "@mantine/hooks"
+import { IconHomeSearch, IconMap } from "@tabler/icons-react"
+import { forwardRef, useEffect, useRef, useState } from "react"
+import MapDisplay from "./MapDisplay"
+import { GeoLoc } from "./compute"
 
-export const accessToken = "pk.eyJ1IjoiZW1lcnpoIiwiYSI6ImNsbW5zbjV3NzA4MWoycm85d3A1OWFmZG8ifQ.vHHA1EhrIbEaeKHwa9KvmQ";
+export const accessToken = "pk.eyJ1IjoiZW1lcnpoIiwiYSI6ImNsbW5zbjV3NzA4MWoycm85d3A1OWFmZG8ifQ.vHHA1EhrIbEaeKHwa9KvmQ"
 
-const MAPTILER_API = "https://api.maptiler.com/geocoding/";
-const MAPTILER_API_KEY = "UVAKtN0Z84SNZiFO1wFP";
+const MAPTILER_API = "https://api.maptiler.com/geocoding/"
+const MAPTILER_API_KEY = "UVAKtN0Z84SNZiFO1wFP"
 
-export type NamedLoc = GeoLoc & { name: string };
+export type NamedLoc = GeoLoc & { name: string }
 
 const useGeoCoding = (address: string) => {
-  const [result, setResult] = useState<NamedLoc[]>([]);
+  const [result, setResult] = useState<NamedLoc[]>([])
   useEffect(() => {
     if (!address) {
-      return;
+      return
     }
-    fetch(`${MAPTILER_API}${address}.json?key=${MAPTILER_API_KEY}&language=fr&country=be&types=poi,address,place,neighbourhood,locality`)
-      .then((r) => r.json())
-      .then((r) => {
+    fetch(
+      `${MAPTILER_API}${address}.json?key=${MAPTILER_API_KEY}&language=fr&country=be&types=poi,address,place,neighbourhood,locality`,
+    )
+      .then(r => r.json())
+      .then(r => {
         setResult(
-          r.features.map((res) => ({
+          r.features.map(res => ({
             name: res.place_name || res.text,
             lon: res.center[0],
             lat: res.center[1],
-          }))
-        );
-      });
-  }, [address]);
+          })),
+        )
+      })
+  }, [address])
 
-  return result;
+  return result
 }
 
+interface ItemProps extends AutocompleteItem, NamedLoc {}
 
-interface ItemProps extends AutocompleteItem, NamedLoc {
-}
-
-const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(
-  ({ value, name, ...others }: ItemProps, ref) => (
-    <div ref={ref} {...others}>
-      <Group noWrap>
-
-        <div>
-          <Text>{name}</Text>
-          <Text size="xs" color="dimmed">
-            {value}
-          </Text>
-        </div>
-      </Group>
-    </div>
-  )
-);
+const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(({ value, name, ...others }: ItemProps, ref) => (
+  <div ref={ref} {...others}>
+    <Group noWrap>
+      <div>
+        <Text>{name}</Text>
+        <Text size="xs" color="dimmed">
+          {value}
+        </Text>
+      </div>
+    </Group>
+  </div>
+))
 
 interface Props {
-  onSelect?: (loca: NamedLoc | null) => void;
-  value?: NamedLoc;
+  onSelect?: (loca: NamedLoc | null) => void
+  value?: NamedLoc
 }
 function GeoAutoComplete({ value, onSelect }: Props) {
-  const [searchValue, setSearchValue] = useState(value?.name || "");
-  const [debouncedSearch] = useDebouncedValue(searchValue, 200);
-  const [showDetails, setShowDetails] = useState(false);
-  const ref = useRef<HTMLInputElement>(null);
-  const results = useGeoCoding(debouncedSearch);
-  console.log("results", results);
+  const [searchValue, setSearchValue] = useState(value?.name || "")
+  const [debouncedSearch] = useDebouncedValue(searchValue, 200)
+  const [showDetails, setShowDetails] = useState(false)
+  const ref = useRef<HTMLInputElement>(null)
+  const results = useGeoCoding(debouncedSearch)
+
   useEffect(() => {
     if (ref.current) {
-      ref.current.value = value?.name || "";
+      ref.current.value = value?.name || ""
     }
-  }, [value, showDetails]);
+  }, [value])
+
   return (
     <form>
       <Autocomplete
@@ -80,19 +78,25 @@ function GeoAutoComplete({ value, onSelect }: Props) {
         ref={ref}
         mt={"md"}
         value={searchValue}
-        data={results.map((r) => ({ ...r, value: r.name, label: r.name })) as ItemProps[]}
+        data={
+          results.map(r => ({
+            ...r,
+            value: r.name,
+            label: r.name,
+          })) as ItemProps[]
+        }
         onChange={setSearchValue}
         // avoid removing matching items
         filter={() => true}
         itemComponent={AutoCompleteItem}
         onItemSubmit={(item: ItemProps) => {
-          onSelect({ lat: item.lat, lon: item.lon, name: item.name });
+          onSelect({ lat: item.lat, lon: item.lon, name: item.name })
         }}
         rightSection={
           <CloseButton
             aria-label="Clear input"
             onClick={() => {
-              onSelect?.(null);
+              onSelect?.(null)
             }}
             style={{ display: value ? undefined : "none" }}
           />
@@ -103,17 +107,17 @@ function GeoAutoComplete({ value, onSelect }: Props) {
         {showDetails ? "Cacher" : "Afficher"} la carte
       </Button>
       {showDetails && (
-        <Map
+        <MapDisplay
           initialLat={value?.lat || 50.527942}
           initialLon={value?.lon || 5.529293}
           setHomeLoc={(lat, lon) => {
-            console.log("setHomeLoc", lat, lon);
-            onSelect({ lat, lon, name: "Personnalisé" });
+            console.log("setHomeLoc", lat, lon)
+            onSelect({ lat, lon, name: "Personnalisé" })
           }}
         />
       )}
     </form>
-  );
+  )
 }
 
-export default GeoAutoComplete;
+export default GeoAutoComplete

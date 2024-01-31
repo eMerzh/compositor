@@ -1,81 +1,92 @@
-import { Alert, Container, Modal, Text } from "@mantine/core";
-import { useMemo, useState } from "react";
-import { BooleanParam, JsonParam, NumberParam, withDefault } from "use-query-params";
-import { useQueryParam, StringParam } from "use-query-params";
-import { useDisclosure, useLocalStorage } from "@mantine/hooks";
+import { Alert, Container, Modal, Text } from "@mantine/core"
+import { useDisclosure, useLocalStorage } from "@mantine/hooks"
+import { useMemo, useState } from "react"
+import { BooleanParam, JsonParam, NumberParam, withDefault } from "use-query-params"
+import { StringParam, useQueryParam } from "use-query-params"
 
-import { ComputeResult, UnexistingSchool, computeAll, primarySchools, secondarySchools } from "./compute";
-import { NamedLoc } from "./GeoAutoComplete";
-import { InputConfig } from "./InputConfig";
-import ResultTable from "./ResultTable";
-import SchoolDetail from "./SchoolDetail";
-import { IconAlertCircle } from "@tabler/icons-react";
+import { IconAlertCircle } from "@tabler/icons-react"
+import { NamedLoc } from "./GeoAutoComplete"
+import { InputConfig } from "./InputConfig"
+import ResultTable from "./ResultTable"
+import SchoolDetail from "./SchoolDetail"
+import { ComputeResult, UnexistingSchool, computeAll, primarySchools, secondarySchools } from "./compute"
 
 const Warning = () => {
-  const [hide, setHide] = useLocalStorage({ key: "hide-warning", defaultValue: false });
-  if (hide) return <IconAlertCircle size="1rem" onClick={() => setHide(false)} />;
+  const [hide, setHide] = useLocalStorage({
+    key: "hide-warning",
+    defaultValue: false,
+  })
+  if (hide) return <IconAlertCircle size="1rem" onClick={() => setHide(false)} />
   return (
     <Alert icon={<IconAlertCircle size="1rem" />} title="Compositor2000" withCloseButton onClose={() => setHide(true)}>
       Cet outil est un outil alternatif de calcul de l'indice composite. Les données n'étant pas complètement ouvertes,
       il pourrait contenir des erreurs. N'oubliez par de vérifier le score obtenu sur le{" "}
-      <a href="https://inscription.cfwb.be/nc/simulation-de-lindice-composite/" target="_blank" rel="noopener">
+      <a
+        href="https://inscription.cfwb.be/nc/simulation-de-lindice-composite/"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         calculateur officiel
       </a>
       , et de voir les disponibilités dans l'école de votre choix sur le{" "}
-      <a href="https://monespace.fw-b.be/demarrer-demarche/?codeDemarche=ciriparent" target="_blank" rel="noopener">
+      <a
+        href="https://monespace.fw-b.be/demarrer-demarche/?codeDemarche=ciriparent"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         site adéquat
       </a>
       .
     </Alert>
-  );
-};
+  )
+}
 function useConfiguration() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setRefresher] = useState(0);
-  const refresh = () => setRefresher(Math.random());
+  const [_, setRefresher] = useState(0)
+  const refresh = () => setRefresher(Math.random())
 
-  const [idPrimaire, setIdPrimaire] = useQueryParam("idPrim", StringParam);
+  const [idPrimaire, setIdPrimaire] = useQueryParam("idPrim", StringParam)
 
-  const [idSecondaire, setIdSecondaire] = useQueryParam("idSec", StringParam);
+  const [idSecondaire, setIdSecondaire] = useQueryParam("idSec", StringParam)
 
-  const [locHome, setLocHome] = useQueryParam<NamedLoc | null>("homeloc", JsonParam);
+  const [locHome, setLocHome] = useQueryParam<NamedLoc | null>("homeloc", JsonParam)
 
-  const [immersion, setImmersion] = useQueryParam("immersion", BooleanParam);
-  const [date, setDate] = useQueryParam("date", StringParam);
-  const [ise, setIse] = useQueryParam("ise", withDefault(NumberParam, 10));
+  const [immersion, setImmersion] = useQueryParam("immersion", BooleanParam)
+  const [date, setDate] = useQueryParam("date", StringParam)
+  const [ise, setIse] = useQueryParam("ise", withDefault(NumberParam, 10))
 
   return {
     idPrimaire,
     setIdPrimaire: (v: string) => {
-      setIdPrimaire(v);
-      refresh();
+      setIdPrimaire(v)
+      refresh()
     },
     idSecondaire,
     setIdSecondaire: (v: string) => {
-      setIdSecondaire(v);
-      refresh();
+      setIdSecondaire(v)
+      refresh()
     },
     locHome,
     setLocHome: (v: NamedLoc) => {
-      setLocHome(v);
-      refresh();
+      setLocHome(v)
+      refresh()
     },
     immersion,
     setImmersion: (v: boolean) => {
-      setImmersion(v);
-      refresh();
+      setImmersion(v)
+      refresh()
     },
     date,
     setDate: (v: string) => {
-      setDate(v);
-      refresh();
+      setDate(v)
+      refresh()
     },
     ise,
     setIse: (v: number) => {
-      setIse(v);
-      refresh();
+      setIse(v)
+      refresh()
     },
-  };
+  }
 }
 function AppContainer() {
   const {
@@ -91,24 +102,24 @@ function AppContainer() {
     setDate,
     ise,
     setIse,
-  } = useConfiguration();
-  const [opened, { open, close }] = useDisclosure(false);
-  const school_prim = primarySchools.find((school) => school.id === idPrimaire);
-  const detailsSecondaire = secondarySchools.find((school) => school.id === idSecondaire);
+  } = useConfiguration()
+  const [opened, { open, close }] = useDisclosure(false)
+  const school_prim = primarySchools.find(school => school.id === idPrimaire)
+  const detailsSecondaire = secondarySchools.find(school => school.id === idSecondaire)
 
   const scores = useMemo<ComputeResult[] | UnexistingSchool | null>(() => {
-    if (!school_prim || !locHome || !date) return null;
+    if (!school_prim || !locHome || !date) return null
     try {
-      const results = computeAll(secondarySchools, school_prim, locHome, date, immersion, ise);
-      return results;
+      const results = computeAll(secondarySchools, school_prim, locHome, date, immersion, ise)
+      return results
     } catch (e) {
-      console.error(e);
+      console.error(e)
       if (e instanceof UnexistingSchool) {
-        return e;
+        return e
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [school_prim?.id, locHome?.lat, locHome?.lon, immersion, date, ise]);
+  }, [school_prim, locHome, immersion, date, ise])
 
   if (!scores || scores instanceof UnexistingSchool) {
     return (
@@ -134,7 +145,7 @@ function AppContainer() {
           </Alert>
         )}
       </Container>
-    );
+    )
   }
 
   return (
@@ -159,8 +170,8 @@ function AppContainer() {
         size="xl"
         opened={opened}
         onClose={() => {
-          close();
-          setIdSecondaire(null);
+          close()
+          setIdSecondaire(null)
         }}
         title={<Text fw="bolder">{detailsSecondaire?.name}</Text>}
       >
@@ -180,16 +191,16 @@ function AppContainer() {
           scores={scores}
           secondarySchools={secondarySchools}
           selectedFase={idSecondaire}
-          primarySchool={primarySchools.find((school) => school.id === idPrimaire)}
-          onSelectDetail={(v) => {
-            setIdSecondaire(v);
-            open();
+          primarySchool={primarySchools.find(school => school.id === idPrimaire)}
+          onSelectDetail={v => {
+            setIdSecondaire(v)
+            open()
           }}
           withImmersion={immersion}
         />
       )}
     </Container>
-  );
+  )
 }
 
-export default AppContainer;
+export default AppContainer

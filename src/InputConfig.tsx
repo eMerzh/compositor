@@ -1,13 +1,13 @@
-import { Checkbox, Group, Select, Text } from "@mantine/core";
-import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete";
-import type { School } from "./compute";
-import { IconCalendar, IconMoneybag, IconSchool } from "@tabler/icons-react";
-import { forwardRef, useMemo } from "react";
+import { Checkbox, Group, Select, Text } from "@mantine/core"
+import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete"
+import type { School } from "./compute"
+import { IconCalendar, IconMoneybag, IconSchool } from "@tabler/icons-react"
+import { forwardRef, useMemo } from "react"
 
 interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
-  city: string;
-  label: string;
-  address: string;
+  city: string
+  label: string
+  address: string
 }
 
 const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ label, address, city, ...others }: ItemProps, ref) => (
@@ -21,7 +21,7 @@ const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ label, address, city
       </div>
     </Group>
   </div>
-));
+))
 
 export function InputConfig({
   primarySchools,
@@ -37,28 +37,28 @@ export function InputConfig({
   setIse,
   isFaultyDate,
 }: {
-  primarySchools: School[];
-  idPrimaire: string;
-  setIdPrimaire: (v: string) => void;
-  locHome: NamedLoc;
-  setLocHome: (v: NamedLoc) => void;
-  immersion: boolean;
-  setImmersion: (v: boolean) => void;
-  date: string;
-  setDate: (v: string) => void;
-  ise: number;
-  setIse: (v: number) => void;
-  isFaultyDate: boolean;
+  primarySchools: School[]
+  idPrimaire: string
+  setIdPrimaire: (v: string) => void
+  locHome: NamedLoc
+  setLocHome: (v: NamedLoc) => void
+  immersion: boolean
+  setImmersion: (v: boolean) => void
+  date: string
+  setDate: (v: string) => void
+  ise: number
+  setIse: (v: number) => void
+  isFaultyDate: boolean
 }) {
-  const prim = primarySchools.map((school) => ({
+  const prim = primarySchools.map(school => ({
     value: school.id,
     label: school.name,
     address: school.address,
     city: school.city,
-  }));
+  }))
   const primSchool = useMemo(() => {
-    return idPrimaire ? primarySchools.find((p) => p.id === idPrimaire) : null;
-  }, [idPrimaire, primarySchools]);
+    return idPrimaire ? primarySchools.find(p => p.id === idPrimaire) : null
+  }, [idPrimaire, primarySchools])
 
   return (
     <>
@@ -88,10 +88,10 @@ export function InputConfig({
       {idPrimaire && !primSchool.ise && (
         <Select
           label="Indice Socio-Économique (1= moins favorisé)"
-          data={Array.from({ length: 20 }, (_, i) => i + 1).map((i) => ({ label: `${i}`, value: `${i}` }))}
+          data={Array.from({ length: 20 }, (_, i) => i + 1).map(i => ({ label: `${i}`, value: `${i}` }))}
           icon={<IconMoneybag size="1rem" color={date ? "green" : "#adb5bd"} />}
           value={`${ise}`}
-          onChange={(v) => setIse(parseInt(v, 10))}
+          onChange={v => setIse(parseInt(v, 10))}
           mt={"md"}
         />
       )}
@@ -100,8 +100,8 @@ export function InputConfig({
         checked={immersion}
         mt="md"
         mb="lg"
-        onChange={(event) => setImmersion(event.currentTarget.checked)}
+        onChange={event => setImmersion(event.currentTarget.checked)}
       />
     </>
-  );
+  )
 }

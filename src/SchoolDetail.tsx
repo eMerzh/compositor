@@ -1,8 +1,5 @@
-import { Anchor, Badge, Button, Card, Container, Group, List, Popover, Table, Text, Tooltip } from "@mantine/core";
-import { ComputeResult, GeoLoc, School, getScoreGrid } from "./compute";
-import Score from "./Score";
-import { round } from "./utils";
-import FillIcon from "./FillIcon";
+import { Anchor, Badge, Button, Card, Container, Group, List, Popover, Table, Text, Tooltip } from "@mantine/core"
+import { useDisclosure } from "@mantine/hooks"
 import {
   IconAlertCircle,
   IconBike,
@@ -11,11 +8,14 @@ import {
   IconInfoCircle,
   IconRoute,
   IconWalk,
-} from "@tabler/icons-react";
-import MapInspect from "./MapInspect";
-import { useDisclosure } from "@mantine/hooks";
-import { useEffect, useMemo, useState } from "react";
-import { accessToken } from "./GeoAutoComplete";
+} from "@tabler/icons-react"
+import { useEffect, useMemo, useState } from "react"
+import FillIcon from "./FillIcon"
+import { accessToken } from "./GeoAutoComplete"
+import MapInspect from "./MapInspect"
+import Score from "./Score"
+import { ComputeResult, GeoLoc, School, getScoreGrid } from "./compute"
+import { round } from "./utils"
 
 const Explanation = [
   {
@@ -30,7 +30,7 @@ const Explanation = [
       "Ce coefficient est déterminé par la proximité entre l’école primaire actuellement fréquentée par votre enfant et votre domicile. Plus précisément, ce coefficient est calculé sur base de l’ implantation fondamentale ou primaire dans laquelle il se rend. Plus l’école primaire est proche du domicile par rapport à d’autres écoles primaires du même réseau , plus le coefficient attribué est élevé.",
     scoreProperty: "coef_2",
     more: (result: ComputeResult) => {
-      const schools = result.primarySchools.slice(0, result.score.rank_2);
+      const schools = result.primarySchools.slice(0, result.score.rank_2)
       return (
         <Popover width={200} position="bottom" withArrow shadow="md">
           <Popover.Target>
@@ -43,13 +43,13 @@ const Explanation = [
           </Popover.Target>
           <Popover.Dropdown>
             <List type="ordered">
-              {schools.map((s) => (
+              {schools.map(s => (
                 <List.Item key={s.id}>{s.name}</List.Item>
               ))}
             </List>
           </Popover.Dropdown>
         </Popover>
-      );
+      )
     },
   },
   {
@@ -59,8 +59,8 @@ const Explanation = [
     scoreProperty: "coef_3",
     more: (result: ComputeResult) => {
       const schools = result.secondarySchools
-        .filter((s) => s.network === result.school.network)
-        .slice(0, result.score.rank_3);
+        .filter(s => s.network === result.school.network)
+        .slice(0, result.score.rank_3)
       return (
         <Popover width={200} position="bottom" withArrow shadow="md">
           <Popover.Target>
@@ -73,13 +73,13 @@ const Explanation = [
           </Popover.Target>
           <Popover.Dropdown>
             <List type="ordered">
-              {schools.map((s) => (
+              {schools.map(s => (
                 <List.Item key={s.id}>{s.name}</List.Item>
               ))}
             </List>
           </Popover.Dropdown>
         </Popover>
-      );
+      )
     },
   },
   {
@@ -120,32 +120,32 @@ const Explanation = [
               Approximatif
             </Button>
           </>
-        );
+        )
       }
     },
   },
-];
+]
 
 function fetchRoute(profile: "driving" | "walking" | "cycling", from: GeoLoc, to: GeoLoc) {
   return fetch(
     `https://api.mapbox.com/directions/v5/mapbox/${profile}/${from.lon},${from.lat};${to.lon},${to.lat}?access_token=${accessToken}`,
-  );
+  )
 }
 
 const RouterDisplay = ({ from, to }: { from: GeoLoc; to: GeoLoc }) => {
-  const [driveRoute, setDriveRoute] = useState(null);
-  const [walkRoute, setWalkRoute] = useState(null);
-  const [bikeRoute, setBikeRoute] = useState(null);
+  const [driveRoute, setDriveRoute] = useState(null)
+  const [walkRoute, setWalkRoute] = useState(null)
+  const [bikeRoute, setBikeRoute] = useState(null)
   useEffect(() => {
     const fetchDrive = async (profile: "driving" | "walking" | "cycling", setter) => {
-      const rest = await fetchRoute(profile, from, to);
-      const json = await rest.json();
-      setter(json.routes[0]);
-    };
-    fetchDrive("driving", setDriveRoute);
-    fetchDrive("walking", setWalkRoute);
-    fetchDrive("cycling", setBikeRoute);
-  }, [from, to]);
+      const rest = await fetchRoute(profile, from, to)
+      const json = await rest.json()
+      setter(json.routes[0])
+    }
+    fetchDrive("driving", setDriveRoute)
+    fetchDrive("walking", setWalkRoute)
+    fetchDrive("cycling", setBikeRoute)
+  }, [from, to])
   return (
     <List>
       {bikeRoute && (
@@ -164,8 +164,8 @@ const RouterDisplay = ({ from, to }: { from: GeoLoc; to: GeoLoc }) => {
         </List.Item>
       )}
     </List>
-  );
-};
+  )
+}
 const SchoolDetail = ({
   school,
   scores,
@@ -174,26 +174,26 @@ const SchoolDetail = ({
   immersion,
   ise,
 }: {
-  school: School;
-  scores: ComputeResult[];
-  locHome: GeoLoc;
-  date: string;
-  immersion: boolean;
-  ise?: number;
+  school: School
+  scores: ComputeResult[]
+  locHome: GeoLoc
+  date: string
+  immersion: boolean
+  ise?: number
 }) => {
-  let result: ComputeResult | undefined;
-  const [gridOpened, handlers] = useDisclosure(false);
-  const [routeDisplay, routeHandlers] = useDisclosure(false);
+  let result: ComputeResult | undefined
+  const [gridOpened, handlers] = useDisclosure(false)
+  const [routeDisplay, routeHandlers] = useDisclosure(false)
 
   if (scores) {
-    result = scores.find((s) => s.school.id == school.id);
+    result = scores.find(s => s.school.id === school.id)
   }
 
   const gridResult = useMemo(() => {
-    if (!gridOpened) return null;
-    console.log("compute");
-    return getScoreGrid(school, result.primarySchool, locHome, date, immersion, ise);
-  }, [school, result?.primarySchool, locHome, date, immersion, gridOpened, ise]);
+    if (!gridOpened) return null
+    console.log("compute")
+    return getScoreGrid(school, result.primarySchool, locHome, date, immersion, ise)
+  }, [school, result?.primarySchool, locHome, date, immersion, gridOpened, ise])
 
   return (
     <Container>
@@ -246,7 +246,7 @@ const SchoolDetail = ({
                           {d.more?.(result)}
                         </span>
                       </List.Item>
-                    );
+                    )
                   })}
                 </List>
                 <em>TOTAL:</em> <Score score={result.score.total}>{result.score.total}</Score>
@@ -300,12 +300,12 @@ const SchoolDetail = ({
       </Card>
       <Container w="100%">
         <Button compact variant="white" leftIcon={<IconGridDots size="1rem" />} onClick={handlers.toggle}>
-          Grid
+          Carte des scores
         </Button>
         {gridOpened && <MapInspect result={gridResult} home={locHome} secondary={school} />}
       </Container>
     </Container>
-  );
-};
+  )
+}
 
-export default SchoolDetail;
+export default SchoolDetail

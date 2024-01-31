@@ -1,4 +1,4 @@
-export function round(a: number, afterComma: number = 0) {
-  const coef = Math.pow(10, afterComma);
-  return Math.round(a * coef) / coef;
+export function round(a: number, afterComma = 0) {
+  const coef = 10 ** afterComma
+  return Math.round(a * coef) / coef
 }

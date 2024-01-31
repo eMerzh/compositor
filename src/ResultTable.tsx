@@ -1,31 +1,33 @@
-import { Alert, Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core";
-import { IconAlertCircle, IconSortAscending, IconSortDescending } from "@tabler/icons-react";
-import { useMemo, useState } from "react";
-import { ComputeResult, School, distanceSort, scoreSort, fillSort } from "./compute";
-import { round } from "./utils";
-import Score from "./Score";
-import FillIcon from "./FillIcon";
+import { Alert, Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core"
+import { IconAlertCircle, IconSortAscending, IconSortDescending } from "@tabler/icons-react"
+import { ReactNode, useCallback, useMemo, useState } from "react"
+import FillIcon from "./FillIcon"
+import Score from "./Score"
+import { ComputeResult, School, distanceSort, fillSort, scoreSort } from "./compute"
+import { round } from "./utils"
 
-type SortColumn = "distance" | "score" | "fill";
-type SortOrder = "asc" | "desc";
+type SortColumn = "distance" | "score" | "fill"
+type SortOrder = "asc" | "desc"
 
 const getSortFn = (sortColumn: SortColumn) => {
-  if (sortColumn == "distance") {
-    return distanceSort;
-  } else if (sortColumn == "score") {
-    return scoreSort;
-  } else if (sortColumn == "fill") {
-    return fillSort;
+  if (sortColumn === "distance") {
+    return distanceSort
   }
-};
+  if (sortColumn === "score") {
+    return scoreSort
+  }
+  if (sortColumn === "fill") {
+    return fillSort
+  }
+}
 
 interface Props {
-  secondarySchools: School[];
-  primarySchool: School;
-  scores: ComputeResult[];
-  selectedFase: string;
-  withImmersion: boolean;
-  onSelectDetail: (schoolFase: string) => void;
+  secondarySchools: School[]
+  primarySchool: School
+  scores: ComputeResult[]
+  selectedFase: string
+  withImmersion: boolean
+  onSelectDetail: (schoolFase: string) => void
 }
 export default function ResultTable({
   secondarySchools,
@@ -35,22 +37,22 @@ export default function ResultTable({
   selectedFase,
   withImmersion,
 }: Props) {
-  const [filterNetwork, setFilterNetwork] = useState<string[]>([]);
-  const networks = useMemo(() => [...new Set(secondarySchools.map((s) => s.network))], [secondarySchools]);
-  const [filterCity, setFilterCity] = useState<string[]>([]);
-  const cities = useMemo(() => [...new Set(secondarySchools.map((s) => s.city))], [secondarySchools]);
-  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
-  const [sortColumn, setSortColumn] = useState<SortColumn>("score");
+  const [filterNetwork, setFilterNetwork] = useState<string[]>([])
+  const networks = useMemo(() => [...new Set(secondarySchools.map(s => s.network))], [secondarySchools])
+  const [filterCity, setFilterCity] = useState<string[]>([])
+  const cities = useMemo(() => [...new Set(secondarySchools.map(s => s.city))], [secondarySchools])
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc")
+  const [sortColumn, setSortColumn] = useState<SortColumn>("score")
   const schoolsScores = useMemo(() => {
     return Array.from(scores || [])
-      .filter((s) => !filterNetwork.length || filterNetwork.includes(s.school.network))
-      .filter((s) => !withImmersion || s.school.immersion)
-      .filter((s) => !filterCity.length || filterCity.includes(s.school.city))
+      .filter(s => !filterNetwork.length || filterNetwork.includes(s.school.network))
+      .filter(s => !withImmersion || s.school.immersion)
+      .filter(s => !filterCity.length || filterCity.includes(s.school.city))
       .sort(getSortFn(sortColumn))
-      [sortOrder == "desc" ? "reverse" : "slice"](); // eslint-disable-line no-unexpected-multiline
-  }, [scores, sortColumn, sortOrder, filterNetwork, withImmersion, filterCity]);
+      [sortOrder === "desc" ? "reverse" : "slice"]() // eslint-disable-line no-unexpected-multiline
+  }, [scores, sortColumn, sortOrder, filterNetwork, withImmersion, filterCity])
 
-  let warnMsg;
+  let warnMsg: ReactNode
   if (primarySchool.ise === null) {
     warnMsg = (
       <Alert icon={<IconAlertCircle size="1rem" />} title="Attention" color="yellow">
@@ -58,8 +60,16 @@ export default function ResultTable({
         avec un indice moyen de 10/20 qui représente une hypothétique moyenne des élèves de l'école secondaire. Prenez
         donc les scores avec des pincettes.
       </Alert>
-    );
+    )
   }
+  const orderHandler = useCallback(
+    (column: SortColumn) => () => {
+      setSortColumn(column)
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc")
+    },
+    [sortOrder],
+  )
+
   return (
     <Group>
       <MultiSelect
@@ -68,7 +78,7 @@ export default function ResultTable({
         clearable
         placeholder="Choisir un réseau"
         value={filterNetwork}
-        onChange={(v) => setFilterNetwork(v)}
+        onChange={v => setFilterNetwork(v)}
         data={networks}
       />
       <MultiSelect
@@ -77,7 +87,7 @@ export default function ResultTable({
         clearable
         placeholder="Choisir une ville"
         value={filterCity}
-        onChange={(v) => setFilterCity(v)}
+        onChange={v => setFilterCity(v)}
         data={cities}
       />
       {warnMsg}
@@ -86,38 +96,23 @@ export default function ResultTable({
           <tr>
             <th>Name</th>
             <th>Réseau</th>
-            <th
-              onClick={() => {
-                setSortColumn("fill");
-                setSortOrder(sortOrder == "asc" ? "desc" : "asc");
-              }}
-            >
+            <th onClick={orderHandler("fill")} onKeyDown={orderHandler("fill")}>
               Rempl. 2022
               {sortColumn === "fill" &&
-                (sortOrder == "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
+                (sortOrder === "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
             </th>
-            <th
-              onClick={() => {
-                setSortColumn("distance");
-                setSortOrder(sortOrder == "asc" ? "desc" : "asc");
-              }}
-            >
+            <th onClick={orderHandler("distance")} onKeyDown={orderHandler("distance")}>
               <Center>
                 Distance{" "}
                 {sortColumn === "distance" &&
-                  (sortOrder == "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
+                  (sortOrder === "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
               </Center>
             </th>
-            <th
-              onClick={() => {
-                setSortColumn("score");
-                setSortOrder(sortOrder == "asc" ? "desc" : "asc");
-              }}
-            >
+            <th onClick={orderHandler("score")} onKeyDown={orderHandler("score")}>
               <Center>
                 Score{" "}
                 {sortColumn === "score" &&
-                  (sortOrder == "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
+                  (sortOrder === "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
               </Center>
             </th>
           </tr>
@@ -128,11 +123,14 @@ export default function ResultTable({
               <tr
                 key={school.id}
                 style={{
-                  backgroundColor: school.id == selectedFase ? "#7AD1DD" : undefined,
+                  backgroundColor: school.id === selectedFase ? "#7AD1DD" : undefined,
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  onSelectDetail(school.id);
+                  onSelectDetail(school.id)
+                }}
+                onKeyDown={() => {
+                  onSelectDetail(school.id)
                 }}
               >
                 <th style={{ textTransform: "capitalize" }}>
@@ -148,10 +146,10 @@ export default function ResultTable({
                   <Score score={score.total}>{round(score.total, 3)}</Score>
                 </td>
               </tr>
-            );
+            )
           })}
         </tbody>
       </Table>
     </Group>
-  );
+  )
 }

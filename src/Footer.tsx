@@ -1,6 +1,6 @@
-import { IconBrandGithub } from "@tabler/icons-react";
+import { IconBrandGithub } from "@tabler/icons-react"
 
-import { Footer, Text } from "@mantine/core";
+import { Footer, Text } from "@mantine/core"
 
 const AppFooter = () => {
   return (
@@ -16,7 +16,7 @@ const AppFooter = () => {
         Question, Suggestions, Soutiens ➤ compositor__at__bmaron.net
       </Text>
     </Footer>
-  );
-};
+  )
+}
 
-export default AppFooter;
+export default AppFooter
