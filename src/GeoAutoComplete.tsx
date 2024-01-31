@@ -1,23 +1,70 @@
-import { Button, CloseButton, TextInput } from "@mantine/core";
-import { AddressAutofill } from "@mapbox/search-js-react";
+import { Autocomplete, AutocompleteItem, Button, CloseButton, Group, Text } from "@mantine/core";
 import { IconHomeSearch, IconMap } from "@tabler/icons-react";
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useRef, useState } from "react";
 import { GeoLoc } from "./compute";
 import Map from "./Map";
+import { useDebouncedValue } from '@mantine/hooks';
 
 export const accessToken = "pk.eyJ1IjoiZW1lcnpoIiwiYSI6ImNsbW5zbjV3NzA4MWoycm85d3A1OWFmZG8ifQ.vHHA1EhrIbEaeKHwa9KvmQ";
 
+const MAPTILER_API = "https://api.maptiler.com/geocoding/";
+const MAPTILER_API_KEY = "UVAKtN0Z84SNZiFO1wFP";
+
 export type NamedLoc = GeoLoc & { name: string };
+
+const useGeoCoding = (address: string) => {
+  const [result, setResult] = useState<NamedLoc[]>([]);
+  useEffect(() => {
+    if (!address) {
+      return;
+    }
+    fetch(`${MAPTILER_API}${address}.json?key=${MAPTILER_API_KEY}&language=fr&country=be&types=poi,address,place,neighbourhood,locality`)
+      .then((r) => r.json())
+      .then((r) => {
+        setResult(
+          r.features.map((res) => ({
+            name: res.place_name || res.text,
+            lon: res.center[0],
+            lat: res.center[1],
+          }))
+        );
+      });
+  }, [address]);
+
+  return result;
+}
+
+
+interface ItemProps extends AutocompleteItem, NamedLoc {
+}
+
+const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(
+  ({ value, name, ...others }: ItemProps, ref) => (
+    <div ref={ref} {...others}>
+      <Group noWrap>
+
+        <div>
+          <Text>{name}</Text>
+          <Text size="xs" color="dimmed">
+            {value}
+          </Text>
+        </div>
+      </Group>
+    </div>
+  )
+);
 
 interface Props {
   onSelect?: (loca: NamedLoc | null) => void;
   value?: NamedLoc;
 }
 function GeoAutoComplete({ value, onSelect }: Props) {
-  const [address, setAddress] = useState<string>(value?.name || "");
+  const [searchValue, setSearchValue] = useState(value?.name || "");
+  const [debouncedSearch] = useDebouncedValue(searchValue, 200);
   const [showDetails, setShowDetails] = useState(false);
   const ref = useRef<HTMLInputElement>(null);
-
+  const results = useGeoCoding(debouncedSearch);
+  console.log("results", results);
   useEffect(() => {
     if (ref.current) {
       ref.current.value = value?.name || "";
@@ -25,43 +72,33 @@ function GeoAutoComplete({ value, onSelect }: Props) {
   }, [value, showDetails]);
   return (
     <form>
-      <AddressAutofill
-        accessToken={accessToken}
-        options={{
-          language: "fr",
-          country: "BE",
+      <Autocomplete
+        label="Adresse du domicile"
+        description="Une adresse précise est préférable pour obtenir des résultats pertinents."
+        icon={<IconHomeSearch size="1rem" color={value?.lat ? "green" : "#adb5bd"} />}
+        placeholder="Domicile"
+        ref={ref}
+        mt={"md"}
+        value={searchValue}
+        data={results.map((r) => ({ ...r, value: r.name, label: r.name })) as ItemProps[]}
+        onChange={setSearchValue}
+        // avoid removing matching items
+        filter={() => true}
+        itemComponent={AutoCompleteItem}
+        onItemSubmit={(item: ItemProps) => {
+          onSelect({ lat: item.lat, lon: item.lon, name: item.name });
         }}
-        onRetrieve={(e) => {
-          const feature = e.features[0];
-          setAddress(feature.properties.feature_name);
-          onSelect?.({
-            lon: feature.geometry.coordinates[0],
-            lat: feature.geometry.coordinates[1],
-            name: feature.properties.feature_name,
-          });
-        }}
-      >
-        <TextInput
-          label="Adresse du domicile"
-          icon={<IconHomeSearch size="1rem" color={value?.lat ? "green" : "#adb5bd"} />}
-          placeholder="Domicile"
-          autoComplete="street-address"
-          value={address}
-          ref={ref}
-          mt={"md"}
-          onChange={(e) => setAddress(e.currentTarget.value)}
-          rightSection={
-            <CloseButton
-              aria-label="Clear input"
-              onClick={() => {
-                setAddress("");
-                onSelect?.(null);
-              }}
-              style={{ display: value ? undefined : "none" }}
-            />
-          }
-        />
-      </AddressAutofill>
+        rightSection={
+          <CloseButton
+            aria-label="Clear input"
+            onClick={() => {
+              onSelect?.(null);
+            }}
+            style={{ display: value ? undefined : "none" }}
+          />
+        }
+        rightSectionWidth={40}
+      />
       <Button variant="white" compact onClick={() => setShowDetails(!showDetails)} leftIcon={<IconMap size="1rem" />}>
         {showDetails ? "Cacher" : "Afficher"} la carte
       </Button>
