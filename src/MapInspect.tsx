@@ -5,7 +5,7 @@ import homeIcon from "./assets/home.svg"
 import { GeoLoc, School } from "./compute"
 
 interface MapProps {
-  result: { grid: unknown; min: number; max: number; lines: unknown }
+  result: { grid: unknown; min: number; max: number; lines: GeoJSON.GeoJSON }
   secondary: School
   home: GeoLoc
 }

@@ -305,7 +305,7 @@ export function getScoreGrid(
   date: string,
   immersion: boolean,
   ise?: number,
-): { grid: object; min: number; max: number; lines: object } {
+) {
   console.time("getScoreGrid")
 
   const box = turf.bbox(
@@ -349,7 +349,7 @@ export function getScoreGrid(
   const steps = (max - min) / 10
   const breaks = Array.from({ length: 11 }, (_, i) => min + i * steps)
 
-  const lines = turf.isobands(grid, breaks, {
+  const lines : GeoJSON.GeoJSON= turf.isobands(grid, breaks, {
     zProperty: "score",
     commonProperties: {
       "fill-opacity": 0.6,
