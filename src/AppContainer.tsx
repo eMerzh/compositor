@@ -1,26 +1,33 @@
-import { Alert, Container, Modal, Text } from "@mantine/core"
+import { Alert, Badge, Container, Modal, Text } from "@mantine/core"
 import { useDisclosure, useLocalStorage } from "@mantine/hooks"
 import { useMemo, useState } from "react"
 import { BooleanParam, JsonParam, NumberParam, withDefault } from "use-query-params"
 import { StringParam, useQueryParam } from "use-query-params"
 
-import { IconAlertCircle } from "@tabler/icons-react"
+import { IconAlertCircle, IconHeart } from "@tabler/icons-react"
 import { NamedLoc } from "./GeoAutoComplete"
 import { InputConfig } from "./InputConfig"
 import ResultTable from "./ResultTable"
 import SchoolDetail from "./SchoolDetail"
 import { ComputeResult, UnexistingSchool, computeAll, primarySchools, secondarySchools } from "./compute"
+import posthog from "posthog-js"
 
 const Warning = () => {
   const [hide, setHide] = useLocalStorage({
     key: "hide-warning",
     defaultValue: false,
   })
+  const [liked, setLiked] = useState(false)
+  const onLike = () => {
+    posthog.capture('like')
+    setLiked(true)
+  }
   if (hide) return <IconAlertCircle size="1rem" onClick={() => setHide(false)} />
   return (
     <Alert icon={<IconAlertCircle size="1rem" />} title="Compositor2000" withCloseButton onClose={() => setHide(true)}>
-      Cet outil est un outil alternatif de calcul de l'indice composite. Les données n'étant pas complètement ouvertes,
-      il pourrait contenir des erreurs. N'oubliez par de vérifier le score obtenu sur le{" "}
+      Cet outil est un outil alternatif et ouvert de calcul de l'indice composite.
+      Les données n'étant pas complètement ouvertes, il pourrait contenir des erreurs.
+      N'oubliez par de vérifier le score obtenu sur le{" "}
       <a
         href="https://inscription.cfwb.be/nc/simulation-de-lindice-composite/"
         target="_blank"
@@ -37,6 +44,9 @@ const Warning = () => {
         site adéquat
       </a>
       .
+      <p>
+      {liked ? ( <>Merci beaucoup ! <IconHeart size="1rem" color="red" /></>) : (<> Si ceci vous est utile, un <Badge variant="outline"  size="sm" onClick={onLike}>petit click</Badge> pour la motivation</>)}
+      </p>
     </Alert>
   )
 }
