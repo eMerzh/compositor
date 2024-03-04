@@ -10,11 +10,11 @@ overrides:
 
 dependencies:
   '@emotion/react':
-    specifier: ^11.11.3
-    version: 11.11.3(@types/react@18.0.8)(react@18.2.0)
+    specifier: ^11.11.4
+    version: 11.11.4(@types/react@18.0.8)(react@18.2.0)
   '@mantine/core':
     specifier: ^6.0.20
-    version: 6.0.21(@emotion/react@11.11.3)(@mantine/hooks@6.0.21)(@types/react@18.0.8)(react-dom@18.2.0)(react@18.2.0)
+    version: 6.0.21(@emotion/react@11.11.4)(@mantine/hooks@6.0.21)(@types/react@18.0.8)(react-dom@18.2.0)(react@18.2.0)
   '@mantine/form':
     specifier: ^6.0.20
     version: 6.0.21(react@18.2.0)
@@ -319,8 +319,8 @@ packages:
     resolution: {integrity: sha512-W2P2c/VRW1/1tLox0mVUalvnWXxavmv/Oum2aPsRcoDJuob75FC3Y8FbpfLwUegRcxINtGUMPq0tFCvYNTBXNA==}
     dev: false
 
-  /@emotion/react@11.11.3(@types/react@18.0.8)(react@18.2.0):
-    resolution: {integrity: sha512-Cnn0kuq4DoONOMcnoVsTOR8E+AdnKFf//6kUWc4LCdnxj31pZWn7rIULd6Y7/Js1PiPHzn7SKCM9vB/jBni8eA==}
+  /@emotion/react@11.11.4(@types/react@18.0.8)(react@18.2.0):
+    resolution: {integrity: sha512-t8AjMlF0gHpvvxk5mAtCqR4vmxiGHCeJBaQO6gncUSdklELOgtwjerNY2yuJNfwnc6vi16U/+uMF+afIawJ9iw==}
     peerDependencies:
       '@types/react': '*'
       react: '>=16.8.0'
@@ -695,7 +695,7 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@mantine/core@6.0.21(@emotion/react@11.11.3)(@mantine/hooks@6.0.21)(@types/react@18.0.8)(react-dom@18.2.0)(react@18.2.0):
+  /@mantine/core@6.0.21(@emotion/react@11.11.4)(@mantine/hooks@6.0.21)(@types/react@18.0.8)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-Kx4RrRfv0I+cOCIcsq/UA2aWcYLyXgW3aluAuW870OdXnbII6qg7RW28D+r9D76SHPxWFKwIKwmcucAG08Divg==}
     peerDependencies:
       '@mantine/hooks': 6.0.21
@@ -704,7 +704,7 @@ packages:
     dependencies:
       '@floating-ui/react': 0.19.2(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks': 6.0.21(react@18.2.0)
-      '@mantine/styles': 6.0.21(@emotion/react@11.11.3)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/styles': 6.0.21(@emotion/react@11.11.4)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/utils': 6.0.21(react@18.2.0)
       '@radix-ui/react-scroll-area': 1.0.2(react-dom@18.2.0)(react@18.2.0)
       react: 18.2.0
@@ -734,14 +734,14 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@mantine/styles@6.0.21(@emotion/react@11.11.3)(react-dom@18.2.0)(react@18.2.0):
+  /@mantine/styles@6.0.21(@emotion/react@11.11.4)(react-dom@18.2.0)(react@18.2.0):
     resolution: {integrity: sha512-PVtL7XHUiD/B5/kZ/QvZOZZQQOj12QcRs3Q6nPoqaoPcOX5+S7bMZLMH0iLtcGq5OODYk0uxlvuJkOZGoPj8Mg==}
     peerDependencies:
       '@emotion/react': '>=11.9.0'
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
     dependencies:
-      '@emotion/react': 11.11.3(@types/react@18.0.8)(react@18.2.0)
+      '@emotion/react': 11.11.4(@types/react@18.0.8)(react@18.2.0)
       clsx: 1.1.1
       csstype: 3.0.9
       react: 18.2.0
