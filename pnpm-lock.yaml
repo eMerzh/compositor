@@ -22,8 +22,8 @@ dependencies:
     specifier: ^6.0.20
     version: 6.0.21(react@18.2.0)
   '@tabler/icons-react':
-    specifier: ^3.0.0
-    version: 3.0.0(react@18.2.0)
+    specifier: ^3.1.0
+    version: 3.1.0(react@18.2.0)
   '@turf/turf':
     specifier: ^6.5.0
     version: 6.5.0
@@ -1164,17 +1164,17 @@ packages:
     resolution: {integrity: sha512-myfUej5naTBWnqOCc/MdVOLVjXUXtIA+NpDrDBKJtLLg2shUjBu3cZmB/85RyitKc55+lUUyl7oRfLOvkr2hsw==}
     dev: true
 
-  /@tabler/icons-react@3.0.0(react@18.2.0):
-    resolution: {integrity: sha512-KI3rFTvH6k/4fJVVegvqdqiaaPyo2YZ4X/4A0HExwJKfqZrUeZZHB2/iCTXnvecI9REWrexmFlyYMpthA9dEDw==}
+  /@tabler/icons-react@3.1.0(react@18.2.0):
+    resolution: {integrity: sha512-k/WTlax2vbj/LpxvaJ+BmaLAAhVUgyLj4Ftgaczz66tUSNzqrAZXCFdOU7cRMYPNVBqyqE2IdQd2rzzhDEJvkw==}
     peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+      react: '>= 16'
     dependencies:
-      '@tabler/icons': 3.0.0
+      '@tabler/icons': 3.1.0
       react: 18.2.0
     dev: false
 
-  /@tabler/icons@3.0.0:
-    resolution: {integrity: sha512-DT27tfUt7v6wqn+NVBp5zSxYwfVuyImdgih0ULTbs0qQrAANmjobyMSrD+ATWvIsS5QuhbA+lX4hv8pEe7Lm/w==}
+  /@tabler/icons@3.1.0:
+    resolution: {integrity: sha512-CpZGyS1IVJKFcv88yZ2sYZIpWWhQ6oy76BQKQ5SF0fGgOqgyqKdBGG/YGyyMW632on37MX7VqQIMTzN/uQqmFg==}
     dev: false
 
   /@tsconfig/node10@1.0.9:
