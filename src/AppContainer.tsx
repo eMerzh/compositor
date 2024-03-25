@@ -19,15 +19,14 @@ const Warning = () => {
   })
   const [liked, setLiked] = useState(false)
   const onLike = () => {
-    posthog.capture('like')
+    posthog.capture("like")
     setLiked(true)
   }
   if (hide) return <IconAlertCircle size="1rem" onClick={() => setHide(false)} />
   return (
     <Alert icon={<IconAlertCircle size="1rem" />} title="Compositor2000" withCloseButton onClose={() => setHide(true)}>
-      Cet outil est un outil alternatif et ouvert de calcul de l'indice composite.
-      Les données n'étant pas complètement ouvertes, il pourrait contenir des erreurs.
-      N'oubliez par de vérifier le score obtenu sur le{" "}
+      Cet outil est un outil alternatif et ouvert de calcul de l'indice composite. Les données n'étant pas complètement
+      ouvertes, il pourrait contenir des erreurs. N'oubliez par de vérifier le score obtenu sur le{" "}
       <a
         href="https://inscription.cfwb.be/nc/simulation-de-lindice-composite/"
         target="_blank"
@@ -45,7 +44,20 @@ const Warning = () => {
       </a>
       .
       <p>
-      {liked ? ( <>Merci beaucoup ! <IconHeart size="1rem" color="red" /></>) : (<> Si ceci vous est utile, un <Badge variant="outline"  size="sm" onClick={onLike}>petit click</Badge> pour la motivation</>)}
+        {liked ? (
+          <>
+            Merci beaucoup ! <IconHeart size="1rem" color="red" />
+          </>
+        ) : (
+          <>
+            {" "}
+            Si ceci vous est utile, un{" "}
+            <Badge variant="outline" size="sm" onClick={onLike}>
+              petit click
+            </Badge>{" "}
+            pour la motivation
+          </>
+        )}
       </p>
     </Alert>
   )
@@ -128,7 +140,6 @@ function AppContainer() {
         return e
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [school_prim, locHome, immersion, date, ise])
 
   if (!scores || scores instanceof UnexistingSchool) {
