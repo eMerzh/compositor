@@ -28,8 +28,8 @@ dependencies:
     specifier: ^6.5.0
     version: 6.5.0
   maplibre-gl:
-    specifier: ^4.1.1
-    version: 4.1.1
+    specifier: ^4.1.2
+    version: 4.1.2
   posthog-js:
     specifier: ^1.116.6
     version: 1.116.6
@@ -3999,8 +3999,8 @@ packages:
     resolution: {integrity: sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==}
     dev: true
 
-  /maplibre-gl@4.1.1:
-    resolution: {integrity: sha512-DmHru9FTHCOngNHzIx9W2+MlUziYPfPxd2qjyeWwczBYNx2SDpmH394MkuCvSgnfUm5Zvs4NaYCqMu44jUga1Q==}
+  /maplibre-gl@4.1.2:
+    resolution: {integrity: sha512-98T+3BesL4w/N39q/rgs9q6HzHLG6pgbS9UaTqg6fMISfzy2WGKokjK205ENFDDmEljj54/LTfdXgqg2XfYU4A==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
     dependencies:
       '@mapbox/geojson-rewind': 0.5.2
