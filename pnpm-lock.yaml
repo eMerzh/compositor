@@ -72,8 +72,8 @@ devDependencies:
     specifier: ^6.3.9
     version: 6.3.9
   cypress:
-    specifier: ^13.11.0
-    version: 13.11.0
+    specifier: ^13.12.0
+    version: 13.12.0
   eslint:
     specifier: 8.57.0
     version: 8.57.0
@@ -2927,8 +2927,8 @@ packages:
       stream-transform: 3.3.2
     dev: true
 
-  /cypress@13.11.0:
-    resolution: {integrity: sha512-NXXogbAxVlVje4XHX+Cx5eMFZv4Dho/2rIcdBHg9CNPFUGZdM4cRdgIgM7USmNYsC12XY0bZENEQ+KBk72fl+A==}
+  /cypress@13.12.0:
+    resolution: {integrity: sha512-udzS2JilmI9ApO/UuqurEwOvThclin5ntz7K0BtnHBs+tg2Bl9QShLISXpSEMDv/u8b6mqdoAdyKeZiSqKWL8g==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
     requiresBuild: true
