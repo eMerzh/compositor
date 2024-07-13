@@ -315,7 +315,7 @@ export function getScoreGrid(
       turf.point([primarySchool.geo.lon, primarySchool.geo.lat]),
     ]),
   )
-  const newbox = [...box]
+  const newbox = [...box] as [number, number, number, number, number, number] // just copy the thing
   newbox[0] = box[0] - (box[2] - box[0]) // / 2;
   newbox[1] = box[1] - (box[3] - box[1]) // / 2;
   newbox[2] = box[2] + (box[2] - box[0]) // / 2;
@@ -349,7 +349,7 @@ export function getScoreGrid(
   const steps = (max - min) / 10
   const breaks = Array.from({ length: 11 }, (_, i) => min + i * steps)
 
-  const lines : GeoJSON.GeoJSON= turf.isobands(grid, breaks, {
+  const lines: GeoJSON.GeoJSON = turf.isobands(grid, breaks, {
     zProperty: "score",
     commonProperties: {
       "fill-opacity": 0.6,
