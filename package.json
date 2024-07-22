@@ -13,7 +13,7 @@
     "compute": "NODE_OPTIONS='--loader ts-node/esm' ts-node ./src/preCompute.ts"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.4",
+    "@emotion/react": "^11.13.0",
     "@mantine/core": "^6.0.20",
     "@mantine/form": "^6.0.20",
     "@mantine/hooks": "^6.0.20",
