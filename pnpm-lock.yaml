@@ -74,8 +74,8 @@ importers:
         specifier: ^6.3.10
         version: 6.3.10
       cypress:
-        specifier: ^13.13.2
-        version: 13.13.2
+        specifier: ^13.13.3
+        version: 13.13.3
       eslint:
         specifier: 8.57.0
         version: 8.57.0
@@ -1468,8 +1468,8 @@ packages:
     resolution: {integrity: sha512-5NYZG4AN2ZUthmNxIudgBEdMPUnbQHu9V4QTzBPqQzUP3KQsFiJo+8HQ0+oVxj1PomIT1/f67VI1QH/hsrZLKA==}
     engines: {node: '>= 0.1.90'}
 
-  cypress@13.13.2:
-    resolution: {integrity: sha512-PvJQU33933NvS1StfzEb8/mu2kMy4dABwCF+yd5Bi7Qly1HOVf+Bufrygee/tlmty/6j5lX+KIi8j9Q3JUMbhA==}
+  cypress@13.13.3:
+    resolution: {integrity: sha512-hUxPrdbJXhUOTzuML+y9Av7CKoYznbD83pt8g3klgpioEha0emfx4WNIuVRx0C76r0xV2MIwAW9WYiXfVJYFQw==}
     engines: {node: ^16.0.0 || ^18.0.0 || >=20.0.0}
     hasBin: true
 
@@ -4816,7 +4816,7 @@ snapshots:
       csv-stringify: 6.5.1
       stream-transform: 3.3.2
 
-  cypress@13.13.2:
+  cypress@13.13.3:
     dependencies:
       '@cypress/request': 3.0.1
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
