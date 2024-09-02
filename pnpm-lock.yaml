@@ -34,8 +34,8 @@ importers:
         specifier: ^4.6.0
         version: 4.6.0
       posthog-js:
-        specifier: ^1.155.6
-        version: 1.155.6
+        specifier: ^1.160.0
+        version: 1.160.0
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -1132,9 +1132,6 @@ packages:
   '@types/supercluster@7.1.3':
     resolution: {integrity: sha512-Z0pOY34GDFl3Q6hUFYf3HkTwKEE02e7QgtJppBt+beEAxnyOpJua+voGFvxINBHa06GwLFFym7gRPY2SiKIfIA==}
 
-  '@types/web@0.0.154':
-    resolution: {integrity: sha512-Tc10Nkpbb8AgM3iGnrvpKVb6x8pzrZpMCPqMJe8htXoEdNDKojEevNAkCjxkjCLZF2p1ZB+gknAwdbkypxwxKg==}
-
   '@types/yauzl@2.10.0':
     resolution: {integrity: sha512-Cn6WYCm0tXv8p6k+A8PvbDG763EDpBoTzHdA+Q/MF6H3sapGjCm9NzoaJncJS9tUKSuCoDs9XHxYYsQDgxR6kw==}
 
@@ -2215,8 +2212,8 @@ packages:
     resolution: {integrity: sha512-Aweb9unOEpQ3ezu4Q00DPvvM2ZTUitJdNKeP/+uQgr1IBIqu574IaZoURId7BKtWMREwzKa9OgzPzezWGPWFQw==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.155.6:
-    resolution: {integrity: sha512-bjf+XCPc3L3k3RgPkTLNu5YreOsdwQTZsa6giLq+Bnc4Usve4YHEHrsUbpENWRwClNDLw6w/3beyvfc39+CQAw==}
+  posthog-js@1.160.0:
+    resolution: {integrity: sha512-K/RRgmPYIpP69nnveCJfkclb8VU+R+jsgqlrKaLGsM5CtQM9g01WOzAiT3u36WLswi58JiFMXgJtECKQuoqTgQ==}
 
   potpack@2.0.0:
     resolution: {integrity: sha512-Q+/tYsFU9r7xoOJ+y/ZTtdVQwTWfzjbiXBDMM/JKUux3+QPP02iUuIoeBQ+Ot6oEDlC+/PGjB/5A3K7KKb7hcw==}
@@ -4485,8 +4482,6 @@ snapshots:
     dependencies:
       '@types/geojson': 7946.0.14
 
-  '@types/web@0.0.154': {}
-
   '@types/yauzl@2.10.0':
     dependencies:
       '@types/node': 22.5.0
@@ -5645,9 +5640,8 @@ snapshots:
       picocolors: 1.0.1
       source-map-js: 1.2.0
 
-  posthog-js@1.155.6:
+  posthog-js@1.160.0:
     dependencies:
-      '@types/web': 0.0.154
       fflate: 0.4.8
       preact: 10.19.3
       web-vitals: 4.2.1
