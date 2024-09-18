@@ -66,7 +66,7 @@ function getFilledIndex(imagePaths) {
   }
 }
 function schoolExtract(school) {
-  const id = `${school.ndeg_fase_de_l_etablissement}/${school.ndeg_fase_de_l_implantation}`
+  const id = `${school.ndeg_fase_de_l_etablissement}/${school.ndegfase_de_l_implantation}`
   const partenaria = partenariaList.find(p => p.prim === id)
   return {
     id,
@@ -99,7 +99,7 @@ const file = {
   secondary: newSchools
     .filter(school => school.type_d_enseignement === "Secondaire ordinaire")
     // is in the official List
-    .filter(school => InListSchools.has(`${school.ndeg_fase_de_l_etablissement}/${school.ndeg_fase_de_l_implantation}`))
+    .filter(school => InListSchools.has(`${school.ndeg_fase_de_l_etablissement}/${school.ndegfase_de_l_implantation}`))
     .map(schoolExtract)
     .filter(school => !!school.geo),
 }
