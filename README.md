@@ -16,12 +16,14 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 
 - Date de création des écoles : BCE (sept 2023)
   /o\
-- Indice Socio-économique : Gallilex (2023)
+- Indice Socio-économique : Gallilex (17 juil 2024)
 
   search for in https://www.ejustice.just.fgov.be/cgi/rech.pl?language=fr&sum_date=&view_numac=
   for : "organisant un encadrement différencié au sein des établissements scolaires de la Communauté française afin d'assurer à chaque élève des chances égales d'émancipation sociale dans un environnement pédagogique de qualité"
 
+  then https://www.zamzar.com
   https://www.gallilex.cfwb.be/document/pdf/50299_000.pdf (2023)
+  https://www.gallilex.cfwb.be/document/pdf/52613_000.pdf (2024)
 
 
 - Partenariats pédagogiques : cfwb (17 sept 2024)
