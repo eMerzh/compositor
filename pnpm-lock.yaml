@@ -6,7 +6,7 @@ settings:
 
 overrides:
   '@types/react': 18.3.2
-  '@types/react-dom': 18.3.0
+  '@types/react-dom': 18.3.1
 
 importers:
 
@@ -59,8 +59,8 @@ importers:
         specifier: 18.3.2
         version: 18.3.2
       '@types/react-dom':
-        specifier: 18.3.0
-        version: 18.3.0
+        specifier: 18.3.1
+        version: 18.3.1
       '@typescript-eslint/eslint-plugin':
         specifier: ^7.0.0
         version: 7.0.0(@typescript-eslint/parser@6.21.0(eslint@8.57.0)(typescript@5.6.3))(eslint@8.57.0)(typescript@5.6.3)
@@ -1111,8 +1111,8 @@ packages:
   '@types/prop-types@15.7.6':
     resolution: {integrity: sha512-RK/kBbYOQQHLYj9Z95eh7S6t7gq4Ojt/NT8HTk8bWVhA5DaF+5SMnxHKkP4gPNN3wAZkKP+VjAf0ebtYzf+fxg==}
 
-  '@types/react-dom@18.3.0':
-    resolution: {integrity: sha512-EhwApuTmMBmXuFOikhQLIBUn6uFg81SwLMOAUgodJF14SOBOCMdU04gDoYi0WOJJHD144TL32z4yDqCW3dnkQg==}
+  '@types/react-dom@18.3.1':
+    resolution: {integrity: sha512-qW1Mfv8taImTthu4KoXgDfLuk4bydU6Q/TkADnDWWHwi4NX4BR+LWfTp2sVmTqRrsHvyDDTelgelxJ+SsejKKQ==}
 
   '@types/react@18.3.2':
     resolution: {integrity: sha512-Btgg89dAnqD4vV7R3hlwOxgqobUQKgx3MmrQRi0yYbs/P0ym8XozIAlkqVilPqHQwXs4e9Tf63rrCgl58BcO4w==}
@@ -4461,7 +4461,7 @@ snapshots:
 
   '@types/prop-types@15.7.6': {}
 
-  '@types/react-dom@18.3.0':
+  '@types/react-dom@18.3.1':
     dependencies:
       '@types/react': 18.3.2
 
