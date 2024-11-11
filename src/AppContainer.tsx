@@ -1,4 +1,4 @@
-import { Alert, Badge, Container, Modal, Text } from "@mantine/core"
+import { Alert, Badge, Button, Container, Modal, Text } from "@mantine/core"
 import { useDisclosure, useLocalStorage } from "@mantine/hooks"
 import { useMemo, useState } from "react"
 import { BooleanParam, JsonParam, NumberParam, withDefault } from "use-query-params"
@@ -52,9 +52,9 @@ const Warning = () => {
           <>
             {" "}
             Si ceci vous est utile, un{" "}
-            <Badge variant="outline" size="sm" onClick={onLike}>
+            <Button variant="outline" size="xs" compact onClick={onLike}>
               petit click
-            </Badge>{" "}
+            </Button>{" "}
             pour la motivation
           </>
         )}
