@@ -1,4 +1,4 @@
-import { Alert, Badge, Button, Container, Modal, Text } from "@mantine/core"
+import { Alert, Button, Container, Modal, Text } from "@mantine/core"
 import { useDisclosure, useLocalStorage } from "@mantine/hooks"
 import { useMemo, useState } from "react"
 import { BooleanParam, JsonParam, NumberParam, withDefault } from "use-query-params"
