@@ -42,7 +42,7 @@
     "cypress": "^13.16.1",
     "eslint": "8.57.0",
     "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.14",
+    "eslint-plugin-react-refresh": "^0.4.16",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2",
     "vite": "^5.4.11"
