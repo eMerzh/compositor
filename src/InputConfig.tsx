@@ -1,6 +1,6 @@
 import { Checkbox, Group, Select, Text } from "@mantine/core"
 import { IconCalendar, IconMoneybag, IconSchool } from "@tabler/icons-react"
-import { forwardRef, useMemo } from "react"
+import { forwardRef, Fragment, useMemo } from "react"
 import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete"
 import type { School } from "./compute"
 
@@ -96,7 +96,14 @@ export function InputConfig({
         />
       )}
       <Checkbox
-        label="Immersion"
+        label={"Immersion"}
+        description={
+          <Fragment>
+            Si votre enfant suit l’immersion linguistique depuis la 3e année primaire au moins et vous souhaitez
+            <br />
+            qu’il poursuive dans cette filière dans la même langue en secondaire.
+          </Fragment>
+        }
         checked={immersion}
         mt="md"
         mb="lg"
