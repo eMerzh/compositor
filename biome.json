@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "organizeImports": {
     "enabled": true
   },
@@ -18,6 +18,9 @@
   "linter": {
     "enabled": true,
     "rules": {
+      "style": {
+        "useImportType": "off"
+      },
       "recommended": true
     }
   }
