@@ -1,8 +1,8 @@
 import { Checkbox, Group, Select, Text } from "@mantine/core"
-import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete"
-import type { School } from "./compute"
 import { IconCalendar, IconMoneybag, IconSchool } from "@tabler/icons-react"
 import { forwardRef, useMemo } from "react"
+import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete"
+import type { School } from "./compute"
 
 interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
   city: string
@@ -91,7 +91,7 @@ export function InputConfig({
           data={Array.from({ length: 20 }, (_, i) => i + 1).map(i => ({ label: `${i}`, value: `${i}` }))}
           icon={<IconMoneybag size="1rem" color={date ? "green" : "#adb5bd"} />}
           value={`${ise}`}
-          onChange={v => setIse(parseInt(v, 10))}
+          onChange={v => setIse(Number.parseInt(v, 10))}
           mt={"md"}
         />
       )}

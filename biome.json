@@ -1,13 +1,21 @@
 {
-	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true,
+    "defaultBranch": "main"
+  },
   "organizeImports": {
     "enabled": true
+  },
+  "files": {
+    "ignore": ["src/schools.json", "data/signaletique-fase.json"]
   },
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
-    "lineWidth": 120,
-    "ignore": ["src/schools.json"]
+    "lineWidth": 120
   },
   "javascript": {
     "formatter": {
