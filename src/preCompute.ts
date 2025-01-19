@@ -1,6 +1,6 @@
-import fs from "fs"
+import fs from "node:fs"
+import { finished } from "node:stream/promises"
 import * as csv from "csv"
-import { finished } from "stream/promises"
 
 function getFile(path: string) {
   const r = fs.readFileSync(path, { encoding: "utf8", flag: "r" })
@@ -37,7 +37,7 @@ const InListSchools = new Set(inlist.map(school => school[0]))
 const compositeList = await processFile("./data/ise.csv")
 const immersionList = await processFile("./data/immersion.csv")
 
-const compositeIndex = new Map(compositeList.map(r => [`${r[0]}/${r[1]}`, parseInt(r[2], 10)]))
+const compositeIndex = new Map(compositeList.map(r => [`${r[0]}/${r[1]}`, Number.parseInt(r[2], 10)]))
 const immersionIndex = new Map(immersionList.map(r => [r[0], r[1].split("/")]))
 const newSchools = schools.map(school => {
   return {
@@ -53,7 +53,7 @@ function parseFillStr(path) {
   const regex = /statutInscr(\d)\.png/
   const extract = regex.exec(path)
   if (extract) {
-    return parseInt(extract[1], 10)
+    return Number.parseInt(extract[1], 10)
   }
 }
 function getFilledIndex(imagePaths) {
