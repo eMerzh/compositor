@@ -1,8 +1,25 @@
 import { Checkbox, Group, Select, Text } from "@mantine/core"
 import { IconCalendar, IconMoneybag, IconSchool } from "@tabler/icons-react"
-import { forwardRef, Fragment, useMemo } from "react"
+import { Fragment, forwardRef, useMemo } from "react"
 import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete"
 import type { School } from "./compute"
+
+function toLocalCompare(s: string): string {
+  return s
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLocaleLowerCase()
+}
+
+/**
+ * Match a query against an item using a multi word fuzzy search algorithm.
+ */
+function fuzzyMatch(query: string, item: string): boolean {
+  const queryWords = query.split(" ").map(toLocalCompare)
+  const itemWords = item.split(" ").map(toLocalCompare)
+
+  return queryWords.every(q => itemWords.some(i => i.startsWith(q)))
+}
 
 interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
   city: string
@@ -73,6 +90,7 @@ export function InputConfig({
         limit={20}
         data={prim}
         mt={"md"}
+        filter={(query, item) => fuzzyMatch(query, item.label)}
         icon={<IconSchool size="1rem" color={idPrimaire ? "green" : "#adb5bd"} />}
       />
       <GeoAutoComplete value={locHome} onSelect={setLocHome} />
