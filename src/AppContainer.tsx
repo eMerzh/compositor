@@ -62,7 +62,6 @@ const Warning = () => {
   )
 }
 function useConfiguration() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [_, setRefresher] = useState(0)
   const refresh = () => setRefresher(Math.random())
 

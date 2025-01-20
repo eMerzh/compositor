@@ -49,7 +49,7 @@ export default function ResultTable({
       .filter(s => !withImmersion || s.school.immersion)
       .filter(s => !filterCity.length || filterCity.includes(s.school.city))
       .sort(getSortFn(sortColumn))
-      [sortOrder === "desc" ? "reverse" : "slice"]() // eslint-disable-line no-unexpected-multiline
+      [sortOrder === "desc" ? "reverse" : "slice"]()
   }, [scores, sortColumn, sortOrder, filterNetwork, withImmersion, filterCity])
 
   let warnMsg: ReactNode
