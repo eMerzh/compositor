@@ -12,6 +12,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+           node-version: 23.6
       - uses: pnpm/action-setup@v4
         id: pnpm-install
         with:
