@@ -1,5 +1,5 @@
 import { Alert, Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core"
-import { IconAlertCircle, IconSortAscending, IconSortDescending } from "@tabler/icons-react"
+import { IconAlertCircle, IconFilter, IconSortAscending, IconSortDescending } from "@tabler/icons-react"
 import { ReactNode, useCallback, useMemo, useState } from "react"
 import FillIcon from "./FillIcon"
 import Score from "./Score"
@@ -73,21 +73,25 @@ export default function ResultTable({
   return (
     <Group>
       <MultiSelect
-        label="Réseau"
+        label="Filtrer par réseau"
         searchable
         clearable
-        placeholder="Choisir un réseau"
+        description="Limite les résultats aux écoles de ces réseaux (optionel)"
+        placeholder="Réseau"
         value={filterNetwork}
         onChange={v => setFilterNetwork(v)}
+        icon={<IconFilter size="1rem" />}
         data={networks}
       />
       <MultiSelect
-        label="Ville"
+        label="Limiter par ville"
+        description="Limite les résultats aux écoles de ces villes (optionel)"
         searchable
         clearable
-        placeholder="Choisir une ville"
+        placeholder="Ville"
         value={filterCity}
         onChange={v => setFilterCity(v)}
+        icon={<IconFilter size="1rem" />}
         data={cities}
       />
       {warnMsg}

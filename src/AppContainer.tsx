@@ -1,6 +1,6 @@
-import { Alert, Button, Container, Modal, Text } from "@mantine/core"
+import { Alert, Box, Button, Container, Divider, Modal, Text } from "@mantine/core"
 import { useDisclosure, useLocalStorage } from "@mantine/hooks"
-import { IconAlertCircle, IconHeart } from "@tabler/icons-react"
+import { IconAlertCircle, IconCalculator, IconHeart } from "@tabler/icons-react"
 import posthog from "posthog-js"
 import { useMemo, useState } from "react"
 import { BooleanParam, JsonParam, NumberParam, withDefault } from "use-query-params"
@@ -184,7 +184,17 @@ function AppContainer() {
         setIse={setIse}
         isFaultyDate={false}
       />
-      <hr />
+      <Divider
+        my="xs"
+        variant="dashed"
+        labelPosition="center"
+        label={
+          <>
+            <IconCalculator size={12} />
+            <Box ml={5}>Résultats</Box>
+          </>
+        }
+      />
       <Modal
         size="xl"
         opened={opened}
