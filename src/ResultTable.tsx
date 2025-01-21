@@ -84,7 +84,7 @@ export default function ResultTable({
         data={networks}
       />
       <MultiSelect
-        label="Limiter par ville"
+        label="Filtrer par ville"
         description="Limite les résultats aux écoles de ces villes (optionel)"
         searchable
         clearable
