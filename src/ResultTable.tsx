@@ -98,7 +98,7 @@ export default function ResultTable({
       <Table striped>
         <thead>
           <tr>
-            <th>Name</th>
+            <th>Nom</th>
             <th>Réseau</th>
             <th onClick={orderHandler("fill")} onKeyDown={orderHandler("fill")}>
               Rempl. 2022
