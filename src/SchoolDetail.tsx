@@ -173,6 +173,7 @@ const SchoolDetail = ({
   date,
   immersion,
   ise,
+  score2026,
 }: {
   school: School
   scores: ComputeResult[]
@@ -180,6 +181,7 @@ const SchoolDetail = ({
   date: string
   immersion: boolean
   ise?: number
+  score2026: boolean
 }) => {
   let result: ComputeResult | undefined
   const [gridOpened, handlers] = useDisclosure(false)
@@ -237,14 +239,17 @@ const SchoolDetail = ({
                             label={d.description}
                             withinPortal
                           >
-                            <IconInfoCircle size="1rem" />
+                            <IconInfoCircle
+                              size="1rem"
+                              color={score2026 && d.scoreProperty === "coef_8" ? "#868e96" : undefined}
+                            />
                           </Tooltip>
                         }
                       >
-                        <span>
+                        <Text c={score2026 && d.scoreProperty === "coef_8" ? "dimmed" : undefined}>
                           {idx + 1}. {d.name}: {result?.score[d.scoreProperty]}
                           {d.more?.(result)}
-                        </span>
+                        </Text>
                       </List.Item>
                     )
                   })}

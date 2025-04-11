@@ -53,6 +53,8 @@ export function InputConfig({
   ise,
   setIse,
   isFaultyDate,
+  score2026,
+  setScore2026,
 }: {
   primarySchools: School[]
   idPrimaire: string
@@ -66,6 +68,8 @@ export function InputConfig({
   ise: number
   setIse: (v: number) => void
   isFaultyDate: boolean
+  score2026: boolean
+  setScore2026: (v: boolean) => void
 }) {
   const prim = primarySchools.map(school => ({
     value: school.id,
@@ -126,6 +130,15 @@ export function InputConfig({
         mt="md"
         mb="lg"
         onChange={event => setImmersion(event.currentTarget.checked)}
+      />
+      <Checkbox
+        label={"Formule 2026-2027"}
+        description="Pour les inscriptions de l'année 2026-2027, l'indice socio-économique de l'école primaire ne sera plus pris en compte dans le
+            calcul du score."
+        checked={score2026}
+        mt="md"
+        mb="lg"
+        onChange={event => setScore2026(event.currentTarget.checked)}
       />
     </>
   )

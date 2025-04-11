@@ -186,6 +186,7 @@ export function compute(
   locHome: GeoLoc,
   immersion: boolean,
   ise?: number,
+  score2026?: boolean,
 ) {
   const coef_1 = rankCoef1[0] // LA PRÉFÉRENCE 1.5 pour 1°
 
@@ -226,7 +227,9 @@ export function compute(
     coef_8,
     rank_2,
     rank_3,
-    total: coef_1 * coef_2 * coef_3 * coef_4 * coef_5 * coef_6 * coef_7 * coef_8,
+    total: score2026
+      ? coef_1 * coef_2 * coef_3 * coef_4 * coef_5 * coef_6 * coef_7
+      : coef_1 * coef_2 * coef_3 * coef_4 * coef_5 * coef_6 * coef_7 * coef_8,
   }
 }
 
@@ -261,6 +264,7 @@ export function computeAll(
   date: string,
   immersion: boolean,
   ise?: number,
+  score2026?: boolean,
 ): ComputeResult[] {
   console.time("computeAll")
 
@@ -274,7 +278,7 @@ export function computeAll(
       school: school,
       primarySchools: prim,
       secondarySchools: sec,
-      score: compute(prim, sec, primarySchool, school, locHome, immersion, ise),
+      score: compute(prim, sec, primarySchool, school, locHome, immersion, ise, score2026),
       home: locHome,
       distance: distance(school.geo, locHome),
       primarySchool: primarySchool,

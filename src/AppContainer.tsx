@@ -74,6 +74,7 @@ function useConfiguration() {
   const [immersion, setImmersion] = useQueryParam("immersion", BooleanParam)
   const [date, setDate] = useQueryParam("date", StringParam)
   const [ise, setIse] = useQueryParam("ise", withDefault(NumberParam, 10))
+  const [score2026, setScore2026] = useQueryParam("score2026", BooleanParam)
 
   return {
     idPrimaire,
@@ -106,6 +107,11 @@ function useConfiguration() {
       setIse(v)
       refresh()
     },
+    setScore2026: (v: boolean) => {
+      setScore2026(v)
+      refresh()
+    },
+    score2026,
   }
 }
 function AppContainer() {
@@ -122,6 +128,8 @@ function AppContainer() {
     setDate,
     ise,
     setIse,
+    score2026,
+    setScore2026,
   } = useConfiguration()
   const [opened, { open, close }] = useDisclosure(false)
   const school_prim = primarySchools.find(school => school.id === idPrimaire)
@@ -130,7 +138,7 @@ function AppContainer() {
   const scores = useMemo<ComputeResult[] | UnexistingSchool | null>(() => {
     if (!school_prim || !locHome || !date) return null
     try {
-      const results = computeAll(secondarySchools, school_prim, locHome, date, immersion, ise)
+      const results = computeAll(secondarySchools, school_prim, locHome, date, immersion, ise, score2026)
       return results
     } catch (e) {
       console.error(e)
@@ -138,7 +146,7 @@ function AppContainer() {
         return e
       }
     }
-  }, [school_prim, locHome, immersion, date, ise])
+  }, [school_prim, locHome, immersion, date, ise, score2026])
 
   if (!scores || scores instanceof UnexistingSchool) {
     return (
@@ -156,6 +164,8 @@ function AppContainer() {
           setDate={setDate}
           ise={ise}
           setIse={setIse}
+          score2026={score2026}
+          setScore2026={setScore2026}
           isFaultyDate={scores instanceof UnexistingSchool}
         />
         {scores instanceof UnexistingSchool && (
@@ -183,6 +193,8 @@ function AppContainer() {
         ise={ise}
         setIse={setIse}
         isFaultyDate={false}
+        score2026={score2026}
+        setScore2026={setScore2026}
       />
       <Divider
         my="xs"
@@ -212,6 +224,7 @@ function AppContainer() {
             date={date}
             immersion={immersion}
             ise={ise}
+            score2026={score2026}
           />
         )}
       </Modal>
