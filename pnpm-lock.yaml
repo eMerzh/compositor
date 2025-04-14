@@ -68,8 +68,8 @@ importers:
         specifier: 6.3.11
         version: 6.3.11
       cypress:
-        specifier: 14.2.1
-        version: 14.2.1
+        specifier: 14.3.0
+        version: 14.3.0
       typescript:
         specifier: 5.8.3
         version: 5.8.3
@@ -1289,8 +1289,8 @@ packages:
     resolution: {integrity: sha512-a8bhT76Q546jOElHcTrkzWY7Py925mfLO/jqquseH61ThOebYwOjLbWHBqdRB4K1VpU36sTyIei6Jwj7QdEZ7g==}
     engines: {node: '>= 0.1.90'}
 
-  cypress@14.2.1:
-    resolution: {integrity: sha512-5xd0E7fUp0pjjib1D7ljkmCwFDgMkWuW06jWiz8dKrI7MNRrDo0C65i4Sh+oZ9YHjMHZRJBR0XZk1DfekOhOUw==}
+  cypress@14.3.0:
+    resolution: {integrity: sha512-rRfPl9Z0/CczuYybBEoLbDVuT1OGkhYaJ0+urRCshgiDRz6QnoA0KQIQnPx7MJ3zy+VCsbUU1pV74n+6cbJEdg==}
     engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
     hasBin: true
 
@@ -2049,11 +2049,11 @@ packages:
   tinyqueue@3.0.0:
     resolution: {integrity: sha512-gRa9gwYU3ECmQYv3lslts5hxuIa90veaEcxDYuu3QGOIAEM2mOZkVHp48ANJuu1CURtRdHKUBY5Lm1tHV+sD4g==}
 
-  tldts-core@6.1.85:
-    resolution: {integrity: sha512-DTjUVvxckL1fIoPSb3KE7ISNtkWSawZdpfxGxwiIrZoO6EbHVDXXUIlIuWympPaeS+BLGyggozX/HTMsRAdsoA==}
+  tldts-core@6.1.86:
+    resolution: {integrity: sha512-Je6p7pkk+KMzMv2XXKmAE3McmolOQFdxkKw0R8EYNr7sELW46JqnNeTX8ybPiQgvg1ymCoF8LXs5fzFaZvJPTA==}
 
-  tldts@6.1.85:
-    resolution: {integrity: sha512-gBdZ1RjCSevRPFix/hpaUWeak2/RNUZB4/8frF1r5uYMHjFptkiT0JXIebWvgI/0ZHXvxaUDDJshiA0j6GdL3w==}
+  tldts@6.1.86:
+    resolution: {integrity: sha512-WMi/OQ2axVTf/ykqCQgXiIct+mSQDFdH2fkwhPwgEwvJ1kSzZRiinb0zF2Xb8u4+OqPChmyI6MEu4EezNJz+FQ==}
     hasBin: true
 
   tmp@0.2.3:
@@ -4120,7 +4120,7 @@ snapshots:
       csv-stringify: 6.5.2
       stream-transform: 3.3.3
 
-  cypress@14.2.1:
+  cypress@14.3.0:
     dependencies:
       '@cypress/request': 3.0.8
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
@@ -4945,11 +4945,11 @@ snapshots:
 
   tinyqueue@3.0.0: {}
 
-  tldts-core@6.1.85: {}
+  tldts-core@6.1.86: {}
 
-  tldts@6.1.85:
+  tldts@6.1.86:
     dependencies:
-      tldts-core: 6.1.85
+      tldts-core: 6.1.86
 
   tmp@0.2.3: {}
 
@@ -4965,7 +4965,7 @@ snapshots:
 
   tough-cookie@5.1.2:
     dependencies:
-      tldts: 6.1.85
+      tldts: 6.1.86
 
   tree-kill@1.2.2: {}
 
