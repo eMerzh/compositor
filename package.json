@@ -35,7 +35,7 @@
     "@types/node": "22.15.19",
     "@types/react": "18.3.2",
     "@types/react-dom": "18.3.1",
-    "@vitejs/plugin-react-swc": "3.9.0",
+    "@vitejs/plugin-react-swc": "3.10.0",
     "csv": "6.3.11",
     "cypress": "14.3.3",
     "typescript": "5.8.3",
