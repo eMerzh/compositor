@@ -34,8 +34,8 @@ importers:
         specifier: 5.5.0
         version: 5.5.0
       posthog-js:
-        specifier: 1.242.3
-        version: 1.242.3(@rrweb/types@2.0.0-alpha.17)
+        specifier: 1.246.0
+        version: 1.246.0(@rrweb/types@2.0.0-alpha.17)
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -1796,8 +1796,8 @@ packages:
     resolution: {integrity: sha512-dle9A3yYxlBSrt8Fu+IpjGT8SY8hN0mlaA6GY8t0P5PjIOZemULz/E2Bnm/2dcUOena75OTNkHI76uZBNUUq3A==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.242.3:
-    resolution: {integrity: sha512-T6fR5Y5y2nW/Q2pv+5WwTBUkocvBkCO87aZRGjjbiaD5wCeW5ofgk/EAkqUrKlasLXNYPo6WTPixp3dHCIJa2Q==}
+  posthog-js@1.246.0:
+    resolution: {integrity: sha512-5lN/UMqDfxsLeSnT3LsY4P+eD1H+P9qxgN/iUk473LmhCM7IV8TAfdjJj23nnXk/euGNQtvyINYoD2DG+d4eEw==}
     peerDependencies:
       '@rrweb/types': 2.0.0-alpha.17
       rrweb-snapshot: 2.0.0-alpha.17
@@ -1810,8 +1810,8 @@ packages:
   potpack@2.0.0:
     resolution: {integrity: sha512-Q+/tYsFU9r7xoOJ+y/ZTtdVQwTWfzjbiXBDMM/JKUux3+QPP02iUuIoeBQ+Ot6oEDlC+/PGjB/5A3K7KKb7hcw==}
 
-  preact@10.26.6:
-    resolution: {integrity: sha512-5SRRBinwpwkaD+OqlBDeITlRgvd8I8QlxHJw9AxSdMNV6O+LodN9nUyYGpSF7sadHjs6RzeFShMexC6DbtWr9g==}
+  preact@10.26.7:
+    resolution: {integrity: sha512-43xS+QYc1X1IPbw03faSgY6I6OYWcLrJRv3hU0+qMOfh/XCHcP0MX2CVjNARYR2cC/guu975sta4OcjlczxD7g==}
 
   pretty-bytes@5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
@@ -4688,18 +4688,18 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  posthog-js@1.242.3(@rrweb/types@2.0.0-alpha.17):
+  posthog-js@1.246.0(@rrweb/types@2.0.0-alpha.17):
     dependencies:
       core-js: 3.42.0
       fflate: 0.4.8
-      preact: 10.26.6
+      preact: 10.26.7
       web-vitals: 4.2.4
     optionalDependencies:
       '@rrweb/types': 2.0.0-alpha.17
 
   potpack@2.0.0: {}
 
-  preact@10.26.6: {}
+  preact@10.26.7: {}
 
   pretty-bytes@5.6.0: {}
 
