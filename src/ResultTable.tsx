@@ -1,9 +1,9 @@
-import { Alert, Center, Group, MultiSelect, Table, Text, rem } from "@mantine/core"
+import { Alert, Center, Group, MultiSelect, rem, Table, Text } from "@mantine/core"
 import { IconAlertCircle, IconFilter, IconSortAscending, IconSortDescending } from "@tabler/icons-react"
 import { ReactNode, useCallback, useMemo, useState } from "react"
+import { ComputeResult, distanceSort, fillSort, School, scoreSort } from "./compute"
 import FillIcon from "./FillIcon"
 import Score from "./Score"
-import { ComputeResult, School, distanceSort, fillSort, scoreSort } from "./compute"
 import { round } from "./utils"
 
 type SortColumn = "distance" | "score" | "fill"

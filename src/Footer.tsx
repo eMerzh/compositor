@@ -1,6 +1,5 @@
-import { IconBrandGithub } from "@tabler/icons-react"
-
 import { Footer, Text } from "@mantine/core"
+import { IconBrandGithub } from "@tabler/icons-react"
 
 const AppFooter = () => {
   return (

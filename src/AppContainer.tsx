@@ -3,13 +3,12 @@ import { useDisclosure, useLocalStorage } from "@mantine/hooks"
 import { IconAlertCircle, IconCalculator, IconHeart } from "@tabler/icons-react"
 import posthog from "posthog-js"
 import { useMemo, useState } from "react"
-import { BooleanParam, JsonParam, NumberParam, withDefault } from "use-query-params"
-import { StringParam, useQueryParam } from "use-query-params"
+import { BooleanParam, JsonParam, NumberParam, StringParam, useQueryParam, withDefault } from "use-query-params"
+import { ComputeResult, computeAll, primarySchools, secondarySchools, UnexistingSchool } from "./compute"
 import { NamedLoc } from "./GeoAutoComplete"
 import { InputConfig } from "./InputConfig"
 import ResultTable from "./ResultTable"
 import SchoolDetail from "./SchoolDetail"
-import { ComputeResult, UnexistingSchool, computeAll, primarySchools, secondarySchools } from "./compute"
 
 const Warning = () => {
   const [hide, setHide] = useLocalStorage({
