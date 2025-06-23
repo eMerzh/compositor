@@ -6,11 +6,9 @@
     "useIgnoreFile": true,
     "defaultBranch": "main"
   },
-  "organizeImports": {
-    "enabled": true
-  },
+  "assist": { "actions": { "source": { "organizeImports": "on" } } },
   "files": {
-    "ignore": ["src/schools.json", "data/signaletique-fase.json"]
+    "includes": ["**", "!**/src/schools.json", "!**/data/signaletique-fase.json"]
   },
   "formatter": {
     "enabled": true,
@@ -27,7 +25,17 @@
     "enabled": true,
     "rules": {
       "style": {
-        "useImportType": "off"
+        "useImportType": "off",
+        "noParameterAssign": "error",
+        "useAsConstAssertion": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
       },
       "recommended": true
     }

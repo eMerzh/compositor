@@ -2,8 +2,8 @@ import { Autocomplete, AutocompleteItem, Button, CloseButton, Group, Text } from
 import { useDebouncedValue } from "@mantine/hooks"
 import { IconHomeSearch, IconMap } from "@tabler/icons-react"
 import { forwardRef, useEffect, useRef, useState } from "react"
-import MapDisplay from "./MapDisplay"
 import { GeoLoc } from "./compute"
+import MapDisplay from "./MapDisplay"
 
 export const accessToken = "pk.eyJ1IjoiZW1lcnpoIiwiYSI6ImNsbW5zbjV3NzA4MWoycm85d3A1OWFmZG8ifQ.vHHA1EhrIbEaeKHwa9KvmQ"
 

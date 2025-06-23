@@ -10,11 +10,11 @@ import {
   IconWalk,
 } from "@tabler/icons-react"
 import { useEffect, useMemo, useState } from "react"
+import { ComputeResult, GeoLoc, getScoreGrid, School } from "./compute"
 import FillIcon from "./FillIcon"
 import { accessToken } from "./GeoAutoComplete"
 import MapInspect from "./MapInspect"
 import Score from "./Score"
-import { ComputeResult, GeoLoc, School, getScoreGrid } from "./compute"
 import { round } from "./utils"
 
 const Explanation = [

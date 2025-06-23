@@ -1,8 +1,8 @@
 import { Checkbox, Group, Select, Text } from "@mantine/core"
 import { IconCalendar, IconMoneybag, IconSchool } from "@tabler/icons-react"
 import { Fragment, forwardRef, useMemo } from "react"
-import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete"
 import type { School } from "./compute"
+import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete"
 
 function toLocalCompare(s: string): string {
   return s
