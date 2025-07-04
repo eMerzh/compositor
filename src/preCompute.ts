@@ -29,8 +29,10 @@ const processFile = async path => {
 }
 
 // Parse the CSV content
-const dt = await processFile("./data/bce-et-dates.csv")
-const BCEDates = new Map(dt)
+const startDate = await processFile("./data/bce-et-dates.csv")
+const endDate = await processFile("./data/end-dates.csv")
+const BCEDates = new Map(startDate)
+const EndDates = new Map(endDate)
 const inlist = await processFile("./data/ecole_secondaires.csv")
 
 const InListSchools = new Set(inlist.map(school => school[0]))
@@ -43,6 +45,7 @@ const newSchools = schools.map(school => {
   return {
     ...school,
     creationDate: BCEDates.get(school.numero_bce_de_l_etablissement),
+    endDate: EndDates.get(school.ndeg_fase_de_l_etablissement),
   }
 })
 
@@ -78,10 +81,11 @@ function schoolExtract(school) {
       lat: school.latitude,
       lon: school.longitude,
     },
-    // date are in DD-MM-YYYY format
-    date: school.creationDate
+    // date are in DD-MM-YYYY format make thm YYYY-MM-DD
+    startDate: school.creationDate
       ? `${school.creationDate.split("-")[2]}-${school.creationDate.split("-")[1]}-${school.creationDate.split("-")[0]}`
       : "",
+    endDate: school.endDate ?? "",
     partenaria: partenaria ? { id: partenaria.sec, date: partenaria.date } : null,
     ise: compositeIndex.get(id) ? compositeIndex.get(id) : null,
     immersion: immersionIndex.get(id) ? immersionIndex.get(id) : null,

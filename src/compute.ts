@@ -25,7 +25,8 @@ export interface School {
     lat: number
     lon: number
   }
-  date: string
+  startDate: string
+  endDate?: string
   partenaria: null | { id: string; date: string }
   ise: null | number
   immersion: null | string[]
@@ -243,6 +244,12 @@ export type ComputeResult = {
   home: GeoLoc
 }
 
+export function addYears(date: Date, years: number): Date {
+  const dateCopy = new Date(date)
+  dateCopy.setFullYear(dateCopy.getFullYear() + years)
+  return dateCopy
+}
+
 function filterNewestAndOrderSchool(
   primarySchools: School[],
   network: School["network"],
@@ -251,27 +258,46 @@ function filterNewestAndOrderSchool(
 ) {
   return Array.from(primarySchools)
     .filter(s => {
-      const schoolCreation = s.date ? new Date(Date.parse(s.date)) : null
+      const schoolCreation = s.startDate ? new Date(Date.parse(s.startDate)) : null
       return s.network === network && (!schoolCreation || schoolCreation < inscriptionDate)
     })
     .sort(schoolSorter(locHome))
 }
 
+function filterSecondary(schools: School[], secondaireDate: Date): School[] {
+  return schools.filter(s => {
+    const schoolEndDate = s.endDate ? new Date(Date.parse(s.endDate)) : null
+    if (schoolEndDate) {
+      console.log(
+        "Filtering school:",
+        s.name,
+        "End date:",
+        schoolEndDate,
+        "Secondary date:",
+        secondaireDate,
+        "result",
+        schoolEndDate > secondaireDate,
+      )
+    }
+    return !schoolEndDate || schoolEndDate > secondaireDate
+  })
+}
 export function computeAll(
   secondarySchools: School[],
   primarySchool: School,
   locHome: GeoLoc,
   date: string,
   immersion: boolean,
+  inscriptionSecondaryYear: string,
   ise?: number,
   score2026?: boolean,
 ): ComputeResult[] {
   console.time("computeAll")
 
   const inscriptionDate = new Date(`${date}-09-01`)
+  const inscriptionSecondaryDate = new Date(`${inscriptionSecondaryYear}-09-01`)
   const prim = filterNewestAndOrderSchool(primarySchools, primarySchool.network, inscriptionDate, locHome)
-
-  const sec = Array.from(secondarySchools).sort(schoolSorter(locHome))
+  const sec = filterSecondary(Array.from(secondarySchools), inscriptionSecondaryDate).sort(schoolSorter(locHome))
 
   const result = secondarySchools.map((school: School) => {
     return {

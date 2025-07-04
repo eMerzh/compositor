@@ -1,7 +1,7 @@
 import { Checkbox, Group, Select, Text } from "@mantine/core"
-import { IconCalendar, IconMoneybag, IconSchool } from "@tabler/icons-react"
-import { Fragment, forwardRef, useMemo } from "react"
-import type { School } from "./compute"
+import { IconCalendar, IconCalendarQuestion, IconMoneybag, IconSchool } from "@tabler/icons-react"
+import { Fragment, forwardRef, useMemo, useState } from "react"
+import { addYears, type School } from "./compute"
 import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete"
 
 function toLocalCompare(s: string): string {
@@ -55,6 +55,8 @@ export function InputConfig({
   isFaultyDate,
   score2026,
   setScore2026,
+  secondaryYear,
+  setSecondaryYear,
 }: {
   primarySchools: School[]
   idPrimaire: string
@@ -70,7 +72,10 @@ export function InputConfig({
   isFaultyDate: boolean
   score2026: boolean
   setScore2026: (v: boolean) => void
+  secondaryYear?: string
+  setSecondaryYear?: (v: string) => void
 }) {
+  const [showMoreDate, setShowMoreDate] = useState(false)
   const prim = primarySchools.map(school => ({
     value: school.id,
     label: school.name,
@@ -98,10 +103,9 @@ export function InputConfig({
         icon={<IconSchool size="1rem" color={idPrimaire ? "green" : "#adb5bd"} />}
       />
       <GeoAutoComplete value={locHome} onSelect={setLocHome} />
-
       <Select
         label="Inscription en 1ere primaire"
-        data={["2018", "2019", "2020", "2021", "2022", "2023"]}
+        data={["2019", "2020", "2021", "2022", "2023", "2024", "2025"]}
         icon={<IconCalendar size="1rem" color={isFaultyDate ? "red" : date ? "green" : "#adb5bd"} />}
         value={date}
         onChange={setDate}
@@ -116,6 +120,26 @@ export function InputConfig({
           onChange={v => setIse(Number.parseInt(v, 10))}
           mt={"md"}
         />
+      )}
+      {secondaryYear && (
+        <Text size={"sm"} color="gray">
+          Pour une entrée en secondaire en août{" "}
+          {showMoreDate ? (
+            <div>
+              <Select
+                data={["2025", "2026", "2027", "2028", "2029"]}
+                icon={<IconCalendarQuestion size="1rem" color={isFaultyDate ? "red" : date ? "green" : "#adb5bd"} />}
+                value={secondaryYear}
+                onChange={setSecondaryYear}
+                mt={"xs"}
+              />
+            </div>
+          ) : (
+            <Text td="underline" span onClick={() => setShowMoreDate(true)}>
+              {addYears(new Date(`${secondaryYear}-08-01`), 6).getFullYear()}
+            </Text>
+          )}
+        </Text>
       )}
       <Checkbox
         label={"Immersion"}

@@ -72,6 +72,7 @@ function useConfiguration() {
 
   const [immersion, setImmersion] = useQueryParam("immersion", BooleanParam)
   const [date, setDate] = useQueryParam("date", StringParam)
+  const [secondaryYear, setSecondaryYear] = useQueryParam("secondaryYear", StringParam)
   const [ise, setIse] = useQueryParam("ise", withDefault(NumberParam, 10))
   const [score2026, setScore2026] = useQueryParam("score2026", BooleanParam)
 
@@ -99,6 +100,9 @@ function useConfiguration() {
     date,
     setDate: (v: string) => {
       setDate(v)
+      const year = new Date(`${v}-08-01`).getFullYear()
+      setSecondaryYear(year.toString())
+
       refresh()
     },
     ise,
@@ -111,6 +115,11 @@ function useConfiguration() {
       refresh()
     },
     score2026,
+    secondaryYear,
+    setSecondaryYear: (v: string) => {
+      setSecondaryYear(v)
+      refresh()
+    },
   }
 }
 function AppContainer() {
@@ -129,6 +138,8 @@ function AppContainer() {
     setIse,
     score2026,
     setScore2026,
+    secondaryYear,
+    setSecondaryYear,
   } = useConfiguration()
   const [opened, { open, close }] = useDisclosure(false)
   const school_prim = primarySchools.find(school => school.id === idPrimaire)
@@ -137,7 +148,7 @@ function AppContainer() {
   const scores = useMemo<ComputeResult[] | UnexistingSchool | null>(() => {
     if (!school_prim || !locHome || !date) return null
     try {
-      const results = computeAll(secondarySchools, school_prim, locHome, date, immersion, ise, score2026)
+      const results = computeAll(secondarySchools, school_prim, locHome, date, immersion, secondaryYear, ise, score2026)
       return results
     } catch (e) {
       console.error(e)
@@ -145,7 +156,7 @@ function AppContainer() {
         return e
       }
     }
-  }, [school_prim, locHome, immersion, date, ise, score2026])
+  }, [school_prim, locHome, immersion, date, ise, score2026, secondaryYear])
 
   if (!scores || scores instanceof UnexistingSchool) {
     return (
@@ -165,6 +176,8 @@ function AppContainer() {
           setIse={setIse}
           score2026={score2026}
           setScore2026={setScore2026}
+          secondaryYear={secondaryYear}
+          setSecondaryYear={setSecondaryYear}
           isFaultyDate={scores instanceof UnexistingSchool}
         />
         {scores instanceof UnexistingSchool && (
@@ -194,6 +207,8 @@ function AppContainer() {
         isFaultyDate={false}
         score2026={score2026}
         setScore2026={setScore2026}
+        secondaryYear={secondaryYear}
+        setSecondaryYear={setSecondaryYear}
       />
       <Divider
         my="xs"
