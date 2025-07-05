@@ -12,18 +12,19 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 # Data Source
 
 - Liste des écoles : FASE (12 December 2023 10:47)
-  https://www.odwb.be/explore/dataset/signaletique-fase/table/ (signaletique-fase.json)
+  https://www.odwb.be/explore/dataset/fwb-age-fichier-signaletique-des-etablissements-d-enseignement-de-la-federation-/table/?disjunctive.arrondissement_administratif&disjunctive.commune_de_l_implantation (signaletique-fase.json)
 
 - Date de création des écoles : BCE (sept 2023)
   /o\
-- Indice Socio-économique : Gallilex (17 juil 2024)
+- Indice Socio-économique : Gallilex (5 juil 2025)
 
-  search for in https://www.ejustice.just.fgov.be/cgi/rech.pl?language=fr&sum_date=&view_numac=
+  search for in https://gallilex.cfwb.be/
   for : "organisant un encadrement différencié au sein des établissements scolaires de la Communauté française afin d'assurer à chaque élève des chances égales d'émancipation sociale dans un environnement pédagogique de qualité"
 
-  then https://www.zamzar.com
+  then https://www.zamzar.com or https://www.ilovepdf.com/pdf_to_excel (better ?)
   https://www.gallilex.cfwb.be/document/pdf/50299_000.pdf (2023)
   https://www.gallilex.cfwb.be/document/pdf/52613_000.pdf (2024)
+  https://gallilex.cfwb.be/sites/default/files/textes-normatifs/2025-07/53501_0000.pdf (2025)
 
 
 - Partenariats pédagogiques : cfwb (17 sept 2024)
