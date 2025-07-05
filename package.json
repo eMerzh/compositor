@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "format": "biome format --write",
     "check": "biome check",
+    "scrape": "cypress run",
     "compute": "node ./src/preCompute.ts"
   },
   "dependencies": {

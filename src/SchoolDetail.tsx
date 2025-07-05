@@ -272,21 +272,15 @@ const SchoolDetail = ({
                     <caption>Historique de remplissage de l'école</caption>
                     <thead>
                       <tr>
-                        <th>2018</th>
-                        <th>2019</th>
                         <th>2020</th>
                         <th>2021</th>
                         <th>2022</th>
+                        <th>2023</th>
+                        <th>2024</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>
-                          <FillIcon level={school.fill[2018]} />
-                        </td>
-                        <td>
-                          <FillIcon level={school.fill[2019]} />
-                        </td>
                         <td>
                           <FillIcon level={school.fill[2020]} />
                         </td>
@@ -295,6 +289,12 @@ const SchoolDetail = ({
                         </td>
                         <td>
                           <FillIcon level={school.fill[2022]} />
+                        </td>
+                        <td>
+                          <FillIcon level={school.fill[2023]} />
+                        </td>
+                        <td>
+                          <FillIcon level={school.fill[2024]} />
                         </td>
                       </tr>
                     </tbody>

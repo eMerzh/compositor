@@ -31,11 +31,11 @@ export interface School {
   ise: null | number
   immersion: null | string[]
   fill: null | {
-    2018: FillLevel
-    2019: FillLevel
     2020: FillLevel
     2021: FillLevel
     2022: FillLevel
+    2023: FillLevel
+    2024: FillLevel
   }
 }
 
@@ -306,7 +306,7 @@ export function computeAll(
 export const distanceSort = (a: ComputeResult, b: ComputeResult) => a.distance - b.distance
 export const scoreSort = (a: ComputeResult, b: ComputeResult) =>
   (Number.isNaN(a.score.total) ? 0 : a.score.total) - (Number.isNaN(b.score.total) ? 0 : b.score.total)
-export const fillSort = (a: ComputeResult, b: ComputeResult) => a.school.fill?.[2022] - b.school.fill?.[2022]
+export const fillSort = (a: ComputeResult, b: ComputeResult) => a.school.fill?.[2024] - b.school.fill?.[2024]
 
 function getDistanceFromBBoxAndPoint(bbox, numberPoint: number) {
   const distA = turf.distance([bbox[0], bbox[1]], [bbox[0], bbox[3]])

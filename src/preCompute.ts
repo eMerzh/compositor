@@ -61,11 +61,11 @@ function parseFillStr(path) {
 }
 function getFilledIndex(imagePaths) {
   return {
-    2018: parseFillStr(imagePaths[0]),
-    2019: parseFillStr(imagePaths[1]),
-    2020: parseFillStr(imagePaths[2]),
-    2021: parseFillStr(imagePaths[3]),
-    2022: parseFillStr(imagePaths[4]),
+    2020: parseFillStr(imagePaths[0]),
+    2021: parseFillStr(imagePaths[1]),
+    2022: parseFillStr(imagePaths[2]),
+    2023: parseFillStr(imagePaths[3]),
+    2024: parseFillStr(imagePaths[4]),
   }
 }
 function schoolExtract(school) {

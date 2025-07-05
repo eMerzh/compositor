@@ -35,4 +35,4 @@ il est actuellement en cours de développement et terriblement incomplet, buggé
 
 - Liste des écoles secondaires : cfwb (17 sept 2024)
   https://inscription.cfwb.be/fileadmin/sites/insc/uploads/Documents_2024-2025/Liste_ecoles_secondaires.xlsx
-- Liste des remplissage: cfwb via cypress (19 sept 2023)
+- Liste des remplissage: cfwb via cypress (juillet 2025) `pnpm  exec cypress run`
