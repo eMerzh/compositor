@@ -269,35 +269,36 @@ const SchoolDetail = ({
 
                 {school.fill && (
                   <Table mt="lg">
-                    <caption>Historique de remplissage de l'école</caption>
-                    <thead>
-                      <tr>
-                        <th>2020</th>
-                        <th>2021</th>
-                        <th>2022</th>
-                        <th>2023</th>
-                        <th>2024</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <FillIcon level={school.fill[2020]} />
-                        </td>
-                        <td>
-                          <FillIcon level={school.fill[2021]} />
-                        </td>
-                        <td>
-                          <FillIcon level={school.fill[2022]} />
-                        </td>
-                        <td>
-                          <FillIcon level={school.fill[2023]} />
-                        </td>
-                        <td>
-                          <FillIcon level={school.fill[2024]} />
-                        </td>
-                      </tr>
-                    </tbody>
+                    <Table.Caption>Historique de remplissage de l'école</Table.Caption>
+                    <Table.Thead>
+                      <Table.Tr>
+                        {["2020", "2021", "2022", "2023", "2024"].map(year => (
+                          <Table.Th key={year}>{year}</Table.Th>
+                        ))}
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      <Table.Tr>
+                        {["2020", "2021", "2022", "2023", "2024"].map(year => (
+                          <Table.Td key={year}>
+                            <FillIcon level={school.fill[year]?.fill_number} />
+                          </Table.Td>
+                        ))}
+                      </Table.Tr>
+                      <Table.Tr>
+                        {["2020", "2021", "2022", "2023", "2024"].map(year => (
+                          <Table.Td key={year}>
+                            {school.fill[year]?.declared === "-" ? "?" : school.fill[year]?.declared}&nbsp;ouvert /{" "}
+                            {school.fill[year]?.received === "-" ? "?" : school.fill[year]?.received}&nbsp;inscrits
+                            {school.fill[year]?.declared !== "-" && school.fill[year]?.received !== "-" && (
+                              <Text fz="xs" c="dimmed">
+                                ({round((school.fill[year].received / school.fill[year].declared) * 100, 2)}%)
+                              </Text>
+                            )}
+                          </Table.Td>
+                        ))}
+                      </Table.Tr>
+                    </Table.Tbody>
                   </Table>
                 )}
               </div>

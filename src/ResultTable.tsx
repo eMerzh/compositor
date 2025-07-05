@@ -145,7 +145,7 @@ export default function ResultTable({
                   </Text>
                 </Table.Th>
                 <Table.Td>{school.network}</Table.Td>
-                <Table.Td>{school.fill && <FillIcon level={school.fill["2024"]} />}</Table.Td>
+                <Table.Td>{school.fill && <FillIcon level={school.fill["2024"].fill_number} />}</Table.Td>
                 <Table.Td>{round(distance, 2)} km</Table.Td>
                 <Table.Td>
                   <Score score={score.total}>{round(score.total, 3)}</Score>

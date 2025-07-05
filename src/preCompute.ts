@@ -52,22 +52,6 @@ const newSchools = schools.map(school => {
 const capitalize = (str, lower = false) =>
   (lower ? str.toLowerCase() : str).replace(/(?:^|\s|["'([{])+\S/g, match => match.toUpperCase())
 
-function parseFillStr(path) {
-  const regex = /statutInscr(\d)\.png/
-  const extract = regex.exec(path)
-  if (extract) {
-    return Number.parseInt(extract[1], 10)
-  }
-}
-function getFilledIndex(imagePaths) {
-  return {
-    2020: parseFillStr(imagePaths[0]),
-    2021: parseFillStr(imagePaths[1]),
-    2022: parseFillStr(imagePaths[2]),
-    2023: parseFillStr(imagePaths[3]),
-    2024: parseFillStr(imagePaths[4]),
-  }
-}
 function schoolExtract(school) {
   const id = `${school.ndeg_fase_de_l_etablissement}/${school.ndegfase_de_l_implantation}`
   const partenaria = partenariaList.find(p => p.prim === id)
@@ -89,7 +73,7 @@ function schoolExtract(school) {
     partenaria: partenaria ? { id: partenaria.sec, date: partenaria.date } : null,
     ise: compositeIndex.get(id) ? compositeIndex.get(id) : null,
     immersion: immersionIndex.get(id) ? immersionIndex.get(id) : null,
-    fill: fillMap[id] ? getFilledIndex(fillMap[id]) : null,
+    fill: fillMap[id],
   }
 }
 

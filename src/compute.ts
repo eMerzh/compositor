@@ -6,6 +6,14 @@ export type GeoLoc = {
 }
 
 export type FillLevel = 1 | 2 | 3 | 4
+export type FillDetails = Record<
+  number, // year
+  {
+    fill_number: FillLevel
+    declared: string
+    received: string
+  }
+>
 
 export interface School {
   // fase etablissement / fase implantation
@@ -30,13 +38,7 @@ export interface School {
   partenaria: null | { id: string; date: string }
   ise: null | number
   immersion: null | string[]
-  fill: null | {
-    2020: FillLevel
-    2021: FillLevel
-    2022: FillLevel
-    2023: FillLevel
-    2024: FillLevel
-  }
+  fill: FillDetails
 }
 
 export const primarySchools = primary as School[]
@@ -306,7 +308,8 @@ export function computeAll(
 export const distanceSort = (a: ComputeResult, b: ComputeResult) => a.distance - b.distance
 export const scoreSort = (a: ComputeResult, b: ComputeResult) =>
   (Number.isNaN(a.score.total) ? 0 : a.score.total) - (Number.isNaN(b.score.total) ? 0 : b.score.total)
-export const fillSort = (a: ComputeResult, b: ComputeResult) => a.school.fill?.[2024] - b.school.fill?.[2024]
+export const fillSort = (a: ComputeResult, b: ComputeResult) =>
+  a.school.fill?.[2024].fill_number - b.school.fill?.[2024].fill_number
 
 function getDistanceFromBBoxAndPoint(bbox, numberPoint: number) {
   const distA = turf.distance([bbox[0], bbox[1]], [bbox[0], bbox[3]])
