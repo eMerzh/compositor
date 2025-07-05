@@ -48,6 +48,7 @@ export default function ResultTable({
       .filter(s => !filterNetwork.length || filterNetwork.includes(s.school.network))
       .filter(s => !withImmersion || s.school.immersion)
       .filter(s => !filterCity.length || filterCity.includes(s.school.city))
+      .filter(s => !Number.isNaN(s.score.total))
       .sort(getSortFn(sortColumn))
       [sortOrder === "desc" ? "reverse" : "slice"]()
   }, [scores, sortColumn, sortOrder, filterNetwork, withImmersion, filterCity])
