@@ -80,7 +80,7 @@ export default function ResultTable({
         placeholder="Réseau"
         value={filterNetwork}
         onChange={v => setFilterNetwork(v)}
-        icon={<IconFilter size="1rem" />}
+        leftSection={<IconFilter size="1rem" />}
         data={networks}
       />
       <MultiSelect
@@ -91,40 +91,40 @@ export default function ResultTable({
         placeholder="Ville"
         value={filterCity}
         onChange={v => setFilterCity(v)}
-        icon={<IconFilter size="1rem" />}
+        leftSection={<IconFilter size="1rem" />}
         data={cities}
       />
       {warnMsg}
-      <Table striped>
-        <thead>
-          <tr>
-            <th>Nom</th>
-            <th>Réseau</th>
-            <th onClick={orderHandler("fill")} onKeyDown={orderHandler("fill")}>
+      <Table>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th>Nom</Table.Th>
+            <Table.Th>Réseau</Table.Th>
+            <Table.Th onClick={orderHandler("fill")} onKeyDown={orderHandler("fill")}>
               Rempl. 2022
               {sortColumn === "fill" &&
                 (sortOrder === "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
-            </th>
-            <th onClick={orderHandler("distance")} onKeyDown={orderHandler("distance")}>
+            </Table.Th>
+            <Table.Th onClick={orderHandler("distance")} onKeyDown={orderHandler("distance")}>
               <Center>
                 Distance{" "}
                 {sortColumn === "distance" &&
                   (sortOrder === "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
               </Center>
-            </th>
-            <th onClick={orderHandler("score")} onKeyDown={orderHandler("score")}>
+            </Table.Th>
+            <Table.Th onClick={orderHandler("score")} onKeyDown={orderHandler("score")}>
               <Center>
                 Score{" "}
                 {sortColumn === "score" &&
                   (sortOrder === "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
               </Center>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
+            </Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
           {schoolsScores.map(({ school, score, distance }) => {
             return (
-              <tr
+              <Table.Tr
                 key={school.id}
                 style={{
                   backgroundColor: school.id === selectedFase ? "#7AD1DD" : undefined,
@@ -137,22 +137,22 @@ export default function ResultTable({
                   onSelectDetail(school.id)
                 }}
               >
-                <th style={{ textTransform: "capitalize" }}>
+                <Table.Th style={{ textTransform: "capitalize" }}>
                   {school.name}
                   <Text fz="xs" fw={300} c="dimmed">
                     {school.address}, {school.city}
                   </Text>
-                </th>
-                <td>{school.network}</td>
-                <td>{school.fill && <FillIcon level={school.fill["2022"]} />}</td>
-                <td>{round(distance, 2)} km</td>
-                <td>
+                </Table.Th>
+                <Table.Td>{school.network}</Table.Td>
+                <Table.Td>{school.fill && <FillIcon level={school.fill["2022"]} />}</Table.Td>
+                <Table.Td>{round(distance, 2)} km</Table.Td>
+                <Table.Td>
                   <Score score={score.total}>{round(score.total, 3)}</Score>
-                </td>
-              </tr>
+                </Table.Td>
+              </Table.Tr>
             )
           })}
-        </tbody>
+        </Table.Tbody>
       </Table>
     </Group>
   )

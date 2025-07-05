@@ -36,7 +36,7 @@ const Explanation = [
           <Popover.Target>
             <Text fz="xs" fw={300} c="dimmed" style={{ display: "inline" }}>
               {" "}
-              <Button variant="light" compact>
+              <Button variant="light" size="compact-sm">
                 (n°{result.score.rank_2})
               </Button>
             </Text>
@@ -66,7 +66,7 @@ const Explanation = [
           <Popover.Target>
             <Text fz="xs" fw={300} c="dimmed" style={{ display: "inline" }}>
               {" "}
-              <Button variant="light" compact>
+              <Button variant="light" size="compact-sm">
                 (n°{result.score.rank_3})
               </Button>
             </Text>
@@ -116,7 +116,7 @@ const Explanation = [
         return (
           <>
             {" "}
-            <Button compact color="yellow" leftIcon={<IconAlertCircle size="1rem" />}>
+            <Button size="compact-sm" color="yellow" leftSection={<IconAlertCircle size="1rem" />}>
               Approximatif
             </Button>
           </>
@@ -232,7 +232,7 @@ const SchoolDetail = ({
                         key={d.name}
                         icon={
                           <Tooltip
-                            width={300}
+                            w={300}
                             multiline
                             withArrow
                             offset={30}
@@ -248,7 +248,7 @@ const SchoolDetail = ({
                           </Tooltip>
                         }
                       >
-                        <Text c={score2026 && d.scoreProperty === "coef_8" ? "dimmed" : undefined}>
+                        <Text c={score2026 && d.scoreProperty === "coef_8" ? "dimmed" : undefined} component="div">
                           {idx + 1}. {d.name}: {result?.score[d.scoreProperty]}
                           {d.more?.(result)}
                         </Text>
@@ -306,7 +306,7 @@ const SchoolDetail = ({
         )}
       </Card>
       <Container w="100%">
-        <Button compact variant="white" leftIcon={<IconGridDots size="1rem" />} onClick={handlers.toggle}>
+        <Button size="compact-sm" variant="white" leftSection={<IconGridDots size="1rem" />} onClick={handlers.toggle}>
           Carte des scores
         </Button>
         {gridOpened && <MapInspect result={gridResult} home={locHome} secondary={school} />}

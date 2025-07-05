@@ -1,7 +1,7 @@
-import { Checkbox, Group, Select, Text } from "@mantine/core"
+import { AutocompleteProps, Checkbox, OptionsFilter, Select, Text } from "@mantine/core"
 import { IconCalendar, IconCalendarQuestion, IconMoneybag, IconSchool } from "@tabler/icons-react"
-import { Fragment, forwardRef, useMemo, useState } from "react"
-import { addYears, type School } from "./compute"
+import { Fragment, useCallback, useMemo, useState } from "react"
+import { type School } from "./compute"
 import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete"
 
 function toLocalCompare(s: string): string {
@@ -11,34 +11,26 @@ function toLocalCompare(s: string): string {
     .toLocaleLowerCase()
 }
 
-/**
- * Match a query against an item using a multi word fuzzy search algorithm.
- */
-function fuzzyMatch(query: string, item: string): boolean {
-  const queryWords = query.split(" ").map(toLocalCompare)
-  const itemWords = item.split(" ").map(toLocalCompare)
+const SCHOOL_LIMIT = 20
+const optionsFilter: OptionsFilter = ({ options, search }) => {
+  if (!search) {
+    return options.slice(0, SCHOOL_LIMIT)
+  }
+  const queryWords = search.split(" ").map(toLocalCompare)
 
-  return queryWords.every(q => itemWords.some(i => i.startsWith(q)))
+  return options
+    .filter(
+      option =>
+        "label" in option &&
+        queryWords.every(q =>
+          option.label
+            .split(" ")
+            .map(toLocalCompare)
+            .some(i => i.startsWith(q)),
+        ),
+    )
+    .slice(0, SCHOOL_LIMIT)
 }
-
-interface ItemProps extends React.ComponentPropsWithoutRef<"div"> {
-  city: string
-  label: string
-  address: string
-}
-
-const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ label, address, city, ...others }: ItemProps, ref) => (
-  <div ref={ref} {...others}>
-    <Group noWrap>
-      <div>
-        <Text size="sm">{label}</Text>
-        <Text size="xs" opacity={0.65}>
-          {address}, {city}
-        </Text>
-      </div>
-    </Group>
-  </div>
-))
 
 export function InputConfig({
   primarySchools,
@@ -86,6 +78,21 @@ export function InputConfig({
     return idPrimaire ? primarySchools.find(p => p.id === idPrimaire) : null
   }, [idPrimaire, primarySchools])
 
+  const renderAutocompleteOption: AutocompleteProps["renderOption"] = useCallback(
+    ({ option }) => {
+      const item = primarySchools.find(p => p.id === option.value)
+      return (
+        <div>
+          <Text size="sm">{item.name}</Text>
+          <Text size="xs" opacity={0.65}>
+            {item?.address}, {item?.city}
+          </Text>
+        </div>
+      )
+    },
+    [primarySchools],
+  )
+
   return (
     <>
       <Select
@@ -95,18 +102,18 @@ export function InputConfig({
         placeholder="Choisir une école primaire"
         value={idPrimaire}
         onChange={setIdPrimaire}
-        itemComponent={SelectItem}
+        renderOption={renderAutocompleteOption}
         limit={20}
         data={prim}
         mt={"md"}
-        filter={(query, item) => fuzzyMatch(query, item.label)}
-        icon={<IconSchool size="1rem" color={idPrimaire ? "green" : "#adb5bd"} />}
+        filter={optionsFilter}
+        leftSection={<IconSchool size="1rem" color={idPrimaire ? "green" : "#adb5bd"} />}
       />
       <GeoAutoComplete value={locHome} onSelect={setLocHome} />
       <Select
         label="Inscription en 1ere primaire"
         data={["2019", "2020", "2021", "2022", "2023", "2024", "2025"]}
-        icon={<IconCalendar size="1rem" color={isFaultyDate ? "red" : date ? "green" : "#adb5bd"} />}
+        leftSection={<IconCalendar size="1rem" color={isFaultyDate ? "red" : date ? "green" : "#adb5bd"} />}
         value={date}
         onChange={setDate}
         mt={"md"}
@@ -115,20 +122,22 @@ export function InputConfig({
         <Select
           label="Indice Socio-Économique (1= moins favorisé)"
           data={Array.from({ length: 20 }, (_, i) => i + 1).map(i => ({ label: `${i}`, value: `${i}` }))}
-          icon={<IconMoneybag size="1rem" color={date ? "green" : "#adb5bd"} />}
+          leftSection={<IconMoneybag size="1rem" color={date ? "green" : "#adb5bd"} />}
           value={`${ise}`}
           onChange={v => setIse(Number.parseInt(v, 10))}
           mt={"md"}
         />
       )}
       {secondaryYear && (
-        <Text size={"sm"} color="gray">
+        <Text size={"sm"} c="gray" component="div">
           Pour une entrée en secondaire en août{" "}
           {showMoreDate ? (
             <div>
               <Select
                 data={["2025", "2026", "2027", "2028", "2029"]}
-                icon={<IconCalendarQuestion size="1rem" color={isFaultyDate ? "red" : date ? "green" : "#adb5bd"} />}
+                leftSection={
+                  <IconCalendarQuestion size="1rem" color={isFaultyDate ? "red" : date ? "green" : "#adb5bd"} />
+                }
                 value={secondaryYear}
                 onChange={setSecondaryYear}
                 mt={"xs"}

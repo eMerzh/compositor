@@ -1,7 +1,7 @@
-import { Autocomplete, AutocompleteItem, Button, CloseButton, Group, Text } from "@mantine/core"
+import { Autocomplete, AutocompleteProps, Button, CloseButton, Group, Text } from "@mantine/core"
 import { useDebouncedValue } from "@mantine/hooks"
 import { IconHomeSearch, IconMap } from "@tabler/icons-react"
-import { forwardRef, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { GeoLoc } from "./compute"
 import MapDisplay from "./MapDisplay"
 
@@ -36,20 +36,13 @@ const useGeoCoding = (address: string) => {
   return result
 }
 
-interface ItemProps extends AutocompleteItem, NamedLoc {}
-
-const AutoCompleteItem = forwardRef<HTMLDivElement, ItemProps>(({ value, name, ...others }: ItemProps, ref) => (
-  <div ref={ref} {...others}>
-    <Group noWrap>
-      <div>
-        <Text>{name}</Text>
-        <Text size="xs" color="dimmed">
-          {value}
-        </Text>
-      </div>
+const renderAutocompleteOption: AutocompleteProps["renderOption"] = ({ option }) => {
+  return (
+    <Group>
+      <Text>{option.value}</Text>
     </Group>
-  </div>
-))
+  )
+}
 
 interface Props {
   onSelect?: (loca: NamedLoc | null) => void
@@ -73,25 +66,24 @@ function GeoAutoComplete({ value, onSelect }: Props) {
       <Autocomplete
         label="Adresse du domicile"
         description="Une adresse précise est préférable pour obtenir des résultats pertinents."
-        icon={<IconHomeSearch size="1rem" color={value?.lat ? "green" : "#adb5bd"} />}
+        leftSection={<IconHomeSearch size="1rem" color={value?.lat ? "green" : "#adb5bd"} />}
         placeholder="Domicile"
         ref={ref}
         mt={"md"}
         value={searchValue}
-        data={
-          results.map(r => ({
-            ...r,
-            value: r.name,
-            label: r.name,
-          })) as ItemProps[]
-        }
-        onChange={setSearchValue}
-        // avoid removing matching items
-        filter={() => true}
-        itemComponent={AutoCompleteItem}
-        onItemSubmit={(item: ItemProps) => {
-          onSelect({ lat: item.lat, lon: item.lon, name: item.name })
+        data={results.map(r => ({
+          ...r,
+          value: r.name,
+          label: r.name,
+        }))}
+        onChange={v => {
+          const item = results.find(r => r.name === v)
+          if (item) {
+            onSelect?.({ lat: item.lat, lon: item.lon, name: item.name })
+          }
+          setSearchValue(v)
         }}
+        renderOption={renderAutocompleteOption}
         rightSection={
           <CloseButton
             aria-label="Clear input"
@@ -103,7 +95,12 @@ function GeoAutoComplete({ value, onSelect }: Props) {
         }
         rightSectionWidth={40}
       />
-      <Button variant="white" compact onClick={() => setShowDetails(!showDetails)} leftIcon={<IconMap size="1rem" />}>
+      <Button
+        variant="white"
+        size="compact-sm"
+        onClick={() => setShowDetails(!showDetails)}
+        leftSection={<IconMap size="1rem" />}
+      >
         {showDetails ? "Cacher" : "Afficher"} la carte
       </Button>
       {showDetails && (

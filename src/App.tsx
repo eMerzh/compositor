@@ -1,6 +1,7 @@
 import { AppShell, MantineProvider } from "@mantine/core"
 import { QueryParamProvider } from "use-query-params"
 import { WindowHistoryAdapter } from "use-query-params/adapters/window"
+import "@mantine/core/styles.css"
 
 import AppContainer from "./AppContainer"
 import Footer from "./Footer"
@@ -12,10 +13,11 @@ export default function Home() {
   })
 
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider>
       <QueryParamProvider adapter={WindowHistoryAdapter}>
-        <AppShell footer={<Footer />}>
+        <AppShell footer={{ height: 60 }}>
           <AppContainer />
+          <Footer />
         </AppShell>
       </QueryParamProvider>
     </MantineProvider>

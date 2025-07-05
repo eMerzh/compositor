@@ -1,4 +1,4 @@
-import { Badge } from "@mantine/core"
+import { Badge, useMantineColorScheme } from "@mantine/core"
 import { ReactNode } from "react"
 
 function perc2color(perc: number) {
@@ -18,13 +18,13 @@ function perc2color(perc: number) {
 
 const Score = ({ score, children }: { score: number; children: ReactNode }) => {
   const color = perc2color(score * 10)
-
+  const { colorScheme } = useMantineColorScheme()
   return (
     <Badge
       styles={theme => ({
         root: {
           backgroundColor: color,
-          color: theme.colorScheme === "dark" ? theme.colors.blue[1] : theme.colors.dark[4],
+          color: colorScheme === "dark" ? theme.colors.blue[1] : theme.colors.dark[4],
         },
       })}
     >

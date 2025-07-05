@@ -267,18 +267,6 @@ function filterNewestAndOrderSchool(
 function filterSecondary(schools: School[], secondaireDate: Date): School[] {
   return schools.filter(s => {
     const schoolEndDate = s.endDate ? new Date(Date.parse(s.endDate)) : null
-    if (schoolEndDate) {
-      console.log(
-        "Filtering school:",
-        s.name,
-        "End date:",
-        schoolEndDate,
-        "Secondary date:",
-        secondaireDate,
-        "result",
-        schoolEndDate > secondaireDate,
-      )
-    }
     return !schoolEndDate || schoolEndDate > secondaireDate
   })
 }

@@ -50,7 +50,7 @@ const Warning = () => {
           <>
             {" "}
             Si ceci vous est utile, un{" "}
-            <Button variant="outline" size="xs" compact onClick={onLike}>
+            <Button variant="outline" size="compact-xs" onClick={onLike}>
               petit click
             </Button>{" "}
             pour la motivation
