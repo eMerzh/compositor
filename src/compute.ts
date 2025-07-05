@@ -304,7 +304,8 @@ export function computeAll(
 }
 
 export const distanceSort = (a: ComputeResult, b: ComputeResult) => a.distance - b.distance
-export const scoreSort = (a: ComputeResult, b: ComputeResult) => a.score.total - b.score.total
+export const scoreSort = (a: ComputeResult, b: ComputeResult) =>
+  (Number.isNaN(a.score.total) ? 0 : a.score.total) - (Number.isNaN(b.score.total) ? 0 : b.score.total)
 export const fillSort = (a: ComputeResult, b: ComputeResult) => a.school.fill?.[2022] - b.school.fill?.[2022]
 
 function getDistanceFromBBoxAndPoint(bbox, numberPoint: number) {
