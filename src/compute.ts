@@ -334,6 +334,7 @@ export function getScoreGrid(
   locHome: GeoLoc,
   date: string,
   immersion: boolean,
+  inscriptionSecondaryYear: string,
   ise?: number,
 ) {
   console.time("getScoreGrid")
@@ -363,8 +364,9 @@ export function getScoreGrid(
       lon: currentFeature.geometry.coordinates[0],
       lat: currentFeature.geometry.coordinates[1],
     }
+    const inscriptionSecondaryDate = new Date(`${inscriptionSecondaryYear}-09-01`)
     const prim = filterNewestAndOrderSchool(primarySchools, primarySchool.network, inscriptionDate, nLoc)
-    const sec = Array.from(secondarySchools).sort(schoolSorter(nLoc))
+    const sec = filterSecondary(Array.from(secondarySchools), inscriptionSecondaryDate).sort(schoolSorter(nLoc))
     const score = compute(prim, sec, primarySchool, secondarySchool, nLoc, immersion, ise)
     currentFeature.properties = {
       score: score.total,

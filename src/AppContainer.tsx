@@ -70,11 +70,11 @@ function useConfiguration() {
 
   const [locHome, setLocHome] = useQueryParam<NamedLoc | null>("homeloc", JsonParam)
 
-  const [immersion, setImmersion] = useQueryParam("immersion", BooleanParam)
+  const [immersion, setImmersion] = useQueryParam("immersion", withDefault(BooleanParam, false))
   const [date, setDate] = useQueryParam("date", StringParam)
   const [secondaryYear, setSecondaryYear] = useQueryParam("secondaryYear", StringParam)
   const [ise, setIse] = useQueryParam("ise", withDefault(NumberParam, 10))
-  const [score2026, setScore2026] = useQueryParam("score2026", BooleanParam)
+  const [score2026, setScore2026] = useQueryParam("score2026", withDefault(BooleanParam, true))
 
   return {
     idPrimaire,
@@ -100,9 +100,8 @@ function useConfiguration() {
     date,
     setDate: (v: string) => {
       setDate(v)
-      const year = new Date(`${v}-08-01`).getFullYear()
-      setSecondaryYear(year.toString())
-
+      const newYear = Number.parseInt(v, 10)
+      setSecondaryYear(String(newYear + 6))
       refresh()
     },
     ise,
@@ -239,6 +238,7 @@ function AppContainer() {
             immersion={immersion}
             ise={ise}
             score2026={score2026}
+            inscriptionSecondaryDate={secondaryYear}
           />
         )}
       </Modal>

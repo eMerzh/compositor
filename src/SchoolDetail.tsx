@@ -174,6 +174,7 @@ const SchoolDetail = ({
   immersion,
   ise,
   score2026,
+  inscriptionSecondaryDate,
 }: {
   school: School
   scores: ComputeResult[]
@@ -182,6 +183,7 @@ const SchoolDetail = ({
   immersion: boolean
   ise?: number
   score2026: boolean
+  inscriptionSecondaryDate: string
 }) => {
   let result: ComputeResult | undefined
   const [gridOpened, handlers] = useDisclosure(false)
@@ -194,8 +196,8 @@ const SchoolDetail = ({
   const gridResult = useMemo(() => {
     if (!gridOpened) return null
     console.log("compute")
-    return getScoreGrid(school, result.primarySchool, locHome, date, immersion, ise)
-  }, [school, result?.primarySchool, locHome, date, immersion, gridOpened, ise])
+    return getScoreGrid(school, result.primarySchool, locHome, date, immersion, inscriptionSecondaryDate, ise)
+  }, [school, result?.primarySchool, locHome, date, immersion, gridOpened, inscriptionSecondaryDate, ise])
 
   return (
     <Container>

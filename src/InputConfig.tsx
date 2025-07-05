@@ -136,7 +136,7 @@ export function InputConfig({
             </div>
           ) : (
             <Text td="underline" span onClick={() => setShowMoreDate(true)}>
-              {addYears(new Date(`${secondaryYear}-08-01`), 6).getFullYear()}
+              {secondaryYear}
             </Text>
           )}
         </Text>
