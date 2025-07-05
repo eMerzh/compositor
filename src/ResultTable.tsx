@@ -101,7 +101,7 @@ export default function ResultTable({
             <Table.Th>Nom</Table.Th>
             <Table.Th>Réseau</Table.Th>
             <Table.Th onClick={orderHandler("fill")} onKeyDown={orderHandler("fill")}>
-              Rempl. 2022
+              Rempl. 2024
               {sortColumn === "fill" &&
                 (sortOrder === "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
             </Table.Th>
@@ -144,7 +144,7 @@ export default function ResultTable({
                   </Text>
                 </Table.Th>
                 <Table.Td>{school.network}</Table.Td>
-                <Table.Td>{school.fill && <FillIcon level={school.fill["2022"]} />}</Table.Td>
+                <Table.Td>{school.fill && <FillIcon level={school.fill["2024"]} />}</Table.Td>
                 <Table.Td>{round(distance, 2)} km</Table.Td>
                 <Table.Td>
                   <Score score={score.total}>{round(score.total, 3)}</Score>
