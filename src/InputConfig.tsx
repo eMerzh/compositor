@@ -130,7 +130,7 @@ export function InputConfig({
       )}
       {secondaryYear && (
         <Text size={"sm"} c="gray" component="div">
-          Pour une entrée en secondaire en août{" "}
+          À priori, pour une entrée en secondaire en août{" "}
           {showMoreDate ? (
             <div>
               <Select

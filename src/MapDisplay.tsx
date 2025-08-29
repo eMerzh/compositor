@@ -10,8 +10,8 @@ interface MapProps {
 }
 const MapDisplay = ({ initialLat, initialLon, setHomeLoc }: MapProps) => {
   const mapContainer = useRef(null)
-  const pointRef = useRef<maplibregl.Marker>()
-  const mapRef = useRef<maplibregl.Map>()
+  const pointRef = useRef<maplibregl.Marker>(null)
+  const mapRef = useRef<maplibregl.Map>(null)
   const [lng] = useState<number>(initialLon)
   const [lat] = useState<number>(initialLat)
   const [zoom] = useState(13)

@@ -13,9 +13,9 @@ const MapInspect = ({ result, home, secondary }: MapProps) => {
   const { lines } = result
   const mapContainer = useRef(null)
   const [loaded, setLoaded] = useState(false)
-  const secondaireRef = useRef<maplibregl.Marker>()
-  const homeRef = useRef<maplibregl.Marker>()
-  const mapRef = useRef<maplibregl.Map>()
+  const secondaireRef = useRef<maplibregl.Marker>(null)
+  const homeRef = useRef<maplibregl.Marker>(null)
+  const mapRef = useRef<maplibregl.Map>(null)
   const [zoom] = useState(13)
 
   useEffect(() => {
