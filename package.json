@@ -14,9 +14,9 @@
     "compute": "node ./src/preCompute.ts"
   },
   "dependencies": {
-    "@mantine/core": "8.3.0",
-    "@mantine/form": "8.3.0",
-    "@mantine/hooks": "8.3.0",
+    "@mantine/core": "8.3.1",
+    "@mantine/form": "8.3.1",
+    "@mantine/hooks": "8.3.1",
     "@tabler/icons-react": "3.34.1",
     "@turf/turf": "7.2.0",
     "maplibre-gl": "5.7.1",
