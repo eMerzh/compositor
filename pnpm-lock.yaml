@@ -27,8 +27,8 @@ importers:
         specifier: 5.7.1
         version: 5.7.1
       posthog-js:
-        specifier: 1.266.0
-        version: 1.266.0(@rrweb/types@2.0.0-alpha.17)
+        specifier: 1.266.1
+        version: 1.266.1(@rrweb/types@2.0.0-alpha.17)
       react:
         specifier: 19.1.1
         version: 19.1.1
@@ -370,8 +370,8 @@ packages:
   '@maplibre/vt-pbf@4.0.3':
     resolution: {integrity: sha512-YsW99BwnT+ukJRkseBcLuZHfITB4puJoxnqPVjo72rhW/TaawVYsgQHcqWLzTxqknttYoDpgyERzWSa/XrETdA==}
 
-  '@posthog/core@1.0.2':
-    resolution: {integrity: sha512-hWk3rUtJl2crQK0WNmwg13n82hnTwB99BT99/XI5gZSvIlYZ1TPmMZE8H2dhJJ98J/rm9vYJ/UXNzw3RV5HTpQ==}
+  '@posthog/core@1.1.0':
+    resolution: {integrity: sha512-igElrcnRPJh2nWYACschjH4OwGwzSa6xVFzRDVzpnjirUivdJ8nv4hE+H31nvwE56MFhvvglfHuotnWLMcRW7w==}
 
   '@rolldown/pluginutils@1.0.0-beta.35':
     resolution: {integrity: sha512-slYrCpoxJUqzFDDNlvrOYRazQUNRvWPjXA17dAOISY3rDMxX6k8K4cj2H+hEYMHF81HO3uNd5rHVigAWRM5dSg==}
@@ -1591,8 +1591,8 @@ packages:
     resolution: {integrity: sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==}
     engines: {node: ^10 || ^12 || >=14}
 
-  posthog-js@1.266.0:
-    resolution: {integrity: sha512-437KsO9N+pMW6FtilgKYTHel0RCWs2S7PvsNRJf20/f3npChX9i6F8cNCJ6O4Az37scC1kPdTknFY/xEGazVJw==}
+  posthog-js@1.266.1:
+    resolution: {integrity: sha512-Ei9Fu/IpvBZ1tVn92XRhfXjG7Uakgf0CZbxBI9EZZZoLIR/NjJjwjnQSGEg8Hndv1cCP4HrXj+8ae3fb+EQjng==}
     peerDependencies:
       '@rrweb/types': 2.0.0-alpha.17
       rrweb-snapshot: 2.0.0-alpha.17
@@ -2291,7 +2291,7 @@ snapshots:
       pbf: 4.0.1
       supercluster: 8.0.1
 
-  '@posthog/core@1.0.2': {}
+  '@posthog/core@1.1.0': {}
 
   '@rolldown/pluginutils@1.0.0-beta.35': {}
 
@@ -4235,9 +4235,9 @@ snapshots:
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
-  posthog-js@1.266.0(@rrweb/types@2.0.0-alpha.17):
+  posthog-js@1.266.1(@rrweb/types@2.0.0-alpha.17):
     dependencies:
-      '@posthog/core': 1.0.2
+      '@posthog/core': 1.1.0
       core-js: 3.45.1
       fflate: 0.4.8
       preact: 10.27.1
