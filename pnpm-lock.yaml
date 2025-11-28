@@ -36,8 +36,8 @@ importers:
         specifier: 19.2.0
         version: 19.2.0(react@19.2.0)
       serialize-query-params:
-        specifier: 2.0.2
-        version: 2.0.2
+        specifier: 2.0.4
+        version: 2.0.4
       use-query-params:
         specifier: 2.2.1
         version: 2.2.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
@@ -1731,8 +1731,8 @@ packages:
   scheduler@0.27.0:
     resolution: {integrity: sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q==}
 
-  serialize-query-params@2.0.2:
-    resolution: {integrity: sha512-1chMo1dST4pFA9RDXAtF0Rbjaut4is7bzFbI1Z26IuMub68pNCILku85aYmeFhvnY//BXUPUhoRMjYcsT93J/Q==}
+  serialize-query-params@2.0.4:
+    resolution: {integrity: sha512-y9WzzDj3BsGgKLCh0ugiinufS//YqOfao/yVJjkXA4VLuyNCfHOLU/cbulGPxs3aeCqhvROw7qPL04JSZnCo0w==}
 
   shebang-command@2.0.0:
     resolution: {integrity: sha512-kHxr2zZpYtdmrN1qDjrrX/Z1rR1kG8Dx+gkpK1G4eXmvXswmcE1hTWBWYUzlraYw1/yZp6YuDY77YtvbN0dmDA==}
@@ -4374,7 +4374,7 @@ snapshots:
 
   scheduler@0.27.0: {}
 
-  serialize-query-params@2.0.2: {}
+  serialize-query-params@2.0.4: {}
 
   shebang-command@2.0.0:
     dependencies:
@@ -4567,7 +4567,7 @@ snapshots:
     dependencies:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
-      serialize-query-params: 2.0.2
+      serialize-query-params: 2.0.4
 
   use-sidecar@1.1.3(@types/react@19.2.7)(react@19.2.0):
     dependencies:
