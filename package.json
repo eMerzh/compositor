@@ -23,7 +23,7 @@
     "posthog-js": "1.293.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
-    "serialize-query-params": "2.0.2",
+    "serialize-query-params": "2.0.4",
     "use-query-params": "2.2.1"
   },
   "devDependencies": {
