@@ -24,7 +24,7 @@
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "serialize-query-params": "2.0.4",
-    "use-query-params": "2.2.1"
+    "use-query-params": "2.2.2"
   },
   "devDependencies": {
     "@biomejs/biome": "2.3.8",
