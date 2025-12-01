@@ -39,8 +39,8 @@ importers:
         specifier: 2.0.4
         version: 2.0.4
       use-query-params:
-        specifier: 2.2.1
-        version: 2.2.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
+        specifier: 2.2.2
+        version: 2.2.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0)
     devDependencies:
       '@biomejs/biome':
         specifier: 2.3.8
@@ -1945,8 +1945,8 @@ packages:
       '@types/react':
         optional: true
 
-  use-query-params@2.2.1:
-    resolution: {integrity: sha512-i6alcyLB8w9i3ZK3caNftdb+UnbfBRNPDnc89CNQWkGRmDrm/gfydHvMBfVsQJRq3NoHOM2dt/ceBWG2397v1Q==}
+  use-query-params@2.2.2:
+    resolution: {integrity: sha512-OwGab8u8/x2xZp9uSyBsx0kXlkR9IR436zbygsYVGikPYY3OJosvve6IJVGwIJPcfyb/YHwvPrUNu65/JR++Kw==}
     peerDependencies:
       '@reach/router': ^1.2.1
       react: '>=16.8.0'
@@ -4563,7 +4563,7 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.2.7
 
-  use-query-params@2.2.1(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
+  use-query-params@2.2.2(react-dom@19.2.0(react@19.2.0))(react@19.2.0):
     dependencies:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
