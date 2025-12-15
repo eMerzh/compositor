@@ -21,7 +21,7 @@
     "@turf/turf": "7.3.1",
     "maplibre-gl": "5.14.0",
     "posthog-js": "1.306.1",
-    "react": "19.2.1",
+    "react": "19.2.3",
     "react-dom": "19.2.1",
     "serialize-query-params": "2.0.4",
     "use-query-params": "2.2.2"
