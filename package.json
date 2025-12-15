@@ -22,7 +22,7 @@
     "maplibre-gl": "5.14.0",
     "posthog-js": "1.302.2",
     "react": "19.2.1",
-    "react-dom": "19.2.0",
+    "react-dom": "19.2.1",
     "serialize-query-params": "2.0.4",
     "use-query-params": "2.2.2"
   },
