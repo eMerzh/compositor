@@ -70,6 +70,7 @@ function useConfiguration() {
   const [idSecondaire, setIdSecondaire] = useQueryParam("idSec", StringParam)
 
   const [locHome, setLocHome] = useQueryParam<NamedLoc | null>("homeloc", JsonParam)
+  const [locInscription, setLocInscription] = useQueryParam<NamedLoc | null>("inscriptionloc", JsonParam)
 
   const [immersion, setImmersion] = useQueryParam("immersion", withDefault(BooleanParam, false))
   const [date, setDate] = useQueryParam(
@@ -97,6 +98,11 @@ function useConfiguration() {
     locHome,
     setLocHome: (v: NamedLoc) => {
       setLocHome(v)
+      refresh()
+    },
+    locInscription,
+    setLocInscription: (v: NamedLoc) => {
+      setLocInscription(v)
       refresh()
     },
     immersion,
@@ -146,6 +152,8 @@ function AppContainer() {
     setScore2026,
     secondaryYear,
     setSecondaryYear,
+    locInscription,
+    setLocInscription,
   } = useConfiguration()
   const [opened, { open, close }] = useDisclosure(false)
   const school_prim = primarySchools.find(school => school.id === idPrimaire)
@@ -154,7 +162,17 @@ function AppContainer() {
   const scores = useMemo<ComputeResult[] | UnexistingSchool | null>(() => {
     if (!school_prim || !locHome || !date) return null
     try {
-      const results = computeAll(secondarySchools, school_prim, locHome, date, immersion, secondaryYear, ise, score2026)
+      const results = computeAll(
+        secondarySchools,
+        school_prim,
+        locHome,
+        locInscription || locHome,
+        date,
+        immersion,
+        secondaryYear,
+        ise,
+        score2026,
+      )
       return results
     } catch (e) {
       console.error(e)
@@ -162,7 +180,7 @@ function AppContainer() {
         return e
       }
     }
-  }, [school_prim, locHome, immersion, date, ise, score2026, secondaryYear])
+  }, [school_prim, locHome, locInscription, immersion, date, ise, score2026, secondaryYear])
 
   if (!scores || scores instanceof UnexistingSchool) {
     return (
@@ -174,6 +192,8 @@ function AppContainer() {
           setIdPrimaire={setIdPrimaire}
           locHome={locHome}
           setLocHome={setLocHome}
+          locInscription={locInscription}
+          setLocInscription={setLocInscription}
           immersion={immersion}
           setImmersion={setImmersion}
           date={date}
@@ -204,6 +224,8 @@ function AppContainer() {
         setIdPrimaire={setIdPrimaire}
         locHome={locHome}
         setLocHome={setLocHome}
+        locInscription={locInscription}
+        setLocInscription={setLocInscription}
         immersion={immersion}
         setImmersion={setImmersion}
         date={date}
@@ -241,6 +263,7 @@ function AppContainer() {
             school={detailsSecondaire}
             scores={scores}
             locHome={locHome}
+            locInscription={locInscription || locHome}
             date={date}
             immersion={immersion}
             ise={ise}

@@ -1,8 +1,9 @@
-import { AutocompleteProps, Checkbox, OptionsFilter, Select, Text } from "@mantine/core"
-import { IconCalendar, IconCalendarQuestion, IconMoneybag, IconSchool } from "@tabler/icons-react"
+import { AutocompleteProps, Button, Checkbox, OptionsFilter, Select, Text } from "@mantine/core"
+import { IconCalendar, IconCalendarQuestion, IconEdit, IconMoneybag, IconSchool } from "@tabler/icons-react"
 import { Fragment, useCallback, useMemo, useState } from "react"
+import AddressesForm from "./AddressesForm"
 import { type School } from "./compute"
-import GeoAutoComplete, { NamedLoc } from "./GeoAutoComplete"
+import { NamedLoc } from "./GeoAutoComplete"
 
 function toLocalCompare(s: string): string {
   return s
@@ -32,6 +33,26 @@ const optionsFilter: OptionsFilter = ({ options, search }) => {
     .slice(0, SCHOOL_LIMIT)
 }
 
+interface Props {
+  primarySchools: School[]
+  idPrimaire: string
+  setIdPrimaire: (v: string) => void
+  locHome: NamedLoc
+  setLocHome: (v: NamedLoc) => void
+  immersion: boolean
+  setImmersion: (v: boolean) => void
+  date: string
+  setDate: (v: string) => void
+  ise: number
+  setIse: (v: number) => void
+  isFaultyDate: boolean
+  score2026: boolean
+  setScore2026: (v: boolean) => void
+  secondaryYear?: string
+  setSecondaryYear?: (v: string) => void
+  locInscription: NamedLoc
+  setLocInscription: (v: NamedLoc) => void
+}
 export function InputConfig({
   primarySchools,
   idPrimaire,
@@ -49,24 +70,9 @@ export function InputConfig({
   setScore2026,
   secondaryYear,
   setSecondaryYear,
-}: {
-  primarySchools: School[]
-  idPrimaire: string
-  setIdPrimaire: (v: string) => void
-  locHome: NamedLoc
-  setLocHome: (v: NamedLoc) => void
-  immersion: boolean
-  setImmersion: (v: boolean) => void
-  date: string
-  setDate: (v: string) => void
-  ise: number
-  setIse: (v: number) => void
-  isFaultyDate: boolean
-  score2026: boolean
-  setScore2026: (v: boolean) => void
-  secondaryYear?: string
-  setSecondaryYear?: (v: string) => void
-}) {
+  locInscription,
+  setLocInscription,
+}: Props) {
   const [showMoreDate, setShowMoreDate] = useState(false)
   const prim = primarySchools.map(school => ({
     value: school.id,
@@ -109,7 +115,13 @@ export function InputConfig({
         filter={optionsFilter}
         leftSection={<IconSchool size="1rem" color={idPrimaire ? "green" : "#adb5bd"} />}
       />
-      <GeoAutoComplete value={locHome} onSelect={setLocHome} />
+      <AddressesForm
+        valueHome={locHome}
+        onSelectHome={setLocHome}
+        valueInscription={locInscription}
+        onSelectInscription={setLocInscription}
+      />
+
       <Select
         label="Inscription en 1ere primaire"
         data={["2019", "2020", "2021", "2022", "2023", "2024", "2025"]}

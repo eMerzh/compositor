@@ -187,13 +187,14 @@ export function compute(
   school_prim: School,
   school_sec: School,
   locHome: GeoLoc,
+  locInscription: GeoLoc,
   immersion: boolean,
   ise?: number,
   score2026?: boolean,
 ) {
   const coef_1 = rankCoef1[0] // LA PRÉFÉRENCE 1.5 pour 1°
 
-  const rank_2 = findNearestRank(primary, school_prim, locHome)
+  const rank_2 = findNearestRank(primary, school_prim, locInscription)
   if (rank_2 === 0) {
     throw new UnexistingSchool(`Missing primary school ${school_prim.name}`)
   }
@@ -276,6 +277,7 @@ export function computeAll(
   secondarySchools: School[],
   primarySchool: School,
   locHome: GeoLoc,
+  locInscription: GeoLoc,
   date: string,
   immersion: boolean,
   inscriptionSecondaryYear: string,
@@ -286,7 +288,7 @@ export function computeAll(
 
   const inscriptionDate = new Date(`${date}-09-01`)
   const inscriptionSecondaryDate = new Date(`${inscriptionSecondaryYear}-09-01`)
-  const prim = filterNewestAndOrderSchool(primarySchools, primarySchool.network, inscriptionDate, locHome)
+  const prim = filterNewestAndOrderSchool(primarySchools, primarySchool.network, inscriptionDate, locInscription)
   const sec = filterSecondary(Array.from(secondarySchools), inscriptionSecondaryDate).sort(schoolSorter(locHome))
 
   const result = secondarySchools.map((school: School) => {
@@ -294,7 +296,7 @@ export function computeAll(
       school: school,
       primarySchools: prim,
       secondarySchools: sec,
-      score: compute(prim, sec, primarySchool, school, locHome, immersion, ise, score2026),
+      score: compute(prim, sec, primarySchool, school, locHome, locInscription, immersion, ise, score2026),
       home: locHome,
       distance: distance(school.geo, locHome),
       primarySchool: primarySchool,
@@ -324,6 +326,7 @@ export function getScoreGrid(
   secondarySchool: School,
   primarySchool: School,
   locHome: GeoLoc,
+  locInscription: GeoLoc,
   date: string,
   immersion: boolean,
   inscriptionSecondaryYear: string,
@@ -359,7 +362,7 @@ export function getScoreGrid(
     const inscriptionSecondaryDate = new Date(`${inscriptionSecondaryYear}-09-01`)
     const prim = filterNewestAndOrderSchool(primarySchools, primarySchool.network, inscriptionDate, nLoc)
     const sec = filterSecondary(Array.from(secondarySchools), inscriptionSecondaryDate).sort(schoolSorter(nLoc))
-    const score = compute(prim, sec, primarySchool, secondarySchool, nLoc, immersion, ise)
+    const score = compute(prim, sec, primarySchool, secondarySchool, nLoc, locInscription, immersion, ise)
     currentFeature.properties = {
       score: score.total,
     }

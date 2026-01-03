@@ -170,6 +170,7 @@ const SchoolDetail = ({
   school,
   scores,
   locHome,
+  locInscription,
   date,
   immersion,
   ise,
@@ -179,6 +180,7 @@ const SchoolDetail = ({
   school: School
   scores: ComputeResult[]
   locHome: GeoLoc
+  locInscription: GeoLoc
   date: string
   immersion: boolean
   ise?: number
@@ -196,8 +198,27 @@ const SchoolDetail = ({
   const gridResult = useMemo(() => {
     if (!gridOpened) return null
     console.log("compute")
-    return getScoreGrid(school, result.primarySchool, locHome, date, immersion, inscriptionSecondaryDate, ise)
-  }, [school, result?.primarySchool, locHome, date, immersion, gridOpened, inscriptionSecondaryDate, ise])
+    return getScoreGrid(
+      school,
+      result.primarySchool,
+      locHome,
+      locInscription,
+      date,
+      immersion,
+      inscriptionSecondaryDate,
+      ise,
+    )
+  }, [
+    school,
+    result?.primarySchool,
+    locHome,
+    locInscription,
+    date,
+    immersion,
+    gridOpened,
+    inscriptionSecondaryDate,
+    ise,
+  ])
 
   return (
     <Container>

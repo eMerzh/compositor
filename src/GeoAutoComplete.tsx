@@ -47,8 +47,9 @@ const renderAutocompleteOption: AutocompleteProps["renderOption"] = ({ option })
 interface Props {
   onSelect?: (loca: NamedLoc | null) => void
   value?: NamedLoc
+  label: string
 }
-function GeoAutoComplete({ value, onSelect }: Props) {
+function GeoAutoComplete({ value, onSelect, label }: Props) {
   const [searchValue, setSearchValue] = useState(value?.name || "")
   const [debouncedSearch] = useDebouncedValue(searchValue, 200)
   const [showDetails, setShowDetails] = useState(false)
@@ -64,7 +65,7 @@ function GeoAutoComplete({ value, onSelect }: Props) {
   return (
     <form>
       <Autocomplete
-        label="Adresse du domicile"
+        label={label}
         description="Une adresse précise est préférable pour obtenir des résultats pertinents."
         leftSection={<IconHomeSearch size="1rem" color={value?.lat ? "green" : "#adb5bd"} />}
         placeholder="Domicile"
