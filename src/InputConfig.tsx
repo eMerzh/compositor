@@ -130,23 +130,29 @@ export function InputConfig({
       )}
       {secondaryYear && (
         <Text size={"sm"} c="gray" component="div">
-          À priori, pour une entrée en secondaire en août{" "}
+          Pour une entrée en secondaire en août{" "}
           {showMoreDate ? (
             <div>
               <Select
-                data={["2025", "2026", "2027", "2028", "2029"]}
+                data={["2026", "2027", "2028", "2029"]}
                 leftSection={
                   <IconCalendarQuestion size="1rem" color={isFaultyDate ? "red" : date ? "green" : "#adb5bd"} />
                 }
                 value={secondaryYear}
                 onChange={setSecondaryYear}
                 mt={"xs"}
+                size="xs"
               />
             </div>
           ) : (
-            <Text td="underline" span onClick={() => setShowMoreDate(true)}>
-              {secondaryYear}
-            </Text>
+            <Button
+              rightSection={<IconEdit size="1rem" />}
+              variant="subtle"
+              size="compact-md"
+              onClick={() => setShowMoreDate(true)}
+            >
+              <Text td="underline">{secondaryYear}</Text>
+            </Button>
           )}
         </Text>
       )}
@@ -165,8 +171,8 @@ export function InputConfig({
         onChange={event => setImmersion(event.currentTarget.checked)}
       />
       <Checkbox
-        label={"Formule 2026-2027"}
-        description="Pour les inscriptions de l'année 2026-2027, l'indice socio-économique de l'école primaire ne sera plus pris en compte dans le
+        label={"Formule à partir de 2026-2027"}
+        description="Pour les inscriptions à partir de l'année 2026-2027, l'indice socio-économique de l'école primaire ne sera plus pris en compte dans le
             calcul du score."
         checked={score2026}
         mt="md"

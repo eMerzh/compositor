@@ -61,6 +61,7 @@ const Warning = () => {
   )
 }
 function useConfiguration() {
+  const isFirstHalfOfYear = new Date().getMonth() < 6
   const [_, setRefresher] = useState(0)
   const refresh = () => setRefresher(Math.random())
 
@@ -71,8 +72,14 @@ function useConfiguration() {
   const [locHome, setLocHome] = useQueryParam<NamedLoc | null>("homeloc", JsonParam)
 
   const [immersion, setImmersion] = useQueryParam("immersion", withDefault(BooleanParam, false))
-  const [date, setDate] = useQueryParam("date", StringParam)
-  const [secondaryYear, setSecondaryYear] = useQueryParam("secondaryYear", StringParam)
+  const [date, setDate] = useQueryParam(
+    "date",
+    withDefault(StringParam, `${new Date().getFullYear() - (isFirstHalfOfYear ? 6 : 5)}`),
+  )
+  const [secondaryYear, setSecondaryYear] = useQueryParam(
+    "secondaryYear",
+    withDefault(StringParam, `${new Date().getFullYear() + (isFirstHalfOfYear ? 0 : 1)}`),
+  )
   const [ise, setIse] = useQueryParam("ise", withDefault(NumberParam, 10))
   const [score2026, setScore2026] = useQueryParam("score2026", withDefault(BooleanParam, true))
 
