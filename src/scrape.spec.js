@@ -10,7 +10,12 @@ function parseFillStr(path) {
 
 describe("Scrape School fill rate", () => {
   // const results = {}
-  const indexYear = [2020, 2021, 2022, 2023, 2024]
+  /**
+   * Index years correspond to the order of images in the situation_array table on the website:
+   *
+   * See a result and check if the years below are correct
+   */
+  const indexYear = [2021, 2022, 2023, 2024, 2025]
   it("passes", () => {
     cy.visit("https://inscription.cfwb.be/nc/outils/recherche-dune-ecole-secondaire/")
     Cypress.on("uncaught:exception", () => {

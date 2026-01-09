@@ -308,10 +308,20 @@ export function computeAll(
 }
 
 export const distanceSort = (a: ComputeResult, b: ComputeResult) => a.distance - b.distance
+
 export const scoreSort = (a: ComputeResult, b: ComputeResult) =>
   (Number.isNaN(a.score.total) ? 0 : a.score.total) - (Number.isNaN(b.score.total) ? 0 : b.score.total)
-export const fillSort = (a: ComputeResult, b: ComputeResult) =>
-  a.school.fill?.[2024].fill_number - b.school.fill?.[2024].fill_number
+
+export const fillSort = (a: ComputeResult, b: ComputeResult) => {
+  if ((a.school.fill?.[2025]?.received || "-") !== "-" && (!b.school.fill?.[2025]?.received || "-") !== "-") {
+    return (
+      Number.parseInt(a.school.fill?.[2025]?.received, 10) / Number.parseInt(a.school.fill?.[2025]?.declared, 10) -
+      Number.parseInt(b.school.fill?.[2025]?.received, 10) / Number.parseInt(b.school.fill?.[2025]?.declared, 10)
+    )
+  }
+
+  return b.school.fill?.[2025]?.fill_number - a.school.fill?.[2025]?.fill_number
+}
 
 function getDistanceFromBBoxAndPoint(bbox, numberPoint: number) {
   const distA = turf.distance([bbox[0], bbox[1]], [bbox[0], bbox[3]])

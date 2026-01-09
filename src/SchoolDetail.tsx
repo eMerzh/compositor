@@ -293,21 +293,21 @@ const SchoolDetail = ({
                     <Table.Caption>Historique de remplissage de l'école</Table.Caption>
                     <Table.Thead>
                       <Table.Tr>
-                        {["2020", "2021", "2022", "2023", "2024"].map(year => (
+                        {["2020", "2021", "2022", "2023", "2024", "2025"].map(year => (
                           <Table.Th key={year}>{year}</Table.Th>
                         ))}
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
                       <Table.Tr>
-                        {["2020", "2021", "2022", "2023", "2024"].map(year => (
+                        {["2020", "2021", "2022", "2023", "2024", "2025"].map(year => (
                           <Table.Td key={year}>
                             <FillIcon level={school.fill[year]?.fill_number} />
                           </Table.Td>
                         ))}
                       </Table.Tr>
                       <Table.Tr>
-                        {["2020", "2021", "2022", "2023", "2024"].map(year => (
+                        {["2020", "2021", "2022", "2023", "2024", "2025"].map(year => (
                           <Table.Td key={year}>
                             {school.fill[year]?.declared === "-" ? "?" : school.fill[year]?.declared}&nbsp;ouvert /{" "}
                             {school.fill[year]?.received === "-" ? "?" : school.fill[year]?.received}&nbsp;inscrits
