@@ -9,14 +9,17 @@ export type FillLevel = 1 | 2 | 3 | 4
 export type FillDetails = Record<
   number, // year
   {
+    /** fill indicator (from 1 to 4 - 4 means not filled) */
     fill_number: FillLevel
+    /** number of declared places */
     declared: string
+    /** number of received inscriptions */
     received: string
   }
 >
 
 export interface School {
-  // fase etablissement / fase implantation
+  /** fase etablissement / fase implantation */
   id: string
   name: string
   address: string
@@ -38,7 +41,7 @@ export interface School {
   partenaria: null | { id: string; date: string }
   ise: null | number
   immersion: null | string[]
-  fill: FillDetails
+  fill?: FillDetails
 }
 
 export const primarySchools = primary as School[]
