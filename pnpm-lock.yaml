@@ -24,8 +24,8 @@ importers:
         specifier: 7.3.1
         version: 7.3.1
       maplibre-gl:
-        specifier: 5.15.0
-        version: 5.15.0
+        specifier: 5.16.0
+        version: 5.16.0
       posthog-js:
         specifier: 1.318.2
         version: 1.318.2
@@ -1487,8 +1487,8 @@ packages:
     resolution: {integrity: sha512-9fkkDevMefjg0mmzWFBW8YkFP91OrizzkW3diF7CpG+S2EYdy4+TVfGwz1zeF8x7hCx1ovSPTOE9Ngib74qqUg==}
     engines: {node: '>=10'}
 
-  maplibre-gl@5.15.0:
-    resolution: {integrity: sha512-pPeu/t4yPDX/+Uf9ibLUdmaKbNMlGxMAX+tBednYukol2qNk2TZXAlhdohWxjVvTO3is8crrUYv3Ok02oAaKzA==}
+  maplibre-gl@5.16.0:
+    resolution: {integrity: sha512-/VDY89nr4jgLJyzmhy325cG6VUI02WkZ/UfVuDbG/piXzo6ODnM+omDFIwWY8tsEsBG26DNDmNMn3Y2ikHsBiA==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
 
   math-intrinsics@1.1.0:
@@ -4131,7 +4131,7 @@ snapshots:
       slice-ansi: 4.0.0
       wrap-ansi: 6.2.0
 
-  maplibre-gl@5.15.0:
+  maplibre-gl@5.16.0:
     dependencies:
       '@mapbox/geojson-rewind': 0.5.2
       '@mapbox/jsonlint-lines-primitives': 2.0.2
