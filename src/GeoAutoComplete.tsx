@@ -77,6 +77,9 @@ function GeoAutoComplete({ value, onSelect, label }: Props) {
           value: r.name,
           label: r.name,
         }))}
+        filter={({ options }) => {
+          return options
+        }}
         onChange={v => {
           const item = results.find(r => r.name === v)
           if (item) {
