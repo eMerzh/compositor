@@ -19,7 +19,7 @@ const useGeoCoding = (address: string) => {
       return
     }
     fetch(
-      `${MAPTILER_API}${address}.json?key=${MAPTILER_API_KEY}&language=fr&country=be&types=poi,address,place,neighbourhood,locality`,
+      `${MAPTILER_API}${address}.json?key=${MAPTILER_API_KEY}&language=fr&country=be&types=poi,address,road,place,neighbourhood,locality`,
     )
       .then(r => r.json())
       .then(r => {
