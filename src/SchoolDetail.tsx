@@ -221,6 +221,7 @@ const SchoolDetail = ({
     gridOpened,
     inscriptionSecondaryDate,
     ise,
+    score2026,
   ])
 
   return (

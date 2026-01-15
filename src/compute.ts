@@ -1,4 +1,4 @@
-import { bbox, featureCollection, featureEach, voronoi, point, pointGrid, distance as turfDistance } from "@turf/turf"
+import { bbox, featureCollection, featureEach, point, pointGrid, distance as turfDistance, voronoi } from "@turf/turf"
 import { primary, secondary } from "./schools.json"
 export type GeoLoc = {
   lon: number
@@ -386,10 +386,10 @@ export function getScoreGrid(
   const horizontalExpand = width * 0.5
   const verticalExpand = height * 0.5
 
-  newbox[0] = box[0] - horizontalExpand  // expand left
-  newbox[1] = box[1] - verticalExpand   // expand bottom
-  newbox[2] = box[2] + horizontalExpand  // expand right
-  newbox[3] = box[3] + verticalExpand   // expand top
+  newbox[0] = box[0] - horizontalExpand // expand left
+  newbox[1] = box[1] - verticalExpand // expand bottom
+  newbox[2] = box[2] + horizontalExpand // expand right
+  newbox[3] = box[3] + verticalExpand // expand top
 
   const distanceBetween = getDistanceFromBBoxAndPoint(newbox, 200)
   const grid = pointGrid(newbox, distanceBetween /*km*/)
@@ -439,10 +439,7 @@ export function getScoreGrid(
     const gridFeature = grid.features[index]
     const score = gridFeature?.properties?.score || min
     const normalizedScore = (score - min) / (max - min)
-    const colorIndex = Math.min(
-      Math.floor(normalizedScore * colorMap.length),
-      colorMap.length - 1,
-    )
+    const colorIndex = Math.min(Math.floor(normalizedScore * colorMap.length), colorMap.length - 1)
     feature.properties = {
       fill: colorMap[colorIndex],
       "fill-opacity": 0.6,

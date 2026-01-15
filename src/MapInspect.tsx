@@ -32,11 +32,15 @@ const MapInspect = ({ result, home, secondary }: MapProps) => {
 
     homeRef.current = new maplibregl.Marker({
       color: "#ff6b6b",
-    }).setLngLat([home.lon, home.lat]).setPopup(new maplibregl.Popup().setText("Home"))
+    })
+      .setLngLat([home.lon, home.lat])
+      .setPopup(new maplibregl.Popup().setText("Home"))
 
     secondaireRef.current = new maplibregl.Marker({
       color: "#382ef1",
-    }).setLngLat([secondary.geo.lon, secondary.geo.lat]).setPopup(new maplibregl.Popup().setText(secondary.name))
+    })
+      .setLngLat([secondary.geo.lon, secondary.geo.lat])
+      .setPopup(new maplibregl.Popup().setText(secondary.name))
 
     homeRef.current.addTo(map)
     secondaireRef.current.addTo(map)
