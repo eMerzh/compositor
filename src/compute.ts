@@ -1,4 +1,4 @@
-import { bbox, featureCollection, featureEach, isobands, point, pointGrid, distance as turfDistance } from "@turf/turf"
+import { bbox, featureCollection, featureEach, voronoi, point, pointGrid, distance as turfDistance } from "@turf/turf"
 import { primary, secondary } from "./schools.json"
 export type GeoLoc = {
   lon: number
@@ -417,31 +417,40 @@ export function getScoreGrid(
 
   console.timeEnd("getScoreGrid")
 
-  const steps = (max - min) / 10
-  const breaks = Array.from({ length: 11 }, (_, i) => min + i * steps)
+  const colorMap = [
+    "#d73027",
+    "#f46d43",
+    "#fdae61",
+    "#fee090",
+    "#ffffbf",
+    "#e0f3f8",
+    "#abd9e9",
+    "#74add1",
+    "#4575b4",
+    "#1e58a4",
+    "#0a3266",
+  ]
 
-  const lines: GeoJSON.GeoJSON = isobands(grid, breaks, {
-    zProperty: "score",
-    commonProperties: {
+  // Create voronoi diagram from grid points
+  const voronoiDiagram = voronoi(grid, { bbox: newbox })
+
+  // Color each voronoi cell based on the score at that point
+  featureEach(voronoiDiagram, (feature, index) => {
+    const gridFeature = grid.features[index]
+    const score = gridFeature?.properties?.score || min
+    const normalizedScore = (score - min) / (max - min)
+    const colorIndex = Math.min(
+      Math.floor(normalizedScore * colorMap.length),
+      colorMap.length - 1,
+    )
+    feature.properties = {
+      fill: colorMap[colorIndex],
       "fill-opacity": 0.6,
-    },
-    breaksProperties: [
-      { fill: "#d73027" },
-      { fill: "#f46d43" },
-      { fill: "#fdae61" },
-      { fill: "#fee090" },
-      { fill: "#ffffbf" },
-      { fill: "#e0f3f8" },
-      { fill: "#abd9e9" },
-      { fill: "#74add1" },
-      { fill: "#4575b4" },
-      { fill: "#1e58a4" },
-      { fill: "#0a3266" },
-      { fill: "#0a3266" },
-      { fill: "#0a3266" },
-    ],
+      score,
+    }
   })
-  return { grid, min, max, lines }
+
+  return { grid, min, max, lines: voronoiDiagram }
 }
 
 function distance(from: GeoLoc, to: GeoLoc) {

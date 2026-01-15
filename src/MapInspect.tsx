@@ -45,19 +45,15 @@ const MapInspect = ({ result, home, secondary }: MapProps) => {
     })
 
     map.on("click", "secondaries-circle", e => {
-      // Copy coordinates array.
-      if (e.features[0].geometry.type !== "Point") return
-      const coordinates = e.features[0].geometry.coordinates.slice() as [number, number]
-      const description = e.features[0].properties.score
+      if (!e.features[0]) return
+      const coordinates = e.lngLat
+      const score = e.features[0].properties?.score
+      const formattedScore = score !== undefined ? score.toFixed(2) : "N/A"
 
-      // Ensure that if the map is zoomed out such that multiple
-      // copies of the feature are visible, the popup appears
-      // over the copy being pointed to.
-      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360
-      }
-
-      new maplibregl.Popup().setLngLat(coordinates).setHTML(description).addTo(map)
+      new maplibregl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(`<div style="padding: 8px;"><strong>Score:</strong> ${formattedScore}</div>`)
+        .addTo(map)
     })
 
     // Change the cursor to a pointer when the mouse is over the places layer.
