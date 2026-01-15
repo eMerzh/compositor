@@ -156,15 +156,15 @@ function AppContainer() {
     setLocInscription,
   } = useConfiguration()
   const [opened, { open, close }] = useDisclosure(false)
-  const school_prim = primarySchools.find(school => school.id === idPrimaire)
-  const detailsSecondaire = secondarySchools.find(school => school.id === idSecondaire)
+  const selectedPrimarySchool = primarySchools.find(school => school.id === idPrimaire)
+  const selectedSecondarySchool = secondarySchools.find(school => school.id === idSecondaire)
 
   const scores = useMemo<ComputeResult[] | UnexistingSchool | null>(() => {
-    if (!school_prim || !locHome || !date) return null
+    if (!selectedPrimarySchool || !locHome || !date) return null
     try {
       const results = computeAll(
         secondarySchools,
-        school_prim,
+        selectedPrimarySchool,
         locHome,
         locInscription || locHome,
         date,
@@ -180,7 +180,7 @@ function AppContainer() {
         return e
       }
     }
-  }, [school_prim, locHome, locInscription, immersion, date, ise, score2026, secondaryYear])
+  }, [selectedPrimarySchool, locHome, locInscription, immersion, date, ise, score2026, secondaryYear])
 
   if (!scores || scores instanceof UnexistingSchool) {
     return (
@@ -256,11 +256,11 @@ function AppContainer() {
           close()
           setIdSecondaire(null)
         }}
-        title={<Text fw="bolder">{detailsSecondaire?.name}</Text>}
+        title={<Text fw="bolder">{selectedSecondarySchool?.name}</Text>}
       >
-        {detailsSecondaire && (
+        {selectedSecondarySchool && (
           <SchoolDetail
-            school={detailsSecondaire}
+            school={selectedSecondarySchool}
             scores={scores}
             locHome={locHome}
             locInscription={locInscription || locHome}

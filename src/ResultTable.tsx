@@ -1,8 +1,9 @@
-import { Alert, Center, Group, MultiSelect, rem, Table, Text } from "@mantine/core"
+import { Alert, Center, Group, MultiSelect, rem, Stack, Table, Text } from "@mantine/core"
 import { IconAlertCircle, IconFilter, IconSortAscending, IconSortDescending } from "@tabler/icons-react"
 import { ReactNode, useCallback, useMemo, useState } from "react"
 import { ComputeResult, distanceSort, fillSort, School, scoreSort } from "./compute"
 import FillIcon from "./FillIcon"
+import MinIndiceDisplay from "./MinIndiceDisplay"
 import Score from "./Score"
 import { round } from "./utils"
 
@@ -150,7 +151,10 @@ export default function ResultTable({
                 <Table.Td>{school.fill && <FillIcon level={school.fill[THIS_YEAR]?.fill_number} />}</Table.Td>
                 <Table.Td>{round(distance, 2)} km</Table.Td>
                 <Table.Td>
-                  <Score score={score.total}>{round(score.total, 3)}</Score>
+                  <Stack>
+                    <Score score={score.total}>{round(score.total, 3)}</Score>
+                    <MinIndiceDisplay school={school} currentScore={score.total} withYear/>
+                  </Stack>
                 </Table.Td>
               </Table.Tr>
             )

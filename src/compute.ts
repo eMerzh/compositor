@@ -15,6 +15,8 @@ export type FillDetails = Record<
     declared: string
     /** number of received inscriptions */
     received: string
+    /** minimal indice required to get in */
+    min_indice?: number
   }
 >
 

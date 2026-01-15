@@ -10770,7 +10770,8 @@
     "2024": {
       "fill_number": 1,
       "declared": "394",
-      "received": "448"
+      "received": "448",
+      "min_indice": 3.3
     },
     "2025": {
       "fill_number": 1,
@@ -11127,7 +11128,8 @@
     "2025": {
       "fill_number": 1,
       "declared": "179",
-      "received": "286"
+      "received": "286",
+      "min_indice": 3.67
     }
   },
   "463/858": {
@@ -12653,7 +12655,8 @@
     "2023": {
       "fill_number": 1,
       "declared": "88",
-      "received": "146"
+      "received": "146",
+      "min_indice": 3.9
     },
     "2024": {
       "fill_number": 1,
@@ -12685,17 +12688,20 @@
     "2023": {
       "fill_number": 1,
       "declared": "88",
-      "received": "153"
+      "received": "153",
+      "min_indice": 3.85
     },
     "2024": {
       "fill_number": 1,
       "declared": "88",
-      "received": "120"
+      "received": "120",
+      "min_indice": 3.7616
     },
     "2025": {
       "fill_number": 1,
       "declared": "88",
-      "received": "125"
+      "received": "125",
+      "min_indice": 3.81
     }
   },
   "95383/7451": {
@@ -15154,7 +15160,8 @@
     "2025": {
       "fill_number": 1,
       "declared": "207",
-      "received": "279"
+      "received": "279",
+      "min_indice": 4.6
     }
   },
   "95605/10621": {

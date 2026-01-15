@@ -14,6 +14,7 @@ import { ComputeResult, GeoLoc, getScoreGrid, School } from "./compute"
 import FillIcon from "./FillIcon"
 import { accessToken } from "./GeoAutoComplete"
 import MapInspect from "./MapInspect"
+import MinIndiceDisplay from "./MinIndiceDisplay"
 import Score from "./Score"
 import { round } from "./utils"
 
@@ -319,6 +320,15 @@ const SchoolDetail = ({
                               <Text fz="xs" c="dimmed">
                                 ({round((school.fill[year].received / school.fill[year].declared) * 100, 2)}%)
                               </Text>
+                            )}
+                            {school.fill[year]?.min_indice && (
+                              <div>
+                                <MinIndiceDisplay
+                                  school={{ ...school, fill: { [year]: school.fill[year] } }}
+                                  currentScore={result.score.total}
+                                  withYear={false}
+                                />
+                              </div>
                             )}
                           </Table.Td>
                         ))}
