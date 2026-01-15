@@ -1,4 +1,4 @@
-import * as turf from "@turf/turf"
+import { bbox, featureCollection, featureEach, isobands, point, pointGrid, distance as turfDistance } from "@turf/turf"
 import { primary, secondary } from "./schools.json"
 export type GeoLoc = {
   lon: number
@@ -327,8 +327,8 @@ export const fillSort = (a: ComputeResult, b: ComputeResult) => {
 }
 
 function getDistanceFromBBoxAndPoint(bbox, numberPoint: number) {
-  const distA = turf.distance([bbox[0], bbox[1]], [bbox[0], bbox[3]])
-  const distB = turf.distance([bbox[2], bbox[3]], [bbox[0], bbox[3]])
+  const distA = turfDistance([bbox[0], bbox[1]], [bbox[0], bbox[3]])
+  const distB = turfDistance([bbox[2], bbox[3]], [bbox[0], bbox[3]])
   const area = distA * distB
   const distance = Math.sqrt(area / numberPoint)
 
@@ -347,11 +347,11 @@ export function getScoreGrid(
 ) {
   console.time("getScoreGrid")
 
-  const box = turf.bbox(
-    turf.featureCollection([
-      turf.point([locHome.lon, locHome.lat]),
-      turf.point([secondarySchool.geo.lon, secondarySchool.geo.lat]),
-      turf.point([primarySchool.geo.lon, primarySchool.geo.lat]),
+  const box = bbox(
+    featureCollection([
+      point([locHome.lon, locHome.lat]),
+      point([secondarySchool.geo.lon, secondarySchool.geo.lat]),
+      point([primarySchool.geo.lon, primarySchool.geo.lat]),
     ]),
   )
   const newbox = [...box] as [number, number, number, number, number, number] // just copy the thing
@@ -361,13 +361,13 @@ export function getScoreGrid(
   newbox[3] = box[3] + (box[3] - box[1]) // / 2;
 
   const distanceBetween = getDistanceFromBBoxAndPoint(newbox, 200)
-  const grid = turf.pointGrid(newbox, distanceBetween /*km*/)
+  const grid = pointGrid(newbox, distanceBetween /*km*/)
 
   const inscriptionDate = new Date(`${date}-09-01`)
 
   let min = 10
   let max = 1
-  turf.featureEach(grid, currentFeature => {
+  featureEach(grid, currentFeature => {
     const nLoc = {
       lon: currentFeature.geometry.coordinates[0],
       lat: currentFeature.geometry.coordinates[1],
@@ -389,7 +389,7 @@ export function getScoreGrid(
   const steps = (max - min) / 10
   const breaks = Array.from({ length: 11 }, (_, i) => min + i * steps)
 
-  const lines: GeoJSON.GeoJSON = turf.isobands(grid, breaks, {
+  const lines: GeoJSON.GeoJSON = isobands(grid, breaks, {
     zProperty: "score",
     commonProperties: {
       "fill-opacity": 0.6,
@@ -414,5 +414,5 @@ export function getScoreGrid(
 }
 
 function distance(from: GeoLoc, to: GeoLoc) {
-  return turf.distance([from.lon, from.lat], [to.lon, to.lat])
+  return turfDistance([from.lon, from.lat], [to.lon, to.lat])
 }
