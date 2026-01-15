@@ -281,7 +281,7 @@ const SchoolDetail = ({
               </div>
               <div>
                 <Anchor
-                  target="blank"
+                  target="_blank"
                   href={`http://www.enseignement.be/index.php?page=24797&etab_id=${result.school.id.split("/")[0]}`}
                   style={{ lineHeight: "1" }}
                 >
