@@ -310,20 +310,43 @@ export function computeAll(
   return result
 }
 
-export const distanceSort = (a: ComputeResult, b: ComputeResult) => a.distance - b.distance
+export const distanceSort = (a: ComputeResult, b: ComputeResult): number => a.distance - b.distance
 
-export const scoreSort = (a: ComputeResult, b: ComputeResult) =>
+export const scoreSort = (a: ComputeResult, b: ComputeResult): number =>
   (Number.isNaN(a.score.total) ? 0 : a.score.total) - (Number.isNaN(b.score.total) ? 0 : b.score.total)
 
-export const fillSort = (a: ComputeResult, b: ComputeResult) => {
-  if ((a.school.fill?.[2025]?.received || "-") !== "-" && (!b.school.fill?.[2025]?.received || "-") !== "-") {
-    return (
-      Number.parseInt(a.school.fill?.[2025]?.received, 10) / Number.parseInt(a.school.fill?.[2025]?.declared, 10) -
-      Number.parseInt(b.school.fill?.[2025]?.received, 10) / Number.parseInt(b.school.fill?.[2025]?.declared, 10)
-    )
+/**
+ * Get fill percentage for a school
+ * as it might not be always available, we have multiple fallback strategies
+ * - first, we try to use declared/received numbers
+ * - if not available, we use fill_number mapping (based on images
+ * - or we return 0
+ */
+const getFillPercent = (school: School): number => {
+  const fillYear = school.fill?.[2025]
+  if (fillYear?.declared && fillYear?.received && fillYear.declared !== "-" && fillYear.received !== "-") {
+    return Number.parseInt(fillYear.received, 10) / Number.parseInt(fillYear.declared, 10)
   }
+  if (fillYear?.fill_number) {
+    switch (fillYear.fill_number) {
+      case 1:
+        return 1.1
+      case 2:
+        return 0.85
+      case 3:
+        return 0.6
+      case 4:
+        return 0.2
+    }
+  }
+  return 0
+}
 
-  return b.school.fill?.[2025]?.fill_number - a.school.fill?.[2025]?.fill_number
+export const fillSort = (a: ComputeResult, b: ComputeResult): number => {
+  const fillPercA = getFillPercent(a.school)
+  const fillPercB = getFillPercent(b.school)
+
+  return fillPercA - fillPercB
 }
 
 function getDistanceFromBBoxAndPoint(bbox, numberPoint: number) {
