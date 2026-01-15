@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { GeoLoc, School } from "./compute"
 
 interface MapProps {
-  result: { grid: unknown; min: number; max: number; lines: GeoJSON.GeoJSON }
+  result: { grid: GeoJSON.GeoJSON; min: number; max: number; lines: GeoJSON.GeoJSON }
   secondary: School
   home: GeoLoc
 }
@@ -85,9 +85,31 @@ const MapInspect = ({ result, home, secondary }: MapProps) => {
         paint: {
           "fill-color": ["get", "fill"],
           "fill-opacity": ["get", "fill-opacity"],
-          //   "fill-color": ["interpolate", ["linear"], ["get", "score"], min, "#b1092d", max, "#09b163"],
         },
       })
+
+      /**
+       * if display the points grid directly
+
+       mapRef.current.addLayer({
+        id: "secondaries-circle",
+        source: "secondaries",
+        type: "circle",
+        paint: {
+          "circle-radius": 4,
+          "circle-color": [
+            "interpolate",
+            ["linear"],
+            ["get", "score"],
+            result.min,
+            "#d73027",
+            result.max,
+            "#0a3266",
+          ],
+          "circle-opacity": 0.7,
+        },
+      })
+       */
     }
 
     return () => {

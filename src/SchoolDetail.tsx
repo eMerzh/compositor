@@ -197,8 +197,8 @@ const SchoolDetail = ({
 
   const gridResult = useMemo(() => {
     if (!gridOpened) return null
-    console.log("compute")
-    return getScoreGrid(
+    console.time("getScoreGrid")
+    const grid = getScoreGrid(
       school,
       result.primarySchool,
       locHome,
@@ -207,7 +207,10 @@ const SchoolDetail = ({
       immersion,
       inscriptionSecondaryDate,
       ise,
+      score2026,
     )
+    console.timeEnd("getScoreGrid")
+    return grid
   }, [
     school,
     result?.primarySchool,

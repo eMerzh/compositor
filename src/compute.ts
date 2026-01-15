@@ -367,6 +367,7 @@ export function getScoreGrid(
   immersion: boolean,
   inscriptionSecondaryYear: string,
   ise?: number,
+  score2026?: boolean,
 ) {
   console.time("getScoreGrid")
 
@@ -378,10 +379,17 @@ export function getScoreGrid(
     ]),
   )
   const newbox = [...box] as [number, number, number, number, number, number] // just copy the thing
-  newbox[0] = box[0] - (box[2] - box[0]) // / 2;
-  newbox[1] = box[1] - (box[3] - box[1]) // / 2;
-  newbox[2] = box[2] + (box[2] - box[0]) // / 2;
-  newbox[3] = box[3] + (box[3] - box[1]) // / 2;
+  const width = box[2] - box[0]
+  const height = box[3] - box[1]
+
+  // Expand evenly on all sides by adding 150% of width/height on each side
+  const horizontalExpand = width * 0.5
+  const verticalExpand = height * 0.5
+
+  newbox[0] = box[0] - horizontalExpand  // expand left
+  newbox[1] = box[1] - verticalExpand   // expand bottom
+  newbox[2] = box[2] + horizontalExpand  // expand right
+  newbox[3] = box[3] + verticalExpand   // expand top
 
   const distanceBetween = getDistanceFromBBoxAndPoint(newbox, 200)
   const grid = pointGrid(newbox, distanceBetween /*km*/)
@@ -398,7 +406,7 @@ export function getScoreGrid(
     const inscriptionSecondaryDate = new Date(`${inscriptionSecondaryYear}-09-01`)
     const prim = filterNewestAndOrderSchool(primarySchools, primarySchool.network, inscriptionDate, nLoc)
     const sec = filterSecondary(Array.from(secondarySchools), inscriptionSecondaryDate).sort(schoolSorter(nLoc))
-    const score = compute(prim, sec, primarySchool, secondarySchool, nLoc, locInscription, immersion, ise)
+    const score = compute(prim, sec, primarySchool, secondarySchool, nLoc, locInscription, immersion, ise, score2026)
     currentFeature.properties = {
       score: score.total,
     }
