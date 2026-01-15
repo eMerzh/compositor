@@ -1,7 +1,6 @@
 import maplibregl from "maplibre-gl"
 import "maplibre-gl/dist/maplibre-gl.css"
 import { useEffect, useRef, useState } from "react"
-import homeIcon from "./assets/home.svg"
 import { GeoLoc, School } from "./compute"
 
 interface MapProps {
@@ -30,18 +29,14 @@ const MapInspect = ({ result, home, secondary }: MapProps) => {
     })
     mapRef.current = map
     map.addControl(new maplibregl.NavigationControl({}), "top-right")
-    const el = document.createElement("div")
-    el.className = "marker"
-    el.style.backgroundImage = `url(${homeIcon})`
-    el.style.width = "30px"
-    el.style.height = "30px"
-    el.style.backgroundSize = "cover"
 
-    homeRef.current = new maplibregl.Marker({ element: el }).setLngLat([home.lon, home.lat])
+    homeRef.current = new maplibregl.Marker({
+      color: "#ff6b6b",
+    }).setLngLat([home.lon, home.lat]).setPopup(new maplibregl.Popup().setText("Home"))
 
     secondaireRef.current = new maplibregl.Marker({
       color: "#382ef1",
-    }).setLngLat([secondary.geo.lon, secondary.geo.lat])
+    }).setLngLat([secondary.geo.lon, secondary.geo.lat]).setPopup(new maplibregl.Popup().setText(secondary.name))
 
     homeRef.current.addTo(map)
     secondaireRef.current.addTo(map)

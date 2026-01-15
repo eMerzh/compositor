@@ -11,7 +11,7 @@ type SortOrder = "asc" | "desc"
 
 const THIS_YEAR = 2025 // last year available in the fill data
 
-const getSortFn = (sortColumn: SortColumn) => {
+const getSortFn = (sortColumn: SortColumn): ((a: ComputeResult, b: ComputeResult) => number) => {
   if (sortColumn === "distance") {
     return distanceSort
   }
@@ -147,7 +147,9 @@ export default function ResultTable({
                   </Text>
                 </Table.Th>
                 <Table.Td>{school.network}</Table.Td>
-                <Table.Td>{school.fill && <FillIcon level={school.fill[THIS_YEAR]?.fill_number} />}</Table.Td>
+                <Table.Td>
+                  {school.fill && <FillIcon level={school.fill[THIS_YEAR]?.fill_number} />}
+                </Table.Td>
                 <Table.Td>{round(distance, 2)} km</Table.Td>
                 <Table.Td>
                   <Score score={score.total}>{round(score.total, 3)}</Score>
