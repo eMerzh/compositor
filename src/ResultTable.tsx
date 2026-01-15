@@ -153,7 +153,7 @@ export default function ResultTable({
                 <Table.Td>
                   <Stack>
                     <Score score={score.total}>{round(score.total, 3)}</Score>
-                    <MinIndiceDisplay school={school} currentScore={score.total} withYear/>
+                    <MinIndiceDisplay school={school} currentScore={score.total} withYear />
                   </Stack>
                 </Table.Td>
               </Table.Tr>

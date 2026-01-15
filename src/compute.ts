@@ -12,9 +12,9 @@ export type FillDetails = Record<
     /** fill indicator (from 1 to 4 - 4 means not filled) */
     fill_number: FillLevel
     /** number of declared places */
-    declared: string
+    declared: number
     /** number of received inscriptions */
-    received: string
+    received: number
     /** minimal indice required to get in */
     min_indice?: number
   }
@@ -329,8 +329,8 @@ export const scoreSort = (a: ComputeResult, b: ComputeResult): number =>
  */
 const getFillPercent = (school: School): number => {
   const fillYear = school.fill?.[2025]
-  if (fillYear?.declared && fillYear?.received && fillYear.declared !== "-" && fillYear.received !== "-") {
-    return Number.parseInt(fillYear.received, 10) / Number.parseInt(fillYear.declared, 10)
+  if (fillYear?.declared && fillYear?.received) {
+    return fillYear.received / fillYear.declared
   }
   if (fillYear?.fill_number) {
     switch (fillYear.fill_number) {

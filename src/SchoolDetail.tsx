@@ -314,9 +314,9 @@ const SchoolDetail = ({
                       <Table.Tr>
                         {["2020", "2021", "2022", "2023", "2024", "2025"].map(year => (
                           <Table.Td key={year}>
-                            {school.fill[year]?.declared === "-" ? "?" : school.fill[year]?.declared}&nbsp;ouvert /{" "}
-                            {school.fill[year]?.received === "-" ? "?" : school.fill[year]?.received}&nbsp;inscrits
-                            {school.fill[year]?.declared !== "-" && school.fill[year]?.received !== "-" && (
+                            {school.fill[year]?.declared || "?" }&nbsp;ouvert /{" "}
+                            {school.fill[year]?.received || "?"}&nbsp;inscrits
+                            {school.fill[year]?.declared && school.fill[year]?.received && (
                               <Text fz="xs" c="dimmed">
                                 ({round((school.fill[year].received / school.fill[year].declared) * 100, 2)}%)
                               </Text>
