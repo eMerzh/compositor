@@ -7127,7 +7127,8 @@
     "2025": {
       "fill_number": 1,
       "declared": "84",
-      "received": "113"
+      "received": "113",
+      "min_indice": 4.011
     }
   },
   "95497/10447": {
