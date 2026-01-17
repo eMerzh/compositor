@@ -1,5 +1,18 @@
-import { Anchor, Badge, Button, Card, Container, Group, List, Popover, Table, Text, Tooltip } from "@mantine/core"
-import { useDisclosure } from "@mantine/hooks"
+import {
+  Anchor,
+  Badge,
+  Button,
+  Card,
+  Container,
+  Group,
+  List,
+  Popover,
+  Slider,
+  Table,
+  Text,
+  Tooltip,
+} from "@mantine/core"
+import { useDebouncedValue, useDisclosure } from "@mantine/hooks"
 import {
   IconAlertCircle,
   IconBike,
@@ -9,7 +22,7 @@ import {
   IconRoute,
   IconWalk,
 } from "@tabler/icons-react"
-import { useEffect, useMemo, useState } from "react"
+import { Fragment, useEffect, useMemo, useState } from "react"
 import { ComputeResult, GeoLoc, getScoreGrid, School } from "./compute"
 import FillIcon from "./FillIcon"
 import { accessToken } from "./GeoAutoComplete"
@@ -191,7 +204,8 @@ const SchoolDetail = ({
   let result: ComputeResult | undefined
   const [gridOpened, handlers] = useDisclosure(false)
   const [routeDisplay, routeHandlers] = useDisclosure(false)
-
+  const [factor, setFactor] = useState(0.25)
+  const [debouncedFactor] = useDebouncedValue(factor, 500)
   if (scores) {
     result = scores.find(s => s.school.id === school.id)
   }
@@ -209,6 +223,7 @@ const SchoolDetail = ({
       inscriptionSecondaryDate,
       ise,
       score2026,
+      debouncedFactor,
     )
     console.timeEnd("getScoreGrid")
     return grid
@@ -223,6 +238,7 @@ const SchoolDetail = ({
     inscriptionSecondaryDate,
     ise,
     score2026,
+    debouncedFactor,
   ])
 
   return (
@@ -345,7 +361,19 @@ const SchoolDetail = ({
         <Button size="compact-sm" variant="white" leftSection={<IconGridDots size="1rem" />} onClick={handlers.toggle}>
           Carte des scores
         </Button>
-        {gridOpened && <MapInspect result={gridResult} home={locHome} secondary={school} />}
+        {gridOpened && (
+          <Fragment>
+            <Slider
+              value={factor}
+              onChange={setFactor}
+              min={-0.5}
+              max={10}
+              step={0.1}
+              label={value => `BBOX * ${value}`}
+            />
+            <MapInspect result={gridResult} home={locHome} secondary={school} />
+          </Fragment>
+        )}
       </Container>
     </Container>
   )

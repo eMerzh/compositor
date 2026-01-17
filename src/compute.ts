@@ -373,6 +373,7 @@ export function getScoreGrid(
   inscriptionSecondaryYear: string,
   ise?: number,
   score2026?: boolean,
+  factor = 0.25,
 ) {
   console.time("getScoreGrid")
 
@@ -387,9 +388,9 @@ export function getScoreGrid(
   const width = box[2] - box[0]
   const height = box[3] - box[1]
 
-  // Expand evenly on all sides by adding 150% of width/height on each side
-  const horizontalExpand = width * 0.5
-  const verticalExpand = height * 0.5
+  // Expand evenly on all sides by factor on width/height on each side
+  const horizontalExpand = width * factor
+  const verticalExpand = height * factor
 
   newbox[0] = box[0] - horizontalExpand // expand left
   newbox[1] = box[1] - verticalExpand // expand bottom
