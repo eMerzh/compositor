@@ -15,8 +15,10 @@ export default function Home() {
   return (
     <MantineProvider>
       <QueryParamProvider adapter={WindowHistoryAdapter}>
-        <AppShell footer={{ height: 60 }}>
-          <AppContainer />
+        <AppShell footer={{ height: 60 }} padding={0}>
+          <AppShell.Main pb={60}>
+            <AppContainer />
+          </AppShell.Main>
           <Footer />
         </AppShell>
       </QueryParamProvider>
