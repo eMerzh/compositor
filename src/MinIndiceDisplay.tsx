@@ -24,11 +24,15 @@ interface MinIndiceDisplayProps {
   withYear: boolean
 }
 
-export default function MinIndiceDisplay({ school, currentScore, withYear }: MinIndiceDisplayProps) {
+const MinIndiceDisplay = ({ school, currentScore, withYear }: MinIndiceDisplayProps) => {
   const minIndice = getMinIndice(school)
   const fillLevel = school.fill?.[THIS_YEAR]?.fill_number
   const isNotFull = fillLevel !== undefined && fillLevel !== 1
+  const url = new URL(window.location.href)
 
+  if (!url.searchParams.has("score")) {
+    return null
+  }
   // If no min_indice, check fill level
   if (!minIndice) {
     if (isNotFull) {
@@ -65,3 +69,5 @@ export default function MinIndiceDisplay({ school, currentScore, withYear }: Min
     </Tooltip>
   )
 }
+
+export default MinIndiceDisplay

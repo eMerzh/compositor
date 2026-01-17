@@ -63,21 +63,18 @@ function schoolExtract(school) {
       ? "Officiel Subventionné"
       : school.reseau
   // coerce declared/received to numbers when available
-  const rawFill: Record<string, { fill_number: number; declared: string | number; received: string | number }> | null = fillMap[id] ? fillMap[id] : null
+  const rawFill: Record<string, { fill_number: number; declared: string | number; received: string | number }> | null =
+    fillMap[id] ? fillMap[id] : null
   const fill = rawFill
     ? Object.fromEntries(
-        Object.entries(rawFill).map(([year, data])     => [
+        Object.entries(rawFill).map(([year, data]) => [
           year,
           {
             ...data,
             declared:
-              typeof data.declared === "string" && data.declared !== "-"
-                ? Number.parseInt(data.declared, 10)
-                : null,
+              typeof data.declared === "string" && data.declared !== "-" ? Number.parseInt(data.declared, 10) : null,
             received:
-              typeof data.received === "string" && data.received !== "-"
-                ? Number.parseInt(data.received, 10)
-                : null,
+              typeof data.received === "string" && data.received !== "-" ? Number.parseInt(data.received, 10) : null,
           },
         ]),
       )
@@ -100,7 +97,7 @@ function schoolExtract(school) {
     partenaria: partenaria ? { id: partenaria.sec, date: partenaria.date } : null,
     ise: compositeIndex.get(id) ? compositeIndex.get(id) : null,
     immersion: immersionIndex.get(id) ? immersionIndex.get(id) : null,
-    fill
+    fill,
   }
 }
 
