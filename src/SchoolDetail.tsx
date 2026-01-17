@@ -371,6 +371,58 @@ const SchoolDetail = ({
               step={0.1}
               label={value => `BBOX * ${value}`}
             />
+<<<<<<< HEAD
+=======
+
+            <Card padding="sm" mb="md" withBorder mt="sm">
+              <Text fw={600} size="sm" mb="xs">
+                Légende des scores
+              </Text>
+              <Group gap="xs" wrap="nowrap">
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    height: 30,
+                    borderRadius: 4,
+                    overflow: "hidden",
+                    border: "1px solid #dee2e6",
+                  }}
+                >
+                  {[
+                    "#d73027",
+                    "#f46d43",
+                    "#fdae61",
+                    "#fee090",
+                    "#ffffbf",
+                    "#e0f3f8",
+                    "#abd9e9",
+                    "#74add1",
+                    "#4575b4",
+                    "#1e58a4",
+                    "#0a3266",
+                  ].map(color => (
+                    <div
+                      key={color}
+                      style={{
+                        flex: 1,
+                        backgroundColor: color,
+                      }}
+                    />
+                  ))}
+                </div>
+              </Group>
+              <Group justify="space-between" mt={4}>
+                <Text size="xs" c="dimmed">
+                  {round(gridResult.min, 2)}
+                </Text>
+                <Text size="xs" c="dimmed">
+                  {round(gridResult.max, 2)}
+                </Text>
+              </Group>
+            </Card>
+
+>>>>>>> 3330d4e (feat: add grid factor scaling)
             <MapInspect result={gridResult} home={locHome} secondary={school} />
           </Fragment>
         )}
