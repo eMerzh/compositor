@@ -28,9 +28,11 @@ export interface School {
     | "COCOF"
     | "Libre confessionnel"
     | "Libre non confessionnel"
-    | "Subventionné communal"
-    | "Subventionné officiel (HE)"
-    | "Subventionné provincial"
+    // | "Subventionné communal"
+    // | "Subventionné provincial"
+    // | "COCOF"
+    // all three goes to "Officiel Subventionné"
+    | "Officiel Subventionné"
     | "WBE"
   geo: {
     lat: number
@@ -210,6 +212,7 @@ export function compute(
     school_sec,
     locHome,
   )
+
   const coef_3 = rankCoef3[rank_3 - 1]
   const isBetween4KM = distance(school_prim.geo, school_sec.geo) < 4
 

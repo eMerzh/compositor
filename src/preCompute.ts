@@ -55,12 +55,14 @@ const capitalize = (str, lower = false) =>
 function schoolExtract(school) {
   const id = `${school.ndeg_fase_de_l_etablissement}/${school.ndegfase_de_l_implantation}`
   const partenaria = partenariaList.find(p => p.prim === id)
+  // "COCOF", "Subventionné communal" and "Subventionné provincial" are the same "Officiel Subventionné"
+  const mergedNetwork = (school.reseau === "COCOF" || school.reseau === "Subventionné communal" || school.reseau === "Subventionné provincial") ? "Officiel Subventionné" : school.reseau
   return {
     id,
     name: capitalize(school.nom_de_l_etablissement, true),
     address: school.adresse_de_l_implantation,
     city: school.commune_de_l_implantation,
-    network: school.reseau,
+    network: mergedNetwork,
     geo: {
       lat: school.latitude,
       lon: school.longitude,
