@@ -374,6 +374,7 @@ export function getScoreGrid(
   ise?: number,
   score2026?: boolean,
   factor = 0.25,
+  numberPoint = 200,
 ) {
   console.time("getScoreGrid")
 
@@ -397,7 +398,7 @@ export function getScoreGrid(
   newbox[2] = box[2] + horizontalExpand // expand right
   newbox[3] = box[3] + verticalExpand // expand top
 
-  const distanceBetween = getDistanceFromBBoxAndPoint(newbox, 200)
+  const distanceBetween = getDistanceFromBBoxAndPoint(newbox, numberPoint)
   const grid = pointGrid(newbox, distanceBetween /*km*/)
 
   const inscriptionDate = new Date(`${date}-09-01`)

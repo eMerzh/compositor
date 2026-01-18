@@ -6,6 +6,7 @@ import {
   Container,
   Group,
   List,
+  NumberInput,
   Popover,
   Slider,
   Table,
@@ -205,7 +206,10 @@ const SchoolDetail = ({
   const [gridOpened, handlers] = useDisclosure(false)
   const [routeDisplay, routeHandlers] = useDisclosure(false)
   const [factor, setFactor] = useState(0.25)
+  const [numberPoint, setNumberPoint] = useState(200)
   const [debouncedFactor] = useDebouncedValue(factor, 500)
+  const [debouncedNumberPoint] = useDebouncedValue(numberPoint, 200)
+
   if (scores) {
     result = scores.find(s => s.school.id === school.id)
   }
@@ -224,6 +228,7 @@ const SchoolDetail = ({
       ise,
       score2026,
       debouncedFactor,
+      debouncedNumberPoint,
     )
     console.timeEnd("getScoreGrid")
     return grid
@@ -239,6 +244,7 @@ const SchoolDetail = ({
     ise,
     score2026,
     debouncedFactor,
+    debouncedNumberPoint,
   ])
 
   return (
@@ -367,7 +373,7 @@ const SchoolDetail = ({
               value={factor}
               onChange={setFactor}
               min={-0.5}
-              max={10}
+              max={15}
               step={0.1}
               label={value => `BBOX * ${value}`}
             />
@@ -421,6 +427,18 @@ const SchoolDetail = ({
                 </Text>
               </Group>
             </Card>
+            <NumberInput
+              value={numberPoint}
+              onChange={v => {
+                if (typeof v === "number") {
+                  setNumberPoint(v)
+                }
+              }}
+              label="Nombre de points"
+              min={50}
+              max={3000}
+              step={10}
+            />
 
 >>>>>>> 3330d4e (feat: add grid factor scaling)
             <MapInspect result={gridResult} home={locHome} secondary={school} />
