@@ -5,6 +5,7 @@ import { ComputeResult, distanceSort, fillSort, School, scoreSort } from "./comp
 import FillIcon from "./FillIcon"
 import MinIndiceDisplay from "./MinIndiceDisplay"
 import Score from "./Score"
+import useIsMobile from "./useIsMobile"
 import { round } from "./utils"
 
 type SortColumn = "distance" | "score" | "fill"
@@ -27,33 +28,47 @@ const TableRow = memo(
     distance: number
     isSelected: boolean
     onSelect: (id: string) => void
-  }) => (
-    <Table.Tr
-      key={school.id}
-      style={{
-        backgroundColor: isSelected ? "#7AD1DD" : undefined,
-        cursor: "pointer",
-      }}
-      onClick={() => onSelect(school.id)}
-      onKeyDown={() => onSelect(school.id)}
-    >
-      <Table.Th style={{ textTransform: "capitalize" }}>
-        {school.name}
-        <Text fz="xs" fw={300} c="dimmed">
-          {school.address}, {school.city}
-        </Text>
-      </Table.Th>
-      <Table.Td>{school.network}</Table.Td>
-      <Table.Td>{school.fill && <FillIcon level={school.fill[THIS_YEAR]?.fill_number} />}</Table.Td>
-      <Table.Td>{round(distance, 2)} km</Table.Td>
-      <Table.Td>
-        <Stack>
-          <Score score={score.total}>{round(score.total, 3)}</Score>
-          <MinIndiceDisplay school={school} currentScore={score.total} withYear />
-        </Stack>
-      </Table.Td>
-    </Table.Tr>
-  ),
+  }) => {
+    let newtwork: string = school.network
+    const isMobile = useIsMobile()
+    if (isMobile) {
+      if (school.network === "Officiel Subventionné") {
+        newtwork = "Off."
+      } else if (school.network === "Libre confessionnel") {
+        newtwork = "Conf."
+      } else if (school.network === "Libre non confessionnel") {
+        newtwork = "Non conf."
+      }
+    }
+
+    return (
+      <Table.Tr
+        key={school.id}
+        style={{
+          backgroundColor: isSelected ? "#7AD1DD" : undefined,
+          cursor: "pointer",
+        }}
+        onClick={() => onSelect(school.id)}
+        onKeyDown={() => onSelect(school.id)}
+      >
+        <Table.Th style={{ textTransform: "capitalize" }}>
+          {school.name}
+          <Text fz="xs" fw={300} c="dimmed" visibleFrom="sm">
+            {school.address}, {school.city}
+          </Text>
+        </Table.Th>
+        <Table.Td>{newtwork}</Table.Td>
+        <Table.Td>{school.fill && <FillIcon level={school.fill[THIS_YEAR]?.fill_number} />}</Table.Td>
+        <Table.Td>{round(distance, 2)} km</Table.Td>
+        <Table.Td>
+          <Stack>
+            <Score score={score.total}>{round(score.total, 3)}</Score>
+            <MinIndiceDisplay school={school} currentScore={score.total} withYear />
+          </Stack>
+        </Table.Td>
+      </Table.Tr>
+    )
+  },
 )
 
 const getSortFn = (sortColumn: SortColumn): ((a: ComputeResult, b: ComputeResult) => number) => {

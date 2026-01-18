@@ -8,6 +8,7 @@ import {
   List,
   NumberInput,
   Popover,
+  ScrollArea,
   Slider,
   Table,
   Text,
@@ -30,17 +31,18 @@ import { accessToken } from "./GeoAutoComplete"
 import MapInspect from "./MapInspect"
 import MinIndiceDisplay from "./MinIndiceDisplay"
 import Score from "./Score"
+import useIsMobile from "./useIsMobile"
 import { round } from "./utils"
 
 const Explanation = [
   {
-    name: "Préférence",
+    name: () => "Préférence",
     description:
       "Ce coefficient permet de tenir compte de l’ordre de vos préférences. Pour les 5 écoles secondaires de meilleure préférence, votre enfant va obtenir un coefficient préférentiel. Pour l’école secondaire de 1re préférence, vous obtenez la valeur maximale de 1,5.",
     scoreProperty: "coef_1",
   },
   {
-    name: "Proximité école primaire",
+    name: (isMobile: boolean) => (isMobile ? "Prox. primaire" : "Proximité école primaire"),
     description:
       "Ce coefficient est déterminé par la proximité entre l’école primaire actuellement fréquentée par votre enfant et votre domicile. Plus précisément, ce coefficient est calculé sur base de l’ implantation fondamentale ou primaire dans laquelle il se rend. Plus l’école primaire est proche du domicile par rapport à d’autres écoles primaires du même réseau , plus le coefficient attribué est élevé.",
     scoreProperty: "coef_2",
@@ -68,7 +70,7 @@ const Explanation = [
     },
   },
   {
-    name: "Proximité école secondaire",
+    name: (isMobile: boolean) => (isMobile ? "Prox. secondaire" : "Proximité école secondaire"),
     description:
       "Ce coefficient est déterminé par la proximité entre l’école secondaire visée et votre domicile. Plus précisément, ce coefficient est calculé sur base de l’implantation  secondaire. Plus l’école secondaire est proche du domicile par rapport à d’autres écoles secondaires du même réseau , plus le coefficient attribué est élevé.",
     scoreProperty: "coef_3",
@@ -98,31 +100,31 @@ const Explanation = [
     },
   },
   {
-    name: "Proximité Primaire-Secondaire",
+    name: (isMobile: boolean) => (isMobile ? "Prox. Primaire-Secondaire" : "Proximité Primaire-Secondaire"),
     description:
       "Ce coefficient est déterminé par la proximité entre l’école primaire de votre enfant et l’école secondaire visée.",
     scoreProperty: "coef_4",
   },
   {
-    name: "Immersion",
+    name: () => "Immersion",
     description:
       "Si votre enfant suit l’immersion linguistique depuis la 3e année primaire au moins et que vous souhaitez qu’il poursuive dans cette filiÉre dans la même langue en secondaire, il bénéficie d’un coefficient de 1,18. Dans le cas contraire, le coefficient est égal à 1.",
     scoreProperty: "coef_5",
   },
   {
-    name: "Offre scolaire",
+    name: () => "Offre scolaire",
     description:
       "Ce coefficient est déterminé par la présence ou l’absence d’écoles secondaires confessionnelles (liées à une religion) ou non confessionnelles dans la commune de l’école primaire de votre enfant.",
     scoreProperty: "coef_6",
   },
   {
-    name: "Partenariat pédagogique",
+    name: (isMobile: boolean) => (isMobile ? "Partenariat péd." : "Partenariat pédagogique"),
     description:
       "Ce coefficient est déterminé par la présence ou l’absence d’écoles secondaires confessionnelles (liées à une religion) ou non confessionnelles dans la commune de l’école primaire de votre enfant.",
     scoreProperty: "coef_7",
   },
   {
-    name: "Indice socio-économique",
+    name: (isMobile: boolean) => (isMobile ? "ISE" : "Indice socio-économique"),
     description:
       "Ce coefficient est déterminé sur base de la classe d’appartenance dans le cadre de l’enseignement différencié. Afin d'assurer à chaque élÉve des chances égales d'émancipation sociale dans un environnement pédagogique de qualité, la législation prévoit l’octroi de moyens humains et financiers complémentaires (encadrement différencié) en fonction de la classe d’appartenance des implantations maternelles, fondamentales, primaires ou secondaires.",
     scoreProperty: "coef_8",
@@ -212,6 +214,7 @@ const SchoolDetail = ({
   const [debouncedFactor] = useDebouncedValue(factor, 500)
   const [debouncedNumberPoint] = useDebouncedValue(numberPoint, 200)
 
+  const isMobile = useIsMobile()
   if (scores) {
     result = scores.find(s => s.school.id === school.id)
   }
@@ -287,7 +290,7 @@ const SchoolDetail = ({
       <Card padding="md">
         {result && (
           <>
-            <Card.Section withBorder inheritPadding py="xs">
+            <Card.Section withBorder inheritPadding py="xs" px={{ base: "0", sm: "md" }}>
               <Group>
                 <Button variant="white" onClick={routeHandlers.toggle}>
                   <IconRoute />
@@ -305,14 +308,14 @@ const SchoolDetail = ({
               </Group>
               {routeDisplay && <RouterDisplay from={locHome} to={school.geo} />}
             </Card.Section>
-            <Card.Section withBorder inheritPadding py="xs">
+            <Card.Section withBorder inheritPadding py="xs" px={{ base: "0", sm: "md" }}>
               <div>
                 <Text fw={700}>Resultat</Text>
                 <List type="ordered">
                   {Explanation.map((d, idx) => {
                     return (
                       <List.Item
-                        key={d.name}
+                        key={d.name(isMobile)}
                         icon={
                           <Tooltip
                             w={300}
@@ -332,7 +335,7 @@ const SchoolDetail = ({
                         }
                       >
                         <Text c={score2026 && d.scoreProperty === "coef_8" ? "dimmed" : undefined} component="div">
-                          {idx + 1}. {d.name}: {result?.score[d.scoreProperty]}
+                          {idx + 1}. {d.name(isMobile)}: {result?.score[d.scoreProperty]}
                           {d.more?.(result)}
                         </Text>
                       </List.Item>
@@ -351,47 +354,133 @@ const SchoolDetail = ({
                 </Anchor>
 
                 {school.fill && (
-                  <Table mt="lg">
-                    <Table.Caption>Historique de remplissage de l'école</Table.Caption>
-                    <Table.Thead>
-                      <Table.Tr>
-                        {["2020", "2021", "2022", "2023", "2024", "2025"].map(year => (
-                          <Table.Th key={year}>{year}</Table.Th>
-                        ))}
-                      </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>
-                      <Table.Tr>
-                        {["2020", "2021", "2022", "2023", "2024", "2025"].map(year => (
-                          <Table.Td key={year}>
-                            <FillIcon level={school.fill[year]?.fill_number} />
-                          </Table.Td>
-                        ))}
-                      </Table.Tr>
-                      <Table.Tr>
-                        {["2020", "2021", "2022", "2023", "2024", "2025"].map(year => (
-                          <Table.Td key={year}>
-                            {school.fill[year]?.declared || "?"}&nbsp;ouvert / {school.fill[year]?.received || "?"}
-                            &nbsp;inscrits
-                            {school.fill[year]?.declared && school.fill[year]?.received && (
-                              <Text fz="xs" c="dimmed">
-                                ({round((school.fill[year].received / school.fill[year].declared) * 100, 2)}%)
-                              </Text>
-                            )}
-                            {school.fill[year]?.min_indice && (
-                              <div>
-                                <MinIndiceDisplay
-                                  school={{ ...school, fill: { [year]: school.fill[year] } }}
-                                  currentScore={result.score.total}
-                                  withYear={false}
-                                />
-                              </div>
-                            )}
-                          </Table.Td>
-                        ))}
-                      </Table.Tr>
-                    </Table.Tbody>
-                  </Table>
+                  <>
+                    <Text mt="lg" mb="xs" size="sm" c="dimmed">
+                      Historique de remplissage de l'école
+                    </Text>
+                    <ScrollArea>
+                      <Table miw={600}>
+                        <Table.Thead>
+                          <Table.Tr>
+                            <Table.Th
+                              style={{
+                                position: "sticky",
+                                left: 0,
+                                backgroundColor: "var(--mantine-color-body)",
+                                zIndex: 1,
+                              }}
+                            />
+                            {["2025", "2024", "2023", "2022", "2021", "2020"].map(year => (
+                              <Table.Th key={year}>{year}</Table.Th>
+                            ))}
+                          </Table.Tr>
+                        </Table.Thead>
+                        <Table.Tbody>
+                          <Table.Tr>
+                            <Table.Td
+                              fw={500}
+                              style={{
+                                position: "sticky",
+                                left: 0,
+                                backgroundColor: "var(--mantine-color-body)",
+                                zIndex: 1,
+                              }}
+                            >
+                              <Group gap="xs">
+                                État
+                                <Popover width={200} position="right" withArrow shadow="md">
+                                  <Popover.Target>
+                                    <Button size="compact-xs" variant="subtle" p={0}>
+                                      <IconInfoCircle size="0.9rem" />
+                                    </Button>
+                                  </Popover.Target>
+                                  <Popover.Dropdown>
+                                    <Text size="xs" mb="xs" fw={500}>
+                                      Niveaux de remplissage:
+                                    </Text>
+                                    <List size="xs" spacing="xs">
+                                      <List.Item icon={<FillIcon level={4} />}>Non remplie</List.Item>
+                                      <List.Item icon={<FillIcon level={3} />}>entre 80% et 100%</List.Item>
+                                      <List.Item icon={<FillIcon level={2} />}>entre 100% et 102%</List.Item>
+                                      <List.Item icon={<FillIcon level={1} />}> &gt; 102% </List.Item>
+                                    </List>
+                                  </Popover.Dropdown>
+                                </Popover>
+                              </Group>
+                            </Table.Td>
+                            {["2025", "2024", "2023", "2022", "2021", "2020"].map(year => (
+                              <Table.Td key={year}>
+                                <FillIcon level={school.fill[year]?.fill_number} />
+                              </Table.Td>
+                            ))}
+                          </Table.Tr>
+                          <Table.Tr>
+                            <Table.Td
+                              fw={500}
+                              style={{
+                                position: "sticky",
+                                left: 0,
+                                backgroundColor: "var(--mantine-color-body)",
+                                zIndex: 1,
+                              }}
+                            >
+                              Demandes
+                            </Table.Td>
+                            {["2025", "2024", "2023", "2022", "2021", "2020"].map(year => (
+                              <Table.Td key={year}>{school.fill[year]?.received || "?"}</Table.Td>
+                            ))}
+                          </Table.Tr>
+                          <Table.Tr>
+                            <Table.Td
+                              fw={500}
+                              style={{
+                                position: "sticky",
+                                left: 0,
+                                backgroundColor: "var(--mantine-color-body)",
+                                zIndex: 1,
+                              }}
+                            >
+                              Places
+                            </Table.Td>
+                            {["2025", "2024", "2023", "2022", "2021", "2020"].map(year => (
+                              <Table.Td key={year}>{school.fill[year]?.declared || "?"}</Table.Td>
+                            ))}
+                          </Table.Tr>
+                          <Table.Tr>
+                            <Table.Td
+                              fw={500}
+                              style={{
+                                position: "sticky",
+                                left: 0,
+                                backgroundColor: "var(--mantine-color-body)",
+                                zIndex: 1,
+                              }}
+                            >
+                              Taux
+                            </Table.Td>
+                            {["2025", "2024", "2023", "2022", "2021", "2020"].map(year => (
+                              <Table.Td key={year}>
+                                {school.fill[year]?.declared && school.fill[year]?.received && (
+                                  <Text fz="xs" c="dimmed">
+                                    {round((school.fill[year].received / school.fill[year].declared) * 100, 2)}%
+                                  </Text>
+                                )}
+                                {school.fill[year]?.min_indice && (
+                                  <div>
+                                    <MinIndiceDisplay
+                                      school={{ ...school, fill: { [year]: school.fill[year] } }}
+                                      currentScore={result.score.total}
+                                      withYear={false}
+                                    />
+                                  </div>
+                                )}
+                              </Table.Td>
+                            ))}
+                          </Table.Tr>
+                        </Table.Tbody>
+                      </Table>
+                    </ScrollArea>
+                  </>
                 )}
               </div>
             </Card.Section>
