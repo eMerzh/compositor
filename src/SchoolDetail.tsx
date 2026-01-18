@@ -377,8 +377,6 @@ const SchoolDetail = ({
               step={0.1}
               label={value => `BBOX * ${value}`}
             />
-<<<<<<< HEAD
-=======
 
             <Card padding="sm" mb="md" withBorder mt="sm">
               <Text fw={600} size="sm" mb="xs">
@@ -440,7 +438,6 @@ const SchoolDetail = ({
               step={10}
             />
 
->>>>>>> 3330d4e (feat: add grid factor scaling)
             <MapInspect result={gridResult} home={locHome} secondary={school} />
           </Fragment>
         )}
