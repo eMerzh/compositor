@@ -23,8 +23,8 @@ import {
   IconRoute,
   IconWalk,
 } from "@tabler/icons-react"
-import { Fragment, useEffect, useMemo, useState } from "react"
-import { ComputeResult, GeoLoc, getScoreGrid, School } from "./compute"
+import { Fragment, useEffect, useState } from "react"
+import { ComputeResult, GeoLoc, School } from "./compute"
 import FillIcon from "./FillIcon"
 import { accessToken } from "./GeoAutoComplete"
 import MapInspect from "./MapInspect"
@@ -207,6 +207,8 @@ const SchoolDetail = ({
   const [routeDisplay, routeHandlers] = useDisclosure(false)
   const [factor, setFactor] = useState(0.25)
   const [numberPoint, setNumberPoint] = useState(200)
+  const [isComputing, setIsComputing] = useState(false)
+  const [gridResult, setGridResult] = useState(null)
   const [debouncedFactor] = useDebouncedValue(factor, 500)
   const [debouncedNumberPoint] = useDebouncedValue(numberPoint, 200)
 
@@ -214,12 +216,24 @@ const SchoolDetail = ({
     result = scores.find(s => s.school.id === school.id)
   }
 
-  const gridResult = useMemo(() => {
-    if (!gridOpened) return null
-    console.time("getScoreGrid")
-    const grid = getScoreGrid(
+  // Use Web Worker for heavy computation
+  useEffect(() => {
+    if (!gridOpened || !result?.primarySchool) {
+      return
+    }
+
+    setIsComputing(true)
+    // Don't clear gridResult - keep old data visible while computing
+
+    // Create worker from separate file
+    const worker = new Worker(new URL("./gridWorker.ts", import.meta.url), {
+      type: "module",
+    })
+
+    // Send data to worker
+    worker.postMessage({
       school,
-      result.primarySchool,
+      primarySchool: result.primarySchool,
       locHome,
       locInscription,
       date,
@@ -227,11 +241,32 @@ const SchoolDetail = ({
       inscriptionSecondaryDate,
       ise,
       score2026,
-      debouncedFactor,
-      debouncedNumberPoint,
-    )
-    console.timeEnd("getScoreGrid")
-    return grid
+      factor: debouncedFactor,
+      numberPoint: debouncedNumberPoint,
+    })
+
+    // Handle worker response
+    worker.onmessage = (e: MessageEvent) => {
+      if (e.data.success) {
+        setGridResult(e.data.data)
+      } else {
+        console.error("Worker error:", e.data.error)
+      }
+      setIsComputing(false)
+      worker.terminate()
+    }
+
+    // Handle worker errors
+    worker.onerror = error => {
+      console.error("Worker error:", error)
+      setIsComputing(false)
+      worker.terminate()
+    }
+
+    // Cleanup
+    return () => {
+      worker.terminate()
+    }
   }, [
     school,
     result?.primarySchool,
@@ -364,7 +399,13 @@ const SchoolDetail = ({
         )}
       </Card>
       <Container w="100%">
-        <Button size="compact-sm" variant="white" leftSection={<IconGridDots size="1rem" />} onClick={handlers.toggle}>
+        <Button
+          size="compact-sm"
+          variant="white"
+          leftSection={<IconGridDots size="1rem" />}
+          onClick={handlers.toggle}
+          loading={isComputing && gridOpened}
+        >
           Carte des scores
         </Button>
         {gridOpened && (
@@ -380,50 +421,54 @@ const SchoolDetail = ({
 
             <Card padding="sm" mb="md" withBorder mt="sm">
               <Text fw={600} size="sm" mb="xs">
-                Légende des scores
+                Légende des scores {isComputing && "(calcul en cours...)"}
               </Text>
-              <Group gap="xs" wrap="nowrap">
-                <div
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    height: 30,
-                    borderRadius: 4,
-                    overflow: "hidden",
-                    border: "1px solid #dee2e6",
-                  }}
-                >
-                  {[
-                    "#d73027",
-                    "#f46d43",
-                    "#fdae61",
-                    "#fee090",
-                    "#ffffbf",
-                    "#e0f3f8",
-                    "#abd9e9",
-                    "#74add1",
-                    "#4575b4",
-                    "#1e58a4",
-                    "#0a3266",
-                  ].map(color => (
+              {gridResult && (
+                <>
+                  <Group gap="xs" wrap="nowrap">
                     <div
-                      key={color}
                       style={{
-                        flex: 1,
-                        backgroundColor: color,
+                        display: "flex",
+                        width: "100%",
+                        height: 30,
+                        borderRadius: 4,
+                        overflow: "hidden",
+                        border: "1px solid #dee2e6",
                       }}
-                    />
-                  ))}
-                </div>
-              </Group>
-              <Group justify="space-between" mt={4}>
-                <Text size="xs" c="dimmed">
-                  {round(gridResult.min, 2)}
-                </Text>
-                <Text size="xs" c="dimmed">
-                  {round(gridResult.max, 2)}
-                </Text>
-              </Group>
+                    >
+                      {[
+                        "#d73027",
+                        "#f46d43",
+                        "#fdae61",
+                        "#fee090",
+                        "#ffffbf",
+                        "#e0f3f8",
+                        "#abd9e9",
+                        "#74add1",
+                        "#4575b4",
+                        "#1e58a4",
+                        "#0a3266",
+                      ].map(color => (
+                        <div
+                          key={color}
+                          style={{
+                            flex: 1,
+                            backgroundColor: color,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </Group>
+                  <Group justify="space-between" mt={4}>
+                    <Text size="xs" c="dimmed">
+                      {round(gridResult.min, 2)}
+                    </Text>
+                    <Text size="xs" c="dimmed">
+                      {round(gridResult.max, 2)}
+                    </Text>
+                  </Group>
+                </>
+              )}
             </Card>
             <NumberInput
               value={numberPoint}
@@ -438,7 +483,7 @@ const SchoolDetail = ({
               step={10}
             />
 
-            <MapInspect result={gridResult} home={locHome} secondary={school} />
+            {gridResult && <MapInspect result={gridResult} home={locHome} secondary={school} />}
           </Fragment>
         )}
       </Container>
