@@ -73,6 +73,12 @@ const MapInspect = ({ result, home, secondary }: MapProps) => {
 
   useEffect(() => {
     if (mapRef.current && loaded) {
+      // Check if source already exists and remove it before adding
+      if (mapRef.current.getSource("secondaries")) {
+        mapRef.current.removeLayer("secondaries-circle")
+        mapRef.current.removeSource("secondaries")
+      }
+
       mapRef.current.addSource("secondaries", {
         type: "geojson",
         data: lines,
