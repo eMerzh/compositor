@@ -2,9 +2,9 @@ import { Alert, Box, Button, Container, Divider, Modal, Text } from "@mantine/co
 import { useDisclosure, useLocalStorage } from "@mantine/hooks"
 import { IconAlertCircle, IconCalculator, IconHeart } from "@tabler/icons-react"
 import posthog from "posthog-js"
-import { useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { BooleanParam, JsonParam, NumberParam, StringParam, useQueryParam, withDefault } from "use-query-params"
-import { ComputeResult, computeAll, primarySchools, secondarySchools, UnexistingSchool } from "./compute"
+import { ComputeResult, primarySchools, secondarySchools, UnexistingSchool } from "./compute"
 import { NamedLoc } from "./GeoAutoComplete"
 import { InputConfig } from "./InputConfig"
 import ResultTable from "./ResultTable"
@@ -158,27 +158,67 @@ function AppContainer() {
   const [opened, { open, close }] = useDisclosure(false)
   const selectedPrimarySchool = primarySchools.find(school => school.id === idPrimaire)
   const selectedSecondarySchool = secondarySchools.find(school => school.id === idSecondaire)
+  const [isComputing, setIsComputing] = useState(false)
+  const [scores, setScores] = useState<ComputeResult[] | UnexistingSchool | null>(null)
 
-  const scores = useMemo<ComputeResult[] | UnexistingSchool | null>(() => {
-    if (!selectedPrimarySchool || !locHome || !date) return null
-    try {
-      const results = computeAll(
+  // Use Web Worker for heavy computation
+  useEffect(() => {
+    if (!selectedPrimarySchool || !locHome || !date) {
+      setScores(null)
+      return
+    }
+
+    setIsComputing(true)
+    // Keep old scores visible while computing
+
+    // Defer worker creation to allow UI to update first
+    const timeoutId = setTimeout(() => {
+      // Create worker from separate file
+      const worker = new Worker(new URL("./computeAllWorker.ts", import.meta.url), {
+        type: "module",
+      })
+
+      // Send data to worker
+      worker.postMessage({
         secondarySchools,
-        selectedPrimarySchool,
+        primarySchool: selectedPrimarySchool,
         locHome,
-        locInscription || locHome,
+        locInscription: locInscription || locHome,
         date,
         immersion,
-        secondaryYear,
+        inscriptionSecondaryYear: secondaryYear,
         ise,
         score2026,
-      )
-      return results
-    } catch (e) {
-      console.error(e)
-      if (e instanceof UnexistingSchool) {
-        return e
+      })
+
+      // Handle worker response
+      worker.onmessage = (e: MessageEvent) => {
+        if (e.data.success) {
+          setScores(e.data.data)
+        } else {
+          console.error("Worker error:", e.data.error)
+          if (e.data.isUnexistingSchool) {
+            setScores(new UnexistingSchool(e.data.error))
+          } else {
+            setScores(null)
+          }
+        }
+        setIsComputing(false)
+        worker.terminate()
       }
+
+      // Handle worker errors
+      worker.onerror = error => {
+        console.error("Worker error:", error)
+        setScores(null)
+        setIsComputing(false)
+        worker.terminate()
+      }
+    }, 0)
+
+    // Cleanup
+    return () => {
+      clearTimeout(timeoutId)
     }
   }, [selectedPrimarySchool, locHome, locInscription, immersion, date, ise, score2026, secondaryYear])
 
@@ -245,7 +285,7 @@ function AppContainer() {
         label={
           <>
             <IconCalculator size={12} />
-            <Box ml={5}>Résultats</Box>
+            <Box ml={5}>Résultats {isComputing && "(calcul en cours...)"}</Box>
           </>
         }
       />
