@@ -1,9 +1,10 @@
-import { Autocomplete, AutocompleteProps, Button, CloseButton, Group, Text } from "@mantine/core"
+import { Autocomplete, AutocompleteProps, Button, CloseButton, Group, Loader, Text } from "@mantine/core"
 import { useDebouncedValue } from "@mantine/hooks"
 import { IconHomeSearch, IconMap } from "@tabler/icons-react"
-import { useEffect, useRef, useState } from "react"
+import { lazy, Suspense, useEffect, useRef, useState } from "react"
 import { GeoLoc } from "./compute"
-import MapDisplay from "./MapDisplay"
+
+const MapDisplay = lazy(() => import("./MapDisplay"))
 
 export const accessToken = "pk.eyJ1IjoiZW1lcnpoIiwiYSI6ImNsbW5zbjV3NzA4MWoycm85d3A1OWFmZG8ifQ.vHHA1EhrIbEaeKHwa9KvmQ"
 
@@ -108,14 +109,16 @@ function GeoAutoComplete({ value, onSelect, label }: Props) {
         {showDetails ? "Cacher" : "Afficher"} la carte
       </Button>
       {showDetails && (
-        <MapDisplay
-          initialLat={value?.lat || 50.527942}
-          initialLon={value?.lon || 5.529293}
-          setHomeLoc={(lat, lon) => {
-            console.log("setHomeLoc", lat, lon)
-            onSelect({ lat, lon, name: "Personnalisé" })
-          }}
-        />
+        <Suspense fallback={<Loader />}>
+          <MapDisplay
+            initialLat={value?.lat || 50.527942}
+            initialLon={value?.lon || 5.529293}
+            setHomeLoc={(lat, lon) => {
+              console.log("setHomeLoc", lat, lon)
+              onSelect({ lat, lon, name: "Personnalisé" })
+            }}
+          />
+        </Suspense>
       )}
     </form>
   )

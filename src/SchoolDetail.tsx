@@ -6,6 +6,7 @@ import {
   Container,
   Group,
   List,
+  Loader,
   NumberInput,
   Popover,
   ScrollArea,
@@ -24,15 +25,16 @@ import {
   IconRoute,
   IconWalk,
 } from "@tabler/icons-react"
-import { Fragment, useEffect, useState } from "react"
+import { Fragment, lazy, Suspense, useEffect, useState } from "react"
 import { ComputeResult, GeoLoc, School } from "./compute"
 import FillIcon from "./FillIcon"
 import { accessToken } from "./GeoAutoComplete"
-import MapInspect from "./MapInspect"
 import MinIndiceDisplay from "./MinIndiceDisplay"
 import Score from "./Score"
 import useIsMobile from "./useIsMobile"
 import { round } from "./utils"
+
+const MapInspect = lazy(() => import("./MapInspect"))
 
 const Explanation = [
   {
@@ -572,7 +574,11 @@ const SchoolDetail = ({
               step={10}
             />
 
-            {gridResult && <MapInspect result={gridResult} home={locHome} secondary={school} />}
+            {gridResult && (
+              <Suspense fallback={<Loader />}>
+                <MapInspect result={gridResult} home={locHome} secondary={school} />
+              </Suspense>
+            )}
           </Fragment>
         )}
       </Container>
