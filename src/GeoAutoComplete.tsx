@@ -114,7 +114,6 @@ function GeoAutoComplete({ value, onSelect, label }: Props) {
             initialLat={value?.lat || 50.527942}
             initialLon={value?.lon || 5.529293}
             setHomeLoc={(lat, lon) => {
-              console.log("setHomeLoc", lat, lon)
               onSelect({ lat, lon, name: "Personnalisé" })
             }}
           />

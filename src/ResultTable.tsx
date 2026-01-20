@@ -1,5 +1,5 @@
-import { Alert, Center, Group, MultiSelect, rem, ScrollArea, Stack, Table, Text } from "@mantine/core"
-import { IconAlertCircle, IconFilter, IconSortAscending, IconSortDescending } from "@tabler/icons-react"
+import { Alert, Center, Group, MultiSelect, ScrollArea, Stack, Table, Text, UnstyledButton } from "@mantine/core"
+import { IconAlertCircle, IconChevronDown, IconChevronUp, IconFilter, IconSelector } from "@tabler/icons-react"
 import { memo, ReactNode, useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { ComputeResult, distanceSort, fillSort, School, scoreSort } from "./compute"
 import FillIcon from "./FillIcon"
@@ -13,6 +13,32 @@ type SortOrder = "asc" | "desc"
 
 const THIS_YEAR = 2025 // last year available in the fill data
 const INITIAL_DISPLAY = 50 // Initial number of rows to display
+
+// Sortable table header component
+interface ThProps {
+  children: React.ReactNode
+  reversed: boolean
+  sorted: boolean
+  onSort: () => void
+}
+
+function Th({ children, reversed, sorted, onSort }: ThProps) {
+  const Icon = sorted ? (reversed ? IconChevronUp : IconChevronDown) : IconSelector
+  return (
+    <Table.Th>
+      <UnstyledButton onClick={onSort}>
+        <Group justify="space-between" gap={0} wrap="nowrap">
+          <Text fw={500} fz="sm">
+            {children}
+          </Text>
+          <Center>
+            <Icon size={16} stroke={1.5} />
+          </Center>
+        </Group>
+      </UnstyledButton>
+    </Table.Th>
+  )
+}
 
 // Memoized row component to prevent unnecessary re-renders
 const TableRow = memo(
@@ -59,7 +85,7 @@ const TableRow = memo(
         </Table.Th>
         <Table.Td>{newtwork}</Table.Td>
         <Table.Td>{school.fill && <FillIcon level={school.fill[THIS_YEAR]?.fill_number} />}</Table.Td>
-        <Table.Td>{round(distance, 2)} km</Table.Td>
+        <Table.Td>{round(distance, 1)} km</Table.Td>
         <Table.Td>
           <Stack>
             <Score score={score.total}>{round(score.total, 3)}</Score>
@@ -107,7 +133,7 @@ export default function ResultTable({
   const [sortColumn, setSortColumn] = useState<SortColumn>("score")
   const [displayCount, setDisplayCount] = useState(INITIAL_DISPLAY)
   const viewportRef = useRef<HTMLDivElement>(null)
-
+  const isMobile = useIsMobile()
   const schoolsScores = useMemo(() => {
     setDisplayCount(INITIAL_DISPLAY) // Reset when data changes
     return Array.from(scores || [])
@@ -190,33 +216,27 @@ export default function ResultTable({
             <Table.Tr>
               <Table.Th>Nom</Table.Th>
               <Table.Th>Réseau</Table.Th>
-              <Table.Th onClick={orderHandler("fill")} onKeyDown={orderHandler("fill")}>
-                Rempl. 2025
-                {sortColumn === "fill" &&
-                  (sortOrder === "asc" ? <IconSortAscending size={rem(14)} /> : <IconSortDescending size={rem(14)} />)}
-              </Table.Th>
-              <Table.Th onClick={orderHandler("distance")} onKeyDown={orderHandler("distance")}>
-                <Center>
-                  Distance{" "}
-                  {sortColumn === "distance" &&
-                    (sortOrder === "asc" ? (
-                      <IconSortAscending size={rem(14)} />
-                    ) : (
-                      <IconSortDescending size={rem(14)} />
-                    ))}
-                </Center>
-              </Table.Th>
-              <Table.Th onClick={orderHandler("score")} onKeyDown={orderHandler("score")}>
-                <Center>
-                  Score{" "}
-                  {sortColumn === "score" &&
-                    (sortOrder === "asc" ? (
-                      <IconSortAscending size={rem(14)} />
-                    ) : (
-                      <IconSortDescending size={rem(14)} />
-                    ))}
-                </Center>
-              </Table.Th>
+              <Th
+                sorted={sortColumn === "fill"}
+                reversed={sortOrder === "desc"}
+                onSort={orderHandler("fill")}
+              >
+                {isMobile ? "'25" : "Rempli. en 25"}
+              </Th>
+              <Th
+                sorted={sortColumn === "distance"}
+                reversed={sortOrder === "desc"}
+                onSort={orderHandler("distance")}
+              >
+                {isMobile ? "Dist." : "Distance"}
+              </Th>
+              <Th
+                sorted={sortColumn === "score"}
+                reversed={sortOrder === "desc"}
+                onSort={orderHandler("score")}
+              >
+                Score
+              </Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
