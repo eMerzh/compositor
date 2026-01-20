@@ -216,25 +216,13 @@ export default function ResultTable({
             <Table.Tr>
               <Table.Th>Nom</Table.Th>
               <Table.Th>Réseau</Table.Th>
-              <Th
-                sorted={sortColumn === "fill"}
-                reversed={sortOrder === "desc"}
-                onSort={orderHandler("fill")}
-              >
+              <Th sorted={sortColumn === "fill"} reversed={sortOrder === "desc"} onSort={orderHandler("fill")}>
                 {isMobile ? "'25" : "Rempli. en 25"}
               </Th>
-              <Th
-                sorted={sortColumn === "distance"}
-                reversed={sortOrder === "desc"}
-                onSort={orderHandler("distance")}
-              >
+              <Th sorted={sortColumn === "distance"} reversed={sortOrder === "desc"} onSort={orderHandler("distance")}>
                 {isMobile ? "Dist." : "Distance"}
               </Th>
-              <Th
-                sorted={sortColumn === "score"}
-                reversed={sortOrder === "desc"}
-                onSort={orderHandler("score")}
-              >
+              <Th sorted={sortColumn === "score"} reversed={sortOrder === "desc"} onSort={orderHandler("score")}>
                 Score
               </Th>
             </Table.Tr>
