@@ -33,14 +33,24 @@ const MinIndiceDisplay = ({ school, currentScore, withYear }: MinIndiceDisplayPr
   if (!url.searchParams.has("score")) {
     return null
   }
+  if (school.is_incomplete) {
+    return (
+      <Tooltip label="École présumée incomplète en 2026">
+        <Text fz="xs" fw={500} c="green" span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+          <IconMoodSmile size={14} />
+          non remplie
+        </Text>
+      </Tooltip>
+    )
+  }
   // If no min_indice, check fill level
   if (!minIndice) {
     if (isNotFull) {
       return (
         <Tooltip label="École non remplie en 2025 - bonnes chances">
-          <Text fz="xs" fw={500} c="green" span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
+          <Text fz="xs" fw={500} c="lime.2" span style={{ display: "inline-flex", alignItems: "center", gap: 4 }}>
             <IconMoodSmile size={14} />
-            non remplie
+            non remplie?
           </Text>
         </Tooltip>
       )

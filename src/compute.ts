@@ -46,6 +46,8 @@ export interface School {
   ise: null | number
   immersion: null | string[]
   fill?: FillDetails
+  /** is school declared incomplete */
+  is_incomplete?: boolean
 }
 
 export const primarySchools = primary as School[]
@@ -343,6 +345,9 @@ const getFillPercent = (school: School): number => {
       case 4:
         return 0.2
     }
+  }
+  if (!school.is_incomplete) {
+    return 0.8
   }
   return 0
 }

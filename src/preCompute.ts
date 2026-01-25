@@ -31,11 +31,15 @@ const processFile = async path => {
 // Parse the CSV content
 const startDate = await processFile("./data/bce-et-dates.csv")
 const endDate = await processFile("./data/end-dates.csv")
+const incompletes = await processFile("./data/2026-incomplete.csv")
 const BCEDates = new Map(startDate)
 const EndDates = new Map(endDate)
 const inlist = await processFile("./data/ecole_secondaires.csv")
 
 const InListSchools = new Set(inlist.map(school => school[0]))
+const incompleteSet = {
+  "2026": new Set(incompletes.map(school => school[0])),
+}
 const compositeList = await processFile("./data/ise.csv")
 const immersionList = await processFile("./data/immersion.csv")
 
@@ -98,6 +102,7 @@ function schoolExtract(school) {
     ise: compositeIndex.get(id) ? compositeIndex.get(id) : null,
     immersion: immersionIndex.get(id) ? immersionIndex.get(id) : null,
     fill,
+    is_incomplete: incompleteSet["2026"].has(id),
   }
 }
 
