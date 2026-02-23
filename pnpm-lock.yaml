@@ -24,8 +24,8 @@ importers:
         specifier: 7.3.4
         version: 7.3.4
       maplibre-gl:
-        specifier: 5.18.0
-        version: 5.18.0
+        specifier: 5.19.0
+        version: 5.19.0
       posthog-js:
         specifier: 1.352.1
         version: 1.352.1
@@ -366,8 +366,8 @@ packages:
   '@maplibre/geojson-vt@5.0.4':
     resolution: {integrity: sha512-KGg9sma45S+stfH9vPCJk1J0lSDLWZgCT9Y8u8qWZJyjFlP8MNP1WGTxIMYJZjDvVT3PDn05kN1C95Sut1HpgQ==}
 
-  '@maplibre/maplibre-gl-style-spec@24.4.1':
-    resolution: {integrity: sha512-UKhA4qv1h30XT768ccSv5NjNCX+dgfoq2qlLVmKejspPcSQTYD4SrVucgqegmYcKcmwf06wcNAa/kRd0NHWbUg==}
+  '@maplibre/maplibre-gl-style-spec@24.5.0':
+    resolution: {integrity: sha512-55sPMCtWAZY7r7ftU2at1SsBJfhJyIE5X16Tbl+uFcnTuiCxEuh6839iq/hgjLM8zUEjXdRu2V30bfsYCNB1Qg==}
     hasBin: true
 
   '@maplibre/mlt@1.1.6':
@@ -1605,8 +1605,8 @@ packages:
   long@5.3.2:
     resolution: {integrity: sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==}
 
-  maplibre-gl@5.18.0:
-    resolution: {integrity: sha512-UtWxPBpHuFvEkM+5FVfcFG9ZKEWZQI6+PZkvLErr8Zs5ux+O7/KQ3JjSUvAfOlMeMgd/77qlHpOw0yHL7JU5cw==}
+  maplibre-gl@5.19.0:
+    resolution: {integrity: sha512-REhYUN8gNP3HlcIZS6QU2uy8iovl31cXsrNDkCcqWSQbCkcpdYLczqDz5PVIwNH42UQNyvukjes/RoHPDrOUmQ==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
 
   math-intrinsics@1.1.0:
@@ -2404,7 +2404,7 @@ snapshots:
 
   '@maplibre/geojson-vt@5.0.4': {}
 
-  '@maplibre/maplibre-gl-style-spec@24.4.1':
+  '@maplibre/maplibre-gl-style-spec@24.5.0':
     dependencies:
       '@mapbox/jsonlint-lines-primitives': 2.0.2
       '@mapbox/unitbezier': 0.0.1
@@ -4379,7 +4379,7 @@ snapshots:
 
   long@5.3.2: {}
 
-  maplibre-gl@5.18.0:
+  maplibre-gl@5.19.0:
     dependencies:
       '@mapbox/geojson-rewind': 0.5.2
       '@mapbox/jsonlint-lines-primitives': 2.0.2
@@ -4389,7 +4389,7 @@ snapshots:
       '@mapbox/vector-tile': 2.0.4
       '@mapbox/whoots-js': 3.1.0
       '@maplibre/geojson-vt': 5.0.4
-      '@maplibre/maplibre-gl-style-spec': 24.4.1
+      '@maplibre/maplibre-gl-style-spec': 24.5.0
       '@maplibre/mlt': 1.1.6
       '@maplibre/vt-pbf': 4.2.1
       '@types/geojson': 7946.0.16
