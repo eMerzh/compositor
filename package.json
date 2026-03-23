@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@mantine/core": "8.3.14",
-    "@mantine/form": "8.3.17",
+    "@mantine/form": "8.3.18",
     "@mantine/hooks": "8.3.14",
     "@tabler/icons-react": "3.40.0",
     "@turf/turf": "7.3.4",
