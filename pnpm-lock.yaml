@@ -24,8 +24,8 @@ importers:
         specifier: 7.3.4
         version: 7.3.4
       maplibre-gl:
-        specifier: 5.21.0
-        version: 5.21.0
+        specifier: 5.21.1
+        version: 5.21.1
       posthog-js:
         specifier: 1.360.2
         version: 1.360.2
@@ -1612,8 +1612,8 @@ packages:
   long@5.3.2:
     resolution: {integrity: sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==}
 
-  maplibre-gl@5.21.0:
-    resolution: {integrity: sha512-n0v4J/Ge0EG8ix/z3TY3ragtJYMqzbtSnj1riOC0OwQbzwp0lUF2maS1ve1z8HhitQCKtZZiZJhb8to36aMMfQ==}
+  maplibre-gl@5.21.1:
+    resolution: {integrity: sha512-zto1RTnFkOpOO1bm93ElCXF1huey2N4LvXaGLMFcYAu9txh0OhGIdX1q3LZLkrMKgMxMeYduaQo+DVNzg098fg==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
 
   math-intrinsics@1.1.0:
@@ -4395,7 +4395,7 @@ snapshots:
 
   long@5.3.2: {}
 
-  maplibre-gl@5.21.0:
+  maplibre-gl@5.21.1:
     dependencies:
       '@mapbox/jsonlint-lines-primitives': 2.0.2
       '@mapbox/point-geometry': 1.1.0
