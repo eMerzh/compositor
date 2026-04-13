@@ -33,7 +33,7 @@
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.1",
     "csv": "6.5.1",
-    "cypress": "15.13.0",
+    "cypress": "15.13.1",
     "postcss": "8.5.9",
     "postcss-preset-mantine": "1.18.0",
     "postcss-simple-vars": "7.0.1",
