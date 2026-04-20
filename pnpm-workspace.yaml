@@ -1,3 +1,6 @@
 ignoredBuiltDependencies:
   - cypress
   - esbuild
+onlyBuiltDependencies:
+  - core-js
+  - protobufjs
