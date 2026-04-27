@@ -56,7 +56,7 @@ importers:
         version: 19.2.3(@types/react@19.2.14)
       '@vitejs/plugin-react':
         specifier: 6.0.1
-        version: 6.0.1(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.10)))
+        version: 6.0.1(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.12)))
       csv:
         specifier: 6.5.1
         version: 6.5.1
@@ -64,20 +64,20 @@ importers:
         specifier: 15.14.0
         version: 15.14.0
       postcss:
-        specifier: 8.5.10
-        version: 8.5.10
+        specifier: 8.5.12
+        version: 8.5.12
       postcss-preset-mantine:
         specifier: 1.18.0
-        version: 1.18.0(postcss@8.5.10)
+        version: 1.18.0(postcss@8.5.12)
       postcss-simple-vars:
         specifier: 7.0.1
-        version: 7.0.1(postcss@8.5.10)
+        version: 7.0.1(postcss@8.5.12)
       typescript:
         specifier: 6.0.3
         version: 6.0.3
       vite:
         specifier: 8.0.9
-        version: 8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.10))
+        version: 8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.12))
 
 packages:
 
@@ -1711,8 +1711,8 @@ packages:
     peerDependencies:
       postcss: ^8.2.1
 
-  postcss@8.5.10:
-    resolution: {integrity: sha512-pMMHxBOZKFU6HgAZ4eyGnwXF/EvPGGqUr0MnZ5+99485wwW41kW91A4LOGxSHhgugZmSChL5AlElNdwlNgcnLQ==}
+  postcss@8.5.12:
+    resolution: {integrity: sha512-W62t/Se6rA0Az3DfCL0AqJwXuKwBeYg6nOaIgzP+xZ7N5BFCI7DYi1qs6ygUYT6rvfi6t9k65UMLJC+PHZpDAA==}
     engines: {node: ^10 || ^12 || >=14}
 
   posthog-js@1.369.3:
@@ -3778,10 +3778,10 @@ snapshots:
       '@types/node': 25.6.0
     optional: true
 
-  '@vitejs/plugin-react@6.0.1(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.10)))':
+  '@vitejs/plugin-react@6.0.1(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.12)))':
     dependencies:
       '@rolldown/pluginutils': 1.0.0-rc.7
-      vite: 8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.10))
+      vite: 8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.12))
 
   aggregate-error@3.1.0:
     dependencies:
@@ -4453,40 +4453,40 @@ snapshots:
       bignumber.js: 9.3.1
       splaytree-ts: 1.0.2
 
-  postcss-js@4.0.1(postcss@8.5.10):
+  postcss-js@4.0.1(postcss@8.5.12):
     dependencies:
       camelcase-css: 2.0.1
-      postcss: 8.5.10
+      postcss: 8.5.12
 
-  postcss-mixins@12.1.2(postcss@8.5.10):
+  postcss-mixins@12.1.2(postcss@8.5.12):
     dependencies:
-      postcss: 8.5.10
-      postcss-js: 4.0.1(postcss@8.5.10)
-      postcss-simple-vars: 7.0.1(postcss@8.5.10)
-      sugarss: 5.0.1(postcss@8.5.10)
+      postcss: 8.5.12
+      postcss-js: 4.0.1(postcss@8.5.12)
+      postcss-simple-vars: 7.0.1(postcss@8.5.12)
+      sugarss: 5.0.1(postcss@8.5.12)
       tinyglobby: 0.2.16
 
-  postcss-nested@7.0.2(postcss@8.5.10):
+  postcss-nested@7.0.2(postcss@8.5.12):
     dependencies:
-      postcss: 8.5.10
+      postcss: 8.5.12
       postcss-selector-parser: 7.1.0
 
-  postcss-preset-mantine@1.18.0(postcss@8.5.10):
+  postcss-preset-mantine@1.18.0(postcss@8.5.12):
     dependencies:
-      postcss: 8.5.10
-      postcss-mixins: 12.1.2(postcss@8.5.10)
-      postcss-nested: 7.0.2(postcss@8.5.10)
+      postcss: 8.5.12
+      postcss-mixins: 12.1.2(postcss@8.5.12)
+      postcss-nested: 7.0.2(postcss@8.5.12)
 
   postcss-selector-parser@7.1.0:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss-simple-vars@7.0.1(postcss@8.5.10):
+  postcss-simple-vars@7.0.1(postcss@8.5.12):
     dependencies:
-      postcss: 8.5.10
+      postcss: 8.5.12
 
-  postcss@8.5.10:
+  postcss@8.5.12:
     dependencies:
       nanoid: 3.3.11
       picocolors: 1.1.1
@@ -4742,9 +4742,9 @@ snapshots:
 
   strip-final-newline@2.0.0: {}
 
-  sugarss@5.0.1(postcss@8.5.10):
+  sugarss@5.0.1(postcss@8.5.12):
     dependencies:
-      postcss: 8.5.10
+      postcss: 8.5.12
 
   supercluster@8.0.1:
     dependencies:
@@ -4875,18 +4875,18 @@ snapshots:
       core-util-is: 1.0.2
       extsprintf: 1.3.0
 
-  vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.10)):
+  vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.12)):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
-      postcss: 8.5.10
+      postcss: 8.5.12
       rolldown: 1.0.0-rc.16
       tinyglobby: 0.2.16
     optionalDependencies:
       '@types/node': 25.6.0
       esbuild: 0.27.2
       fsevents: 2.3.3
-      sugarss: 5.0.1(postcss@8.5.10)
+      sugarss: 5.0.1(postcss@8.5.12)
 
   web-vitals@5.2.0: {}
 
