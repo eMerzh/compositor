@@ -56,7 +56,7 @@ importers:
         version: 19.2.3(@types/react@19.2.14)
       '@vitejs/plugin-react':
         specifier: 6.0.1
-        version: 6.0.1(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.10)))
+        version: 6.0.1(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.20)))
       csv:
         specifier: 6.5.1
         version: 6.5.1
@@ -64,20 +64,20 @@ importers:
         specifier: 15.14.0
         version: 15.14.0
       postcss:
-        specifier: 8.5.10
-        version: 8.5.10
+        specifier: 8.5.20
+        version: 8.5.20
       postcss-preset-mantine:
         specifier: 1.18.0
-        version: 1.18.0(postcss@8.5.10)
+        version: 1.18.0(postcss@8.5.20)
       postcss-simple-vars:
         specifier: 7.0.1
-        version: 7.0.1(postcss@8.5.10)
+        version: 7.0.1(postcss@8.5.20)
       typescript:
         specifier: 6.0.3
         version: 6.0.3
       vite:
         specifier: 8.0.9
-        version: 8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.10))
+        version: 8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.20))
 
 packages:
 
@@ -1617,8 +1617,8 @@ packages:
   murmurhash-js@1.0.0:
     resolution: {integrity: sha512-TvmkNhkv8yct0SVBSy+o8wYzXjE4Zz3PCesbfs8HiCXXdcTuocApFv11UWlNFWKYsP2okqrhb7JNlSm9InBhIw==}
 
-  nanoid@3.3.11:
-    resolution: {integrity: sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==}
+  nanoid@3.3.16:
+    resolution: {integrity: sha512-bzlKTyNJ7+LdGIIwy8ijFpIqEQIvafahV7eYykJ8Cvh42EdJeODoJ6gUJXpQJvej1BddH8OqTXZNE/KfbWAu8Q==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -1711,8 +1711,8 @@ packages:
     peerDependencies:
       postcss: ^8.2.1
 
-  postcss@8.5.10:
-    resolution: {integrity: sha512-pMMHxBOZKFU6HgAZ4eyGnwXF/EvPGGqUr0MnZ5+99485wwW41kW91A4LOGxSHhgugZmSChL5AlElNdwlNgcnLQ==}
+  postcss@8.5.20:
+    resolution: {integrity: sha512-lW616l85ucIQL+FocMmL7pQFPqBmwejrCMg+iPxyImlrANNJG9NHq/RkyCZopDhd8C3LA03PHRJDjkbGu8vvug==}
     engines: {node: ^10 || ^12 || >=14}
 
   posthog-js@1.369.3:
@@ -2102,6 +2102,7 @@ packages:
 
   uuid@8.3.2:
     resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    deprecated: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
     hasBin: true
 
   verror@1.10.0:
@@ -3778,10 +3779,10 @@ snapshots:
       '@types/node': 25.6.0
     optional: true
 
-  '@vitejs/plugin-react@6.0.1(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.10)))':
+  '@vitejs/plugin-react@6.0.1(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.20)))':
     dependencies:
       '@rolldown/pluginutils': 1.0.0-rc.7
-      vite: 8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.10))
+      vite: 8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.20))
 
   aggregate-error@3.1.0:
     dependencies:
@@ -4404,7 +4405,7 @@ snapshots:
 
   murmurhash-js@1.0.0: {}
 
-  nanoid@3.3.11: {}
+  nanoid@3.3.16: {}
 
   npm-run-path@4.0.1:
     dependencies:
@@ -4453,42 +4454,42 @@ snapshots:
       bignumber.js: 9.3.1
       splaytree-ts: 1.0.2
 
-  postcss-js@4.0.1(postcss@8.5.10):
+  postcss-js@4.0.1(postcss@8.5.20):
     dependencies:
       camelcase-css: 2.0.1
-      postcss: 8.5.10
+      postcss: 8.5.20
 
-  postcss-mixins@12.1.2(postcss@8.5.10):
+  postcss-mixins@12.1.2(postcss@8.5.20):
     dependencies:
-      postcss: 8.5.10
-      postcss-js: 4.0.1(postcss@8.5.10)
-      postcss-simple-vars: 7.0.1(postcss@8.5.10)
-      sugarss: 5.0.1(postcss@8.5.10)
+      postcss: 8.5.20
+      postcss-js: 4.0.1(postcss@8.5.20)
+      postcss-simple-vars: 7.0.1(postcss@8.5.20)
+      sugarss: 5.0.1(postcss@8.5.20)
       tinyglobby: 0.2.16
 
-  postcss-nested@7.0.2(postcss@8.5.10):
+  postcss-nested@7.0.2(postcss@8.5.20):
     dependencies:
-      postcss: 8.5.10
+      postcss: 8.5.20
       postcss-selector-parser: 7.1.0
 
-  postcss-preset-mantine@1.18.0(postcss@8.5.10):
+  postcss-preset-mantine@1.18.0(postcss@8.5.20):
     dependencies:
-      postcss: 8.5.10
-      postcss-mixins: 12.1.2(postcss@8.5.10)
-      postcss-nested: 7.0.2(postcss@8.5.10)
+      postcss: 8.5.20
+      postcss-mixins: 12.1.2(postcss@8.5.20)
+      postcss-nested: 7.0.2(postcss@8.5.20)
 
   postcss-selector-parser@7.1.0:
     dependencies:
       cssesc: 3.0.0
       util-deprecate: 1.0.2
 
-  postcss-simple-vars@7.0.1(postcss@8.5.10):
+  postcss-simple-vars@7.0.1(postcss@8.5.20):
     dependencies:
-      postcss: 8.5.10
+      postcss: 8.5.20
 
-  postcss@8.5.10:
+  postcss@8.5.20:
     dependencies:
-      nanoid: 3.3.11
+      nanoid: 3.3.16
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
@@ -4742,9 +4743,9 @@ snapshots:
 
   strip-final-newline@2.0.0: {}
 
-  sugarss@5.0.1(postcss@8.5.10):
+  sugarss@5.0.1(postcss@8.5.20):
     dependencies:
-      postcss: 8.5.10
+      postcss: 8.5.20
 
   supercluster@8.0.1:
     dependencies:
@@ -4875,18 +4876,18 @@ snapshots:
       core-util-is: 1.0.2
       extsprintf: 1.3.0
 
-  vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.10)):
+  vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.20)):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
-      postcss: 8.5.10
+      postcss: 8.5.20
       rolldown: 1.0.0-rc.16
       tinyglobby: 0.2.16
     optionalDependencies:
       '@types/node': 25.6.0
       esbuild: 0.27.2
       fsevents: 2.3.3
-      sugarss: 5.0.1(postcss@8.5.10)
+      sugarss: 5.0.1(postcss@8.5.20)
 
   web-vitals@5.2.0: {}
 
