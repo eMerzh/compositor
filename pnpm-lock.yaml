@@ -55,8 +55,8 @@ importers:
         specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.17)
       '@vitejs/plugin-react':
-        specifier: 6.0.1
-        version: 6.0.1(vite@8.1.5(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.20)))
+        specifier: 6.0.3
+        version: 6.0.3(vite@8.1.5(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.20)))
       csv:
         specifier: 6.5.1
         version: 6.5.1
@@ -600,9 +600,6 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@rolldown/pluginutils@1.0.0-rc.7':
-    resolution: {integrity: sha512-qujRfC8sFVInYSPPMLQByRh7zhwkGFS4+tyMQ83srV1qrxL4g8E2tyxVVyxd0+8QeBM1mIk9KbWxkegRr76XzA==}
-
   '@rolldown/pluginutils@1.0.1':
     resolution: {integrity: sha512-2j9bGt5Jh8hj+vPtgzPtl72j0yRxHAyumoo6TNfAjsLB04UtpSvPbPcDcBMxz7n+9CYB0c1GxQFxYRg2jimqGw==}
 
@@ -1120,8 +1117,8 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@vitejs/plugin-react@6.0.1':
-    resolution: {integrity: sha512-l9X/E3cDb+xY3SWzlG1MOGt2usfEHGMNIaegaUGFsLkb3RCn/k8/TOXBcab+OndDI4TBtktT8/9BwwW8Vi9KUQ==}
+  '@vitejs/plugin-react@6.0.3':
+    resolution: {integrity: sha512-vmFvco5/QuC2f9Oj+wTk0+9XeDFkHxSamwZKYc7MxYwKICfvUvlMhqKI0VuICPltGqh1neqBKDvO4kes1ya8vg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       '@rolldown/plugin-babel': ^0.1.7 || ^0.2.0
@@ -2701,8 +2698,6 @@ snapshots:
   '@rolldown/binding-win32-x64-msvc@1.1.5':
     optional: true
 
-  '@rolldown/pluginutils@1.0.0-rc.7': {}
-
   '@rolldown/pluginutils@1.0.1': {}
 
   '@tabler/icons-react@3.41.1(react@19.2.5)':
@@ -3944,9 +3939,9 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@vitejs/plugin-react@6.0.1(vite@8.1.5(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.20)))':
+  '@vitejs/plugin-react@6.0.3(vite@8.1.5(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.20)))':
     dependencies:
-      '@rolldown/pluginutils': 1.0.0-rc.7
+      '@rolldown/pluginutils': 1.0.1
       vite: 8.1.5(@types/node@25.6.0)(esbuild@0.27.2)(sugarss@5.0.1(postcss@8.5.20))
 
   ansi-escapes@7.3.0:
