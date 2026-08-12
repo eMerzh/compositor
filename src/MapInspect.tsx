@@ -1,10 +1,10 @@
 import * as maplibregl from "maplibre-gl"
 import "maplibre-gl/dist/maplibre-gl.css"
+import workerUrl from "maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url"
 import { useEffect, useRef, useState } from "react"
 import { GeoLoc, School } from "./compute"
-import workerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 
-maplibregl.setWorkerUrl(workerUrl);
+maplibregl.setWorkerUrl(workerUrl)
 
 interface MapProps {
   result: { grid: GeoJSON.GeoJSON; min: number; max: number; lines: GeoJSON.GeoJSON }
