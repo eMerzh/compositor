@@ -22,7 +22,7 @@
     "maplibre-gl": "6.9.0",
     "posthog-js": "1.430.2",
     "react": "19.3.0",
-    "react-dom": "19.2.8",
+    "react-dom": "19.3.0",
     "serialize-query-params": "2.0.4",
     "use-query-params": "2.2.2"
   },
@@ -30,7 +30,7 @@
     "@biomejs/biome": "2.5.13",
     "@types/node": "26.5.1",
     "@types/react": "19.3.0",
-    "@types/react-dom": "19.2.7",
+    "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.1.1",
     "csv": "6.6.3",
     "cypress": "15.21.1",
