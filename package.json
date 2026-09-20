@@ -19,7 +19,7 @@
     "@mantine/hooks": "9.6.1",
     "@tabler/icons-react": "3.46.0",
     "@turf/turf": "7.4.0",
-    "maplibre-gl": "6.9.0",
+    "maplibre-gl": "6.10.0",
     "posthog-js": "1.431.2",
     "react": "19.3.0",
     "react-dom": "19.3.0",
