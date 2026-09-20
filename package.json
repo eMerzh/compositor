@@ -17,7 +17,7 @@
     "@mantine/core": "9.6.1",
     "@mantine/form": "9.6.1",
     "@mantine/hooks": "9.6.1",
-    "@tabler/icons-react": "3.46.0",
+    "@tabler/icons-react": "3.47.0",
     "@turf/turf": "7.4.0",
     "maplibre-gl": "6.10.0",
     "posthog-js": "1.431.2",
