@@ -20,7 +20,7 @@
     "@tabler/icons-react": "3.47.0",
     "@turf/turf": "7.4.0",
     "maplibre-gl": "6.10.0",
-    "posthog-js": "1.431.2",
+    "posthog-js": "1.434.2",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "serialize-query-params": "2.0.4",
