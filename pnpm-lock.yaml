@@ -24,8 +24,8 @@ importers:
         specifier: 7.4.0
         version: 7.4.0
       maplibre-gl:
-        specifier: 6.10.0
-        version: 6.10.0
+        specifier: 6.11.2
+        version: 6.11.2
       posthog-js:
         specifier: 1.434.2
         version: 1.434.2(@types/react@19.3.0)(react@19.3.0)
@@ -1580,8 +1580,8 @@ packages:
     resolution: {integrity: sha512-9ie8ItPR6tjY5uYJh8K/Zrv/RMZ5VOlOWvtZdEHYSTFKZfIBPQa9tOAEeAWhd+AnIneLJ22w5fjOYtoutpWq5w==}
     engines: {node: '>=18'}
 
-  maplibre-gl@6.10.0:
-    resolution: {integrity: sha512-pZIJ1/rsB1jDjT3eBTfMaeSY45lRKdCuZtqXqTnkUrn0UJO9IwtbywT5ym3/cz57MGEELwAwQSYjB/Fj9TlktQ==}
+  maplibre-gl@6.11.2:
+    resolution: {integrity: sha512-Xh06pxoipjX/Ad1sUPGhiNh9go9naCNGZZ1IJm3sIeqK1kYGuMaMDSTIGDQ2igOLfVyukJU7kvEOA089VO7Z7g==}
     engines: {node: '>=16.14.0', npm: '>=8.1.0'}
 
   math-intrinsics@1.1.0:
@@ -4248,7 +4248,7 @@ snapshots:
       strip-ansi: 7.2.0
       wrap-ansi: 9.0.2
 
-  maplibre-gl@6.10.0:
+  maplibre-gl@6.11.2:
     dependencies:
       '@mapbox/point-geometry': 1.1.0
       '@mapbox/tiny-sdf': 2.2.0
