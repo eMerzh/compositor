@@ -61,8 +61,8 @@ importers:
         specifier: 6.6.4
         version: 6.6.4
       cypress:
-        specifier: 16.0.0
-        version: 16.0.0
+        specifier: 16.1.1
+        version: 16.1.1
       postcss:
         specifier: 8.5.28
         version: 8.5.28
@@ -1190,8 +1190,8 @@ packages:
     resolution: {integrity: sha512-HeLcw5VphIwHTNKljvINW9IT0stYqgZ/2AIcx5ur8DcArOvRxb4INpgDs008UStv8l7dVVJaCB3twWi59SSouA==}
     engines: {node: '>= 0.1.90'}
 
-  cypress@16.0.0:
-    resolution: {integrity: sha512-/H3zsayGwIGboFIiLWaXxy6ADmCdWy5QjjDBZgslCvjIgYAf1DkZerwAM7wXMPSpfpQ4w+lGjFlmwneRBpg27g==}
+  cypress@16.1.1:
+    resolution: {integrity: sha512-T09qNpMKssD6eEMqqfywQ8OUub/VrNCvIUFAyQCfWsJ6o4CZ5Yeapce+WoZY9FXly6+3+pk7sjEB5voxduWQlQ==}
     engines: {node: ^22.0.0 || ^24.0.0 || >=26.0.0}
     hasBin: true
 
@@ -3837,7 +3837,7 @@ snapshots:
       csv-stringify: 6.9.0
       stream-transform: 3.6.0
 
-  cypress@16.0.0:
+  cypress@16.1.1:
     dependencies:
       '@cypress/request': 4.0.1
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)
